@@ -8,20 +8,17 @@ namespace Lab_1
     {
         private T[] _elements;
         private int _size;
-        private int _max;
 
         public Stack()
         {
             _elements = Array.Empty<T>();
             _size = 0;
-            _max = 0;
         }
 
         public Stack(int size)
         {
             _elements = new T[size];
             _size = 0;
-            _max = size;
         }
 
         public int Count => _size;
@@ -44,7 +41,7 @@ namespace Lab_1
 
         public void Push(T item)
         {
-            if (_size == _max)
+            if (_size == _elements.Length)
             {
                 throw new InvalidOperationException("Stack Overflow!");
             }
@@ -54,22 +51,17 @@ namespace Lab_1
 
         public void PushWithResize(T item)
         {
-            if (_size == _max)
+            if (_size == _elements.Length)
             {
-                Array.Resize(ref _elements, ++_max);
+                Resize(_size + 1);
             }
 
             _elements[_size++] = item;
         }
 
-        public void Resize(T item)
+        public void Resize(int size)
         {
-            if (_size == _max)
-            {
-                Array.Resize(ref _elements, ++_max);
-            }
-
-            _elements[_size++] = item;
+            Array.Resize(ref _elements, size);
         }
 
         public T Pop()
