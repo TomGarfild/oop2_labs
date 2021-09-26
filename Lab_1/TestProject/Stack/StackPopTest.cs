@@ -25,6 +25,7 @@ namespace TestProject.Stack
                 Assert.Fail("Stack should not be empty!");
             }
 
+            Assert.AreEqual(9, stack.Count);
             Assert.AreEqual(9, value);
         }
 

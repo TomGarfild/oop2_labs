@@ -16,9 +16,4 @@
     <ProjectReference Include="..\Lab_1\Lab_1.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Deque\" />
-    <Folder Include="Queue\" />
-  </ItemGroup>
-
 </Project>
