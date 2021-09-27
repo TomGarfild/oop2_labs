@@ -1,5 +1,4 @@
-# oop2.1_labs
-In this repository you can find labs for OOP 2 year 1 term
+# Object Oriented Programming 2 year 1 term
 
 ## Lab 1
 1. (**) Stack, queue, deque (double-ended queue). Реалізації на основі зв’язних списків, масивів, бібліотечних засобів. Стандартні операції для кожної структури. Deque має реалізовувати інтерфейси stack та queue.
