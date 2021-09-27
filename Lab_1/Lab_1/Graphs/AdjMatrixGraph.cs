@@ -5,7 +5,7 @@ namespace Lab_1.Graphs
 {
     public class AdjMatrixGraph
     {
-        private int Size { get; set; }
+        public int Size { get; private set; }
         private int[,] _graph;
         private bool[] _visited;
 
@@ -15,16 +15,26 @@ namespace Lab_1.Graphs
             _graph = new int[n, n];
         }
 
+        public bool HasEdge(int u, int v)
+        {
+            return _graph[u, v] == 1 || _graph[v, u] == 1;
+        }
+
         public void AddEdge(int u, int v)
         {
             if (u >= Size || v >= Size)
             {
-                throw new ArgumentException("Vertex does not exists!");
+                throw new ArgumentOutOfRangeException("Vertex does not exists!");
             }
 
             if (u == v)
             {
                 throw new ArgumentException("Same vertex!");
+            }
+
+            if (_graph[u, v] == 1 || _graph[v, u] == 1)
+            {
+                throw new InvalidOperationException("Edge already exits");
             }
 
             _graph[u, v] = 1;
@@ -35,12 +45,17 @@ namespace Lab_1.Graphs
         {
             if (u >= Size || v >= Size)
             {
-                throw new ArgumentException("Vertex does not exists!");
+                throw new ArgumentOutOfRangeException("Vertex does not exists!");
             }
 
             if (u == v)
             {
                 throw new ArgumentException("Same vertex!");
+            }
+
+            if (_graph[u, v] == 0 || _graph[v, u] == 0)
+            {
+                throw new InvalidOperationException("Edge does not exits");
             }
 
             _graph[u, v] = 0;
@@ -80,7 +95,7 @@ namespace Lab_1.Graphs
         {
             if (x > Size)
             {
-                throw new ArgumentException("Vertex not present!");
+                throw new ArgumentOutOfRangeException("Vertex not present!");
             }
 
             while (x < Size - 1)
@@ -112,7 +127,7 @@ namespace Lab_1.Graphs
         {
             if (start >= Size)
             {
-                throw new ArgumentException("Vertex not present!");
+                throw new ArgumentOutOfRangeException("Vertex not present!");
             }
             _visited[start] = true;
 
@@ -124,7 +139,7 @@ namespace Lab_1.Graphs
             }
         }
 
-        public int GetDistance(int u, int v)
+        public int GetMinDistance(int u, int v)
         {
             _visited = new bool[Size];
             return Dfs(u, v);
