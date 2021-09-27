@@ -1,23 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Lab_1.Graphs
 {
-    public class AdjMatrixGraph
+    public class AdjListGraph
     {
         public int Size { get; private set; }
-        private int[,] _graph;
+        private LinkedList<int>[] _graph;
         private bool[] _visited;
 
-        public AdjMatrixGraph(int n)
+        public AdjListGraph(int n)
         {
             Size = n;
-            _graph = new int[n, n];
+            _graph = new LinkedList<int>[n];
+            for (var i = 0; i < n; i++)
+            {
+                _graph[i] = new LinkedList<int>();
+            }
         }
 
         public bool HasEdge(int u, int v)
         {
-            return _graph[u, v] == 1 || _graph[v, u] == 1;
+            return _graph[u].Contains(v);
         }
 
         public void AddEdge(int u, int v)
@@ -32,13 +37,13 @@ namespace Lab_1.Graphs
                 throw new ArgumentException("Same vertex!");
             }
 
-            if (_graph[u, v] == 1 || _graph[v, u] == 1)
+            if (_graph[u].Contains(v))
             {
                 throw new InvalidOperationException("Edge already exits");
             }
 
-            _graph[u, v] = 1;
-            _graph[v, u] = 1;
+            _graph[u].AddLast(v);
+            _graph[v].AddLast(u);
         }
 
         public void RemoveEdge(int u, int v)
@@ -53,13 +58,12 @@ namespace Lab_1.Graphs
                 throw new ArgumentException("Same vertex!");
             }
 
-            if (_graph[u, v] == 0 || _graph[v, u] == 0)
+            if (!_graph[u].Remove(v) || !_graph[v].Remove(u))
             {
                 throw new InvalidOperationException("Edge does not exits");
             }
 
-            _graph[u, v] = 0;
-            _graph[v, u] = 0;
+            
         }
 
         public void PrintGraph()
@@ -69,26 +73,19 @@ namespace Lab_1.Graphs
             for (var i = 0; i < Size; ++i)
             {
                 Console.WriteLine();
-                for (var j = 0; j < Size; ++j)
+                var list = _graph[i];
+                foreach (var value in list)
                 {
-                    Console.Write(" " + _graph[i, j]);
+                    Console.Write(" " + value);
                 }
             }
         }
 
         public void AddVertex()
         {
-            var newGraph = new int[Size + 1, Size + 1];
-            for (var i = 0; i < Size; i++)
-            {
-                for (var j = 0; j < Size; j++)
-                {
-                    newGraph[i,j] = _graph[i,j];
-                }
-            }
-
             Size++;
-            _graph = newGraph;
+            Array.Resize(ref _graph, Size);
+            _graph[Size - 1] = new LinkedList<int>();
             Array.Resize(ref _visited, Size);
         }
         public void RemoveVertex(int x)
@@ -98,28 +95,19 @@ namespace Lab_1.Graphs
                 throw new ArgumentOutOfRangeException("Vertex not present!");
             }
 
-            while (x < Size - 1)
+            for (var i = 0; i < Size; i++)
             {
-
-                for (var i = 0; i < Size; ++i)
-                {
-                    _graph[i, x] = _graph[i, x + 1];
-                }
-
-                for (var i = 0; i < Size; ++i)
-                {
-                    _graph[x, i] = _graph[x + 1, i];
-                }
-                x++;
+                _graph[i].Remove(x);
             }
 
-            for (var i = 0; i < Size; ++i)
+
+            while (x < Size - 1)
             {
-                _graph[i, Size-1] = 0;
-                _graph[Size - 1, i] = 0;
+                _graph[x] = _graph[++x];
             }
 
             Size--;
+            Array.Resize(ref _graph, Size);
             Array.Resize(ref _visited, Size);
         }
 
@@ -140,7 +128,7 @@ namespace Lab_1.Graphs
 
             for (var i = 0; i < Size; i++)
             {
-                if (_graph[start, i] != 1 || _visited[i]) continue;
+                if (!_graph[start].Contains(i) || _visited[i]) continue;
 
                 Dfs(i);
             }
@@ -168,7 +156,7 @@ namespace Lab_1.Graphs
 
             for (var i = 0; i < Size; i++)
             {
-                if (_graph[start, i] != 1 || _visited[i]) continue;
+                if (!_graph[start].Contains(i) || _visited[i]) continue;
 
                 var res = Dfs(i, end);
                 if (res == -1)
