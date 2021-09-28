@@ -100,6 +100,25 @@ namespace Lab_1.Graphs
                 _graph[i].Remove(x);
             }
 
+            for (var i = 0; i < Size; i++)
+            {
+                if (i == x) continue;
+                var list = _graph[i];
+                var newList = new LinkedList<int>();
+                foreach (var value in list) 
+                {
+                    if (value > x)
+                    {
+                        newList.AddLast(value - 1);
+                    }
+                    else
+                    {
+                        newList.AddLast(value);
+                    }
+                }
+
+                _graph[i] = newList;
+            }
 
             while (x < Size - 1)
             {
