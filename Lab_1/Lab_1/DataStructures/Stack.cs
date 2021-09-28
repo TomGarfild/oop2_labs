@@ -107,7 +107,7 @@ namespace Lab_1.DataStructures
         /// Remove top element.
         /// </summary>
         /// <param name="item">Popped element. Default value if stack is empty.</param>
-        /// <returns><c>false</c> if stack is empty, otherwise <c>true</c>.</returns>
+        /// <returns><see langword="false"/> if stack is empty, otherwise <see langword="true"/> .</returns>
         public bool TryPop(out T item)
         {
             if (_size == 0)
@@ -138,7 +138,7 @@ namespace Lab_1.DataStructures
         /// Return top element.
         /// </summary>
         /// <param name="item">Top element of the stack</param>
-        /// <returns><c>false</c> if stack is empty, otherwise <c>true</c>.</returns>
+        /// <returns><see langword="false"/> if stack is empty, otherwise <see langword="true"/> .</returns>
         public bool TryPeek(out T item)
         {
             if (_size == 0)
@@ -166,7 +166,7 @@ namespace Lab_1.DataStructures
         /// Checks if element is in the stack.
         /// </summary>
         /// <param name="item">Element to check</param>
-        /// <returns><c>true</c> if element is in the stack, otherwise <c>false</c></returns>
+        /// <returns><see langword="true"/>  if element is in the stack, otherwise <see langword="false"/></returns>
         public bool Contains(T item)
         {
             for (var i = 0; i < _size; i++)

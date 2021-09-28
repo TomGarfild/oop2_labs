@@ -4,12 +4,19 @@ using System.Linq;
 
 namespace Lab_1.Graphs
 {
+    /// <summary>
+    /// Adjacency List Graph
+    /// </summary>
     public class AdjListGraph
     {
         public int Size { get; private set; }
         private LinkedList<int>[] _graph;
         private bool[] _visited;
 
+        /// <summary>
+        /// Create graph with <see cref="n"/> vertices.
+        /// </summary>
+        /// <param name="n">Number of vertices</param>
         public AdjListGraph(int n)
         {
             Size = n;
@@ -20,11 +27,22 @@ namespace Lab_1.Graphs
             }
         }
 
+        /// <summary>
+        /// Checks if graph has edge between <see cref="u"/> and <see cref="v"/> vertices.
+        /// </summary>
+        /// <param name="u">First vertex</param>
+        /// <param name="v">Second vertex</param>
+        /// <returns><see langword="true"/>  if graph have edge between <see cref="u"/> and <see cref="v"/>, otherwise <see langword="false"/></returns>
         public bool HasEdge(int u, int v)
         {
             return _graph[u].Contains(v);
         }
 
+        /// <summary>
+        /// Add edge to graph. Throws <c>ArgumentOutOfRangeException</c> if vertices are out of range. Throws <c>ArgumentException</c> if vertices are the same. Throws <c>InvalidOperationException</c> if edge already exists.
+        /// </summary>
+        /// <param name="u">First vertex</param>
+        /// <param name="v">Second vertex</param>
         public void AddEdge(int u, int v)
         {
             if (u >= Size || v >= Size)
@@ -46,6 +64,11 @@ namespace Lab_1.Graphs
             _graph[v].AddLast(u);
         }
 
+        /// <summary>
+        /// Removes edge from graph. Throws <c>ArgumentOutOfRangeException</c> if vertices are out of range. Throws <c>ArgumentException</c> if vertices are the same. Throws <c>InvalidOperationException</c> if edge doesn't exist in graph.
+        /// </summary>
+        /// <param name="u">First vertex</param>
+        /// <param name="v">Second vertex</param>
         public void RemoveEdge(int u, int v)
         {
             if (u >= Size || v >= Size)
@@ -62,10 +85,11 @@ namespace Lab_1.Graphs
             {
                 throw new InvalidOperationException("Edge does not exits");
             }
-
-            
         }
 
+        /// <summary>
+        /// Prints graph.
+        /// </summary>
         public void PrintGraph()
         {
             Console.Write("\n\n Adjacency Matrix:");
@@ -81,6 +105,9 @@ namespace Lab_1.Graphs
             }
         }
 
+        /// <summary>
+        /// Adds vertex to graph.
+        /// </summary>
         public void AddVertex()
         {
             Size++;
@@ -88,6 +115,11 @@ namespace Lab_1.Graphs
             _graph[Size - 1] = new LinkedList<int>();
             Array.Resize(ref _visited, Size);
         }
+
+        /// <summary>
+        /// Removes vertex <see cref="x"/> from the graph. Throws <c>ArgumentOutOfRangeException</c> if vertex doesn't exist in graph.
+        /// </summary>
+        /// <param name="x">Vertex that is removed</param>
         public void RemoveVertex(int x)
         {
             if (x >= Size)
@@ -130,6 +162,10 @@ namespace Lab_1.Graphs
             Array.Resize(ref _visited, Size);
         }
 
+        /// <summary>
+        /// Checks if graph is connected
+        /// </summary>
+        /// <returns><see langword="true"/> if graph is connected, otherwise <see langword="false"/></returns>
         public bool IsConnected()
         {
             _visited = new bool[Size];
@@ -153,6 +189,12 @@ namespace Lab_1.Graphs
             }
         }
 
+        /// <summary>
+        /// Gets min distance between vertices <see cref="u"/> and <see cref="v"/>
+        /// </summary>
+        /// <param name="u">First vertex</param>
+        /// <param name="v">Last vertex</param>
+        /// <returns>Min distance between vertices <see cref="u"/> and <see cref="v"/></returns>
         public int GetMinDistance(int u, int v)
         {
             _visited = new bool[Size];

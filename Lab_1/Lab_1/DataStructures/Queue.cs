@@ -134,7 +134,7 @@ namespace Lab_1.DataStructures
         /// Removes first element in queue.
         /// </summary>
         /// <param name="result">Deleted element from the queue of type <typeparamref name="T"/>, that can be default value when queue is empty.</param>
-        /// <returns><c>false</c> if queue is empty, otherwise <c>true</c>.</returns>
+        /// <returns><see langword="false"/> if queue is empty, otherwise <see langword="true"/> .</returns>
         public bool TryDequeue([MaybeNullWhen(false)] out T result)
         {
             var head = _head;
@@ -170,7 +170,7 @@ namespace Lab_1.DataStructures
         /// Returns first element from the queue.
         /// </summary>
         /// <param name="result">Peeked element of type <typeparamref name="T"/></param>
-        /// <returns><c>false</c> if queue is empty, otherwise <c>true</c>.</returns>
+        /// <returns><see langword="false"/> if queue is empty, otherwise <see langword="true"/> .</returns>
         public bool TryPeek([MaybeNullWhen(false)] out T result)
         {
             if (_size == 0)
@@ -187,7 +187,7 @@ namespace Lab_1.DataStructures
         /// Checks if element is in the queue.
         /// </summary>
         /// <param name="item">Element to check</param>
-        /// <returns><c>true</c> if element is in the queue, otherwise <c>false</c></returns>
+        /// <returns><see langword="true"/>  if element is in the queue, otherwise <see langword="false"/></returns>
         public bool Contains(T item)
         {
             if (_size == 0)

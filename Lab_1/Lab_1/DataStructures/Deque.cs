@@ -108,7 +108,7 @@ namespace Lab_1.DataStructures
         /// Removes first element from the deque.
         /// </summary>
         /// <param name="item">First element(type <typeparamref name="T"/>), that was deleted</param>
-        /// <returns><c>false</c> if deque is empty, otherwise <c>true</c>.</returns>
+        /// <returns><see langword="false"/> if deque is empty, otherwise <see langword="true"/> .</returns>
         public bool TryRemoveFirst(out T item)
         {
             if (_size == 0)
@@ -163,7 +163,7 @@ namespace Lab_1.DataStructures
         /// Removes last element from the deque.
         /// </summary>
         /// <param name="item">Last element(type <typeparamref name="T"/>), that was deleted</param>
-        /// <returns><c>false</c> if deque is empty, otherwise <c>true</c>.</returns>
+        /// <returns><see langword="false"/> if deque is empty, otherwise <see langword="true"/> .</returns>
         public bool TryRemoveLast(out T item)
         {
             if (_size == 0)
@@ -206,7 +206,7 @@ namespace Lab_1.DataStructures
         /// Return first element in deque.
         /// </summary>
         /// <param name="item">First element of type <typeparamref name="T"/></param>
-        /// <returns><c>false</c> if deque is empty, otherwise <c>true</c>.</returns>
+        /// <returns><see langword="false"/> if deque is empty, otherwise <see langword="true"/> .</returns>
         public bool TryPeekFirst(out T item)
         {
             if (_size == 0)
@@ -237,7 +237,7 @@ namespace Lab_1.DataStructures
         /// Return last element in deque.
         /// </summary>
         /// <param name="item">Last element of type <typeparamref name="T"/></param>
-        /// <returns><c>false</c> if deque is empty, otherwise <c>true</c>.</returns>
+        /// <returns><see langword="false"/> if deque is empty, otherwise <see langword="true"/> .</returns>
         public bool TryPeekLast(out T item)
         {
             if (_size == 0)
@@ -274,7 +274,7 @@ namespace Lab_1.DataStructures
         /// Checks if element is in the deque.
         /// </summary>
         /// <param name="item">Element to check</param>
-        /// <returns><c>true</c> if element is in the deque, otherwise <c>false</c></returns>
+        /// <returns><see langword="true"/>  if element is in the deque, otherwise <see langword="false"/></returns>
         public bool Contains(T data)
         {
             return Enumerable.Contains(this, data);
