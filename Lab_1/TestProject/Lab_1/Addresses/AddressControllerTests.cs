@@ -1,4 +1,5 @@
-﻿using Lab_1.Addresses;
+﻿using System;
+using Lab_1.Addresses;
 using NUnit.Framework;
 
 namespace TestProject.Lab_1.Addresses
@@ -27,17 +28,10 @@ namespace TestProject.Lab_1.Addresses
             Assert.AreEqual(expected, AddressController.IsIPv6(address));
         }
 
-        [TestCase("30ff:A044:a033:ffa:f:f/127", true)]
-        [TestCase("0.0.0.255/3", true)]
-        [TestCase("30ff:A044:a033:ffa:f:f/129", false)]
-        [TestCase("0.0.0.255/33", false)]
-        [TestCase("30ff:A044:a033:ffa:f:f/1k", false)]
-        [TestCase("0.0.0.255/3/4", false)]
-        [TestCase("0.0.0.255/-1", false)]
-        [TestCase("", false)]
-        public void IsCidrAddress_Works(string address, bool expected)
+        [TestCase("0.0.0.0/31", "0.0.0.0", "0.0.0.1")]
+        public void IsCidrAddress_Works(string address, string minExpected, string maxExpected)
         {
-            Assert.AreEqual(expected, AddressController.IsCidr(address));
+            Assert.AreEqual(Tuple.Create(minExpected, maxExpected), AddressController.CidrToIPRange(address));
         }
     }
 }
