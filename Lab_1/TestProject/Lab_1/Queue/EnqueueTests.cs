@@ -1,17 +1,16 @@
 ﻿using System;
-using Lab_1;
 using Lab_1.DataStructures;
 using NUnit.Framework;
 
-namespace TestProject.Queue
+namespace TestProject.Lab_1.Queue
 {
-    public class DequeueTests
+    public class EnqueueTests
     {
         [Test]
-        public void DequeueOk()
+        public void EnqueueOk()
         {
             // Arrange
-            var queue = new Queue<int>(10);
+            var queue = new Queue<int>(5);
 
             // Act
             for (var i = 0; i < 10; i++)
@@ -21,22 +20,21 @@ namespace TestProject.Queue
 
             // Assert
             Assert.AreEqual(10, queue.Count);
-            if (!queue.TryDequeue(out var value))
+            if (!queue.TryPeek(out var value))
             {
-                Assert.Fail("Queue should not be empty!");
+                Assert.Fail("Queue is empty!");
             }
-            Assert.AreEqual(9, queue.Count);
             Assert.AreEqual(0, value);
         }
 
         [Test]
-        public void DequeueThrows()
+        public void EnqueueThrows()
         {
             // Arrange
             var queue = new Queue<int>();
 
             // Act && Arrange
-            Assert.Throws<InvalidOperationException>(() => queue.Dequeue());
+            Assert.Throws<InvalidOperationException>(() => queue.Enqueue(0));
         }
     }
 }

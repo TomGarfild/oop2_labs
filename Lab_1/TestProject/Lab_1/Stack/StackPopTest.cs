@@ -1,41 +1,42 @@
-using System;
-using Lab_1;
+﻿using System;
 using Lab_1.DataStructures;
 using NUnit.Framework;
 
-namespace TestProject.Stack
+namespace TestProject.Lab_1.Stack
 {
-    public class StackPushTest
+    public class StackPopTest
     {
         [Test]
-        public void StackPushOk()
+        public void StackPopOk()
         {
             // Arrange
-            var stack = new Stack<int>(5);
+            var stack = new Stack<int>(10);
 
             // Act
             for (var i = 0; i < 10; i++)
             {
-                stack.PushWithResize(i);
+                stack.Push(i);
             }
 
             // Assert
             Assert.AreEqual(10, stack.Count);
-            if (!stack.TryPeek(out var value))
+            if (!stack.TryPop(out var value))
             {
-                Assert.Fail("Stack is empty!");
+                Assert.Fail("Stack should not be empty!");
             }
+
+            Assert.AreEqual(9, stack.Count);
             Assert.AreEqual(9, value);
         }
 
         [Test]
-        public void StackPushThrow()
+        public void StackPopThrow()
         {
             // Arrange
             var stack = new Stack<int>();
 
             // Act && Assert
-            Assert.Throws<InvalidOperationException>(() => stack.Push(0));
+            Assert.Throws<InvalidOperationException>(() => stack.Pop());
         }
     }
 }

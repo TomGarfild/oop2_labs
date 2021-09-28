@@ -1,9 +1,8 @@
 ﻿using System;
-using Lab_1;
 using Lab_1.DataStructures;
 using NUnit.Framework;
 
-namespace TestProject.Deque
+namespace TestProject.Lab_1.Deque
 {
     public class RemoveElementTests
     {

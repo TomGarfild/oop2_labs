@@ -235,6 +235,7 @@ namespace Lab_1.DataStructures
             }
         }
 
+        #nullable enable
         public struct Enumerator : IEnumerator<T>,
             System.Collections.IEnumerator
         {

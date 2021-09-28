@@ -179,6 +179,7 @@ namespace Lab_1.DataStructures
 
             return false;
         }
+        #nullable enable
         public struct Enumerator : IEnumerator<T>, System.Collections.IEnumerator
         {
             private readonly Stack<T> _stack;

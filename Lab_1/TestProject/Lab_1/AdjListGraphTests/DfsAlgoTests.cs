@@ -1,7 +1,7 @@
 ﻿using Lab_1.Graphs;
 using NUnit.Framework;
 
-namespace TestProject.AdjMatrixGraphTests
+namespace TestProject.Lab_1.AdjListGraphTests
 {
     public class DfsAlgoTests
     {
@@ -9,7 +9,7 @@ namespace TestProject.AdjMatrixGraphTests
         public void GraphIsConnectedWorksCorrectly()
         {
             // Arrange
-            var g = new AdjMatrixGraph(4);
+            var g = new AdjListGraph(4);
 
             // Act
             g.AddEdge(0, 1);
@@ -27,7 +27,7 @@ namespace TestProject.AdjMatrixGraphTests
         public void GraphGetDistanceWorksCorrectly()
         {
             // Arrange
-            var g = new AdjMatrixGraph(5);
+            var g = new AdjListGraph(5);
 
             // Act
             g.AddEdge(0, 1);

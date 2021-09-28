@@ -2,7 +2,7 @@
 using Lab_1.Graphs;
 using NUnit.Framework;
 
-namespace TestProject.AdjMatrixGraphTests
+namespace TestProject.Lab_1.AdjListGraphTests
 {
     public class VertexTests
     {
@@ -10,7 +10,7 @@ namespace TestProject.AdjMatrixGraphTests
         public void AddVertexOk()
         {
             // Arrange
-            var g = new AdjMatrixGraph(0);
+            var g = new AdjListGraph(0);
 
             // Act
             g.AddVertex();
@@ -23,7 +23,7 @@ namespace TestProject.AdjMatrixGraphTests
         public void RemoveVertexOk()
         {
             // Arrange
-            var g = new AdjMatrixGraph(1);
+            var g = new AdjListGraph(1);
 
             // Act && Assert
             Assert.AreEqual(1, g.Size);
@@ -35,7 +35,7 @@ namespace TestProject.AdjMatrixGraphTests
         public void RemoveVertexThrows()
         {
             // Arrange
-            var g = new AdjMatrixGraph(0);
+            var g = new AdjListGraph(0);
 
             // Act && Assert
             Assert.Throws<ArgumentOutOfRangeException>(() => g.RemoveVertex(1));

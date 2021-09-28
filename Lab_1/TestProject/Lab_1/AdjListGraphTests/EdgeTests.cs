@@ -2,7 +2,7 @@
 using Lab_1.Graphs;
 using NUnit.Framework;
 
-namespace TestProject.AdjListGraphTests
+namespace TestProject.Lab_1.AdjListGraphTests
 {
     public class EdgeTests
     {
