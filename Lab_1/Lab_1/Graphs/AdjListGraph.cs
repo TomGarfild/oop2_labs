@@ -35,6 +35,11 @@ namespace Lab_1.Graphs
         /// <returns><see langword="true"/>  if graph have edge between <see cref="u"/> and <see cref="v"/>, otherwise <see langword="false"/></returns>
         public bool HasEdge(int u, int v)
         {
+            if (u >= Size || u < 0 || v >= Size || v < 0)
+            {
+                return false;
+            }
+
             return _graph[u].Contains(v);
         }
 
@@ -45,7 +50,7 @@ namespace Lab_1.Graphs
         /// <param name="v">Second vertex</param>
         public void AddEdge(int u, int v)
         {
-            if (u >= Size || v >= Size)
+            if (u >= Size || u < 0 || v >= Size || v < 0)
             {
                 throw new ArgumentOutOfRangeException("Vertex does not exists!");
             }
@@ -71,7 +76,7 @@ namespace Lab_1.Graphs
         /// <param name="v">Second vertex</param>
         public void RemoveEdge(int u, int v)
         {
-            if (u >= Size || v >= Size)
+            if (u >= Size || u < 0 || v >= Size || v < 0)
             {
                 throw new ArgumentOutOfRangeException("Vertex does not exists!");
             }
@@ -122,7 +127,7 @@ namespace Lab_1.Graphs
         /// <param name="x">Vertex that is removed</param>
         public void RemoveVertex(int x)
         {
-            if (x >= Size)
+            if (x >= Size || x < 0)
             {
                 throw new ArgumentOutOfRangeException("Vertex not present!");
             }
@@ -175,7 +180,7 @@ namespace Lab_1.Graphs
 
         private void Dfs(int start)
         {
-            if (start >= Size)
+            if (start >= Size || start < 0)
             {
                 throw new ArgumentOutOfRangeException("Vertex not present!");
             }
@@ -207,7 +212,7 @@ namespace Lab_1.Graphs
             {
                 return 0;
             }
-            if (start >= Size || end >= Size)
+            if (start >= Size || end >= Size || start < 0 || end < 0)
             {
                 throw new ArgumentException("Vertex not present!");
             }
