@@ -2,25 +2,39 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Lab_1
+namespace Lab_1.DataStructures
 {
+    /// <summary>
+    /// Stack Data Structure
+    /// </summary>
+    /// <typeparam name="T">Stack's type</typeparam>
     public class Stack<T> : IEnumerable<T>
     {
         private T[] _elements;
         private int _size;
 
+        /// <summary>
+        /// Constructor that initializes stack with size 0.
+        /// </summary>
         public Stack()
         {
             _elements = Array.Empty<T>();
             _size = 0;
         }
 
+        /// <summary>
+        /// Constructor that initializes stack with parameter <see cref="size"/>
+        /// </summary>
+        /// <param name="size"></param>
         public Stack(int size)
         {
             _elements = new T[size];
             _size = 0;
         }
 
+        /// <summary>
+        /// Number of element in stack.
+        /// </summary>
         public int Count => _size;
 
         public IEnumerator<T> GetEnumerator()
@@ -33,12 +47,19 @@ namespace Lab_1
             return GetEnumerator();
         }
 
+        /// <summary>
+        /// Clears whole stack.
+        /// </summary>
         public void Clear()
         {
             Array.Clear(_elements, 0, _size);
             _size = 0;
         }
 
+        /// <summary>
+        /// Adds <see cref="item"/> at the top of stack. Throws <c>InvalidOperationException</c> if current size of stack is at the limit.
+        /// </summary>
+        /// <param name="item">Pushed item</param>
         public void Push(T item)
         {
             if (_size == _elements.Length)
@@ -49,6 +70,10 @@ namespace Lab_1
             _elements[_size++] = item;
         }
 
+        /// <summary>
+        /// Adds <see cref="item"/> at the top of stack. If Current size of stack is at the limit resizes stack.
+        /// </summary>
+        /// <param name="item">Pushed item</param>
         public void PushWithResize(T item)
         {
             if (_size == _elements.Length)
@@ -64,6 +89,10 @@ namespace Lab_1
             Array.Resize(ref _elements, size);
         }
 
+        /// <summary>
+        /// Remove top element and return it.  Throws <c>InvalidOperationException</c> if stack i s empty.
+        /// </summary>
+        /// <returns>Popped element of type <typeparamref name="T"/></returns>
         public T Pop()
         {
             if (_size == 0)
@@ -74,6 +103,11 @@ namespace Lab_1
             return _elements[--_size];
         }
 
+        /// <summary>
+        /// Remove top element.
+        /// </summary>
+        /// <param name="item">Popped element. Default value if stack is empty.</param>
+        /// <returns><c>false</c> if stack is empty, otherwise <c>true</c>.</returns>
         public bool TryPop(out T item)
         {
             if (_size == 0)
@@ -86,6 +120,10 @@ namespace Lab_1
             return true;
         }
 
+        /// <summary>
+        /// Return top element.  Throws <c>InvalidOperationException</c> if stack i s empty.
+        /// </summary>
+        /// <returns>Top element of the stack of type <typeparamref name="T"/></returns>
         public T Peek()
         {
             if (_size == 0)
@@ -96,6 +134,11 @@ namespace Lab_1
             return _elements[_size - 1];
         }
 
+        /// <summary>
+        /// Return top element.
+        /// </summary>
+        /// <param name="item">Top element of the stack</param>
+        /// <returns><c>false</c> if stack is empty, otherwise <c>true</c>.</returns>
         public bool TryPeek(out T item)
         {
             if (_size == 0)
@@ -108,6 +151,9 @@ namespace Lab_1
             return true;
         }
 
+        /// <summary>
+        /// Prints stack.
+        /// </summary>
         public void Print()
         {
             if (_size == 0)
@@ -116,6 +162,11 @@ namespace Lab_1
             }
         }
 
+        /// <summary>
+        /// Checks if element is in the stack.
+        /// </summary>
+        /// <param name="item">Element to check</param>
+        /// <returns><c>true</c> if element is in the stack, otherwise <c>false</c></returns>
         public bool Contains(T item)
         {
             for (var i = 0; i < _size; i++)

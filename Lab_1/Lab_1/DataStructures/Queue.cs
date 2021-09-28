@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-namespace Lab_1
+namespace Lab_1.DataStructures
 {
+    /// <summary>
+    /// Stack Data Structure
+    /// </summary>
+    /// <typeparam name="T">Stack's type</typeparam>
     public class Queue<T> : IEnumerable<T>
     {
         private T[] _elements;
@@ -14,18 +17,31 @@ namespace Lab_1
         private int _tail;
         private int _size;
 
+        /// <summary>
+        /// Constructor that initializes queue with size 0.
+        /// </summary>
         public Queue()
         {
             _elements = Array.Empty<T>();
         }
 
+        /// <summary>
+        /// Constructor that initializes queue with parameter <see cref="size"/>
+        /// </summary>
+        /// <param name="size"></param>
         public Queue(int size)
         {
             _elements = new T[size];
         }
 
+        /// <summary>
+        /// Number of element in queue.
+        /// </summary>
         public int Count => _size;
 
+        /// <summary>
+        /// Clears whole queue.
+        /// </summary>
         public void Clear()
         {
             if (_size != 0)
@@ -47,6 +63,10 @@ namespace Lab_1
             _tail = 0;
         }
 
+        /// <summary>
+        /// Add <see cref="item"/> to the queue. Throws <c>InvalidOperationException</c> when size of the queue is at the limit.
+        /// </summary>
+        /// <param name="item">Item that is added</param>
         public void Enqueue(T item)
         {
             if (_size == _elements.Length)
@@ -59,6 +79,10 @@ namespace Lab_1
             _size++;
         }
 
+        /// <summary>
+        /// Add <see cref="item"/> to the queue with resize if needed.
+        /// </summary>
+        /// <param name="item">Item that is added</param>
         public void EnqueueWithResize(T item)
         {
             if (_size == _elements.Length)
@@ -86,6 +110,10 @@ namespace Lab_1
             return new Enumerator(this);
         }
 
+        /// <summary>
+        /// Removes first element in queue. Throws <c>InvalidOperationException</c> if queue is empty.
+        /// </summary>
+        /// <returns>Deleted element from the queue of type <typeparamref name="T"/></returns>
         public T Dequeue()
         {
             var head = _head;
@@ -102,6 +130,11 @@ namespace Lab_1
             return removed;
         }
 
+        /// <summary>
+        /// Removes first element in queue.
+        /// </summary>
+        /// <param name="result">Deleted element from the queue of type <typeparamref name="T"/>, that can be default value when queue is empty.</param>
+        /// <returns><c>false</c> if queue is empty, otherwise <c>true</c>.</returns>
         public bool TryDequeue([MaybeNullWhen(false)] out T result)
         {
             var head = _head;
@@ -114,15 +147,15 @@ namespace Lab_1
             }
 
             result = array[head];
-            if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
-            {
-                array[head] = default!;
-            }
             MoveNext(ref _head);
             _size--;
             return true;
         }
 
+        /// <summary>
+        /// Returns first element from the queue. Throws <c>InvalidOperationException</c> when queue is empty.
+        /// </summary>
+        /// <returns>Peeked element of type <typeparamref name="T"/></returns>
         public T Peek()
         {
             if (_size == 0)
@@ -133,6 +166,11 @@ namespace Lab_1
             return _elements[_head];
         }
 
+        /// <summary>
+        /// Returns first element from the queue.
+        /// </summary>
+        /// <param name="result">Peeked element of type <typeparamref name="T"/></param>
+        /// <returns><c>false</c> if queue is empty, otherwise <c>true</c>.</returns>
         public bool TryPeek([MaybeNullWhen(false)] out T result)
         {
             if (_size == 0)
@@ -145,6 +183,11 @@ namespace Lab_1
             return true;
         }
 
+        /// <summary>
+        /// Checks if element is in the queue.
+        /// </summary>
+        /// <param name="item">Element to check</param>
+        /// <returns><c>true</c> if element is in the queue, otherwise <c>false</c></returns>
         public bool Contains(T item)
         {
             if (_size == 0)

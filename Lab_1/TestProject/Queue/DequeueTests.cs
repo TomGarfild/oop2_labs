@@ -1,5 +1,6 @@
 ﻿using System;
 using Lab_1;
+using Lab_1.DataStructures;
 using NUnit.Framework;
 
 namespace TestProject.Queue
