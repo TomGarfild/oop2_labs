@@ -1,4 +1,6 @@
-﻿<div class="modal @ModalClass" tabindex="-1" role="dialog" style="display:@ModalDisplay">
+﻿@inject IJSRuntime JsRuntime
+
+<div class="modal @ModalClass" tabindex="-1" role="dialog" style="display:@ModalDisplay">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -69,19 +71,28 @@
         StateHasChanged();
     }
 
-    public void Close(bool saved = false)
+    public async Task Close(bool saved = false)
     {
+        if (!saved)
+        {
+            var confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "You can lose unsaved data!");
+            if (!confirmed)
+            {
+                return;
+            }
+        }
         ModalDisplay = "none";
         ModalClass = "";
         ShowBackdrop = false;
+
         StateHasChanged();
     }
 
     public async Task Save()
     {
-        var updatedTime =  Hours * 3600 + Minutes * 60 + Seconds;
+        var updatedTime = Hours * 3600 + Minutes * 60 + Seconds;
         await OnTimerChanged.InvokeAsync(new EditTimerDto(Name, updatedTime, TimerEndAlarm));
-        Close(true);
+        await Close(true);
     }
 
 }

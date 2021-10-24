@@ -1,4 +1,5 @@
 ﻿@page "/timer"
+@inject IJSRuntime JsRuntime
 
 <div>
     <div>
@@ -16,7 +17,7 @@
                    TimerEndAlarm="Alarm"
                    OnTimerChanged="TimerChanged">
         </EditTimer>
-        <button type="button" class="btn btn-info" @onclick="() => EditTimerModal.Open()">
+        <button type="button" class="btn btn-info" disabled="@(!Paused)" @onclick="() => EditTimerModal.Open()">
             <span class="oi oi-pencil mr-2" aria-hidden="true"></span>Edit
         </button>
     </div>
@@ -76,7 +77,6 @@
         {
             _timer.Enabled = false;
             Paused = true;
-
         }
         InvokeAsync(StateHasChanged);
     }
