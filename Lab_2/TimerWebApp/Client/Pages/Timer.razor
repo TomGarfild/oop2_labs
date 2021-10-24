@@ -1,0 +1,23 @@
+﻿@page "/timer"
+
+<h1>Timer</h1>
+
+<div>
+    <div>
+        <input type="number" name="Hrs" value="0" max="99" min="0" />
+        <input type="number" name="Mins" value="0" max="59" min="0" />
+        <input type="number" name="Secs" value="0" max="59" min="0" />
+        <button type="button" class="btn btn-success">Start</button>
+        <button type="button" class="btn btn-danger">Reset</button>
+    </div>
+    <div>
+
+    </div>
+    <div>
+
+    </div>
+</div>
+
+@code {
+    public bool Started { get; set; }
+}
