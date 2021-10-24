@@ -1,23 +1,98 @@
 ﻿@page "/timer"
 
-<h1>Timer</h1>
-
 <div>
     <div>
-        <input type="number" name="Hrs" value="0" max="99" min="0" />
-        <input type="number" name="Mins" value="0" max="59" min="0" />
-        <input type="number" name="Secs" value="0" max="59" min="0" />
-        <button type="button" class="btn btn-success">Start</button>
-        <button type="button" class="btn btn-danger">Reset</button>
+        <h1 class="d-inline-block align-middle">@(GetFormattedTime(Time))</h1>
+        <button type="button" class="btn @(Paused ? "btn-success" : "btn-danger")" disabled="@(Time <= 0)" @onclick="OnStart">
+            @(Paused ? "Start" : "Pause")
+        </button>
+        <button type="button" class="btn btn-primary" disabled="@(!Started || !Paused)" @onclick="OnReset">Reset</button>
     </div>
     <div>
-
+        <p class="d-inline-block h5">@(Name) (@(GetFormattedTime(InitTime)))</p>
+        <EditTimer @ref="EditTimerModal"
+                   Time="InitTime"
+                   Name="Name"
+                   TimerEndAlarm="Alarm"
+                   OnTimerChanged="TimerChanged">
+        </EditTimer>
+        <button type="button" class="btn btn-info" @onclick="() => EditTimerModal.Open()">
+            <span class="oi oi-pencil mr-2" aria-hidden="true"></span>Edit
+        </button>
     </div>
     <div>
-
+        <SfProgressBar Type="ProgressType.Linear" Value="Time" Height="50" Width="90%" TrackColor="#9c9c9c"
+                       InnerRadius="190%" ProgressColor="@(Paused? "#18A558" : "#E3165B")" TrackThickness="34"
+                       CornerRadius="CornerType.Round" ProgressThickness="34" Minimum="0" Maximum="InitTime">
+        </SfProgressBar>
     </div>
 </div>
 
 @code {
-    public bool Started { get; set; }
+    private bool Started { get; set; }
+    private bool Paused { get; set; } = true;
+    private EditTimer EditTimerModal { get; set; }
+
+    private string Name { get; set; } = "Timer";
+    private string Sound { get; set; } = "Sound";
+    private int InitTime { get; set; } = 120;
+    private int Time { get; set; }
+    private TimerWorker _timer;
+
+    protected override void OnInitialized()
+    {
+        _timer = new TimerWorker(1000);
+        _timer.Elapsed += CountDownTimer;
+        Time = InitTime;
+    }
+
+    private string GetFormattedTime(int timeInSeconds)
+    {
+        return $"{timeInSeconds / 3600:D2}:{timeInSeconds % 3600 / 60:D2}:{timeInSeconds % 3600 % 60:D2}";
+    }
+
+    private void OnStart()
+    {
+        Started = true;
+        Paused = !Paused;
+
+        if (!Paused)
+        {
+            _timer.Start();
+        }
+        else
+        {
+            _timer.Stop();
+        }
+    }
+
+    public void CountDownTimer(Object source, ElapsedEventArgs e)
+    {
+        if (Time > 0)
+        {
+            Time--;
+        }
+        else
+        {
+            _timer.Enabled = false;
+            Paused = true;
+
+        }
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void OnReset()
+    {
+        Started = false;
+        Paused = true;
+        Time = InitTime;
+    }
+
+    private void TimerChanged(EditTimerDto dto)
+    {
+        Name = dto.Name;
+        InitTime = dto.TimeInSeconds;
+        Sound = dto.Sound;
+        OnReset();
+    }
 }
