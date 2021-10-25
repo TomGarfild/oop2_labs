@@ -7,10 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimerWebApp.Server", "Timer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimerWebApp.Client", "TimerWebApp\Client\TimerWebApp.Client.csproj", "{379D2187-AF1A-4ECF-93BA-58A8B5B00B5B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimerWebApp.Shared", "TimerWebApp\Shared\TimerWebApp.Shared.csproj", "{D3A1B312-4B87-49EE-836F-846BF2906CB3}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kernel", "TimerWebApp\Kernel\Kernel.csproj", "{CA246A8C-1C39-4C94-B9AC-D84B406EDF09}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "TimerWebApp\Domain\Domain.csproj", "{E5877BEF-971E-4AEF-AEA1-0D0A523183EA}"
 EndProject
 Global
@@ -27,14 +23,6 @@ Global
 		{379D2187-AF1A-4ECF-93BA-58A8B5B00B5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{379D2187-AF1A-4ECF-93BA-58A8B5B00B5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{379D2187-AF1A-4ECF-93BA-58A8B5B00B5B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D3A1B312-4B87-49EE-836F-846BF2906CB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D3A1B312-4B87-49EE-836F-846BF2906CB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D3A1B312-4B87-49EE-836F-846BF2906CB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D3A1B312-4B87-49EE-836F-846BF2906CB3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA246A8C-1C39-4C94-B9AC-D84B406EDF09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA246A8C-1C39-4C94-B9AC-D84B406EDF09}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA246A8C-1C39-4C94-B9AC-D84B406EDF09}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA246A8C-1C39-4C94-B9AC-D84B406EDF09}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E5877BEF-971E-4AEF-AEA1-0D0A523183EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E5877BEF-971E-4AEF-AEA1-0D0A523183EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5877BEF-971E-4AEF-AEA1-0D0A523183EA}.Release|Any CPU.ActiveCfg = Release|Any CPU

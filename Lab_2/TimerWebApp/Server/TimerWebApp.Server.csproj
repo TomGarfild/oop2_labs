@@ -10,11 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Client\TimerWebApp.Client.csproj" />
-    <ProjectReference Include="..\Shared\TimerWebApp.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
 
