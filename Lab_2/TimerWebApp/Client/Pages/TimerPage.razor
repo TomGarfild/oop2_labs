@@ -26,7 +26,6 @@
     protected override async Task OnInitializedAsync()
     {
         var timersJson = await JsRuntime.InvokeAsync<string>("localStorage.getItem", "timers");
-        await JsRuntime.InvokeVoidAsync("console.log", timersJson);
         if (timersJson != null)
         {
             _timers = JsonSerializer.Deserialize<List<TimerVm>>(timersJson);
