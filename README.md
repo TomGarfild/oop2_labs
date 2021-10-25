@@ -12,3 +12,10 @@
     * Unit tests,
     * Documentation.
 ---
+## Lab 2
+#Timer
+    >(*)Using Blazor WebAssembly
+    >(*)Can edit timers
+    >(*)Timers are saved in storage
+    >(*)Is deployed at https://d3jl2hjpzvti0j.cloudfront.net/
+    
