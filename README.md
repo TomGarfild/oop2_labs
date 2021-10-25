@@ -17,5 +17,5 @@
     * Using Blazor WebAssembly
     * Can edit timers
     * Timers are saved in storage
-    * Is deployed at [Timer] https://d3jl2hjpzvti0j.cloudfront.net/
+    * Is deployed at [Timer](https://d3jl2hjpzvti0j.cloudfront.net/)
     
