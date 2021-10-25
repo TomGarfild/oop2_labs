@@ -31,6 +31,17 @@
                             <input class="form-control" id="name" @bind="Name" type="text">
                         </div>
                     </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="hrs">Timer name:</label>
+                            <select class="form-control selectpicker" @bind="Sound">
+                                @foreach (var sound in _sounds)
+                                {
+                                    <option>@sound</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -48,6 +59,13 @@
 
 
 @code {
+    private List<string> _sounds = new()
+    {
+        "piano", "strings", "bass",
+        "kick", "snare", "hihat",
+        "fx1", "fx2", "fx3",
+    };
+
     [Parameter]
     public EventCallback<EditTimerDto> OnTimerChanged { get; set; }
     [Parameter]
@@ -55,7 +73,7 @@
     [Parameter]
     public string Name { get; set; }
     [Parameter]
-    public string TimerEndAlarm { get; set; }
+    public string Sound { get; set; }
 
     private int Hours { get; set; }
     private int Minutes { get; set; }
@@ -97,7 +115,7 @@
     public async Task Save()
     {
         var updatedTime = Hours * 3600 + Minutes * 60 + Seconds;
-        await OnTimerChanged.InvokeAsync(new EditTimerDto(Name, updatedTime, TimerEndAlarm));
+        await OnTimerChanged.InvokeAsync(new EditTimerDto(Name, updatedTime, Sound));
         await Close(true);
     }
 

@@ -1,4 +1,6 @@
-﻿<div class="mb-30">
+﻿@inject IJSRuntime JsRuntime
+
+<div class="mb-30">
     <div>
         <h1 class="d-inline-block align-middle">@(GetFormattedTime(Time))</h1>
         <button type="button" class="btn @(Paused ? "btn-success" : "btn-danger")" disabled="@(Time <= 0)" @onclick="OnStart">
@@ -7,11 +9,17 @@
         <button type="button" class="btn btn-primary" disabled="@(!Started || !Paused)" @onclick="OnReset">Reset</button>
     </div>
     <div>
-        <p class="d-inline-block h5">@(TimerEntity.Name) (@(GetFormattedTime(TimerEntity.Time)))</p>
+        <p class="d-inline-block h5">
+            @(TimerEntity.Name) (@(GetFormattedTime(TimerEntity.Time)))
+            @if (!string.IsNullOrEmpty(TimerEntity.Sound))
+            {
+                <span class="oi oi-volume-high mr-2" aria-hidden="true"></span>@(TimerEntity.Sound) <span>sound</span>
+            }
+        </p>
         <EditTimer @ref="EditTimerModal"
                    Time="TimerEntity.Time"
                    Name="@(TimerEntity.Name)"
-                   TimerEndAlarm="@(TimerEntity.Sound)"
+                   Sound="@(TimerEntity.Sound)"
                    OnTimerChanged="TimerChanged">
         </EditTimer>
         <button type="button" class="btn btn-info" disabled="@(!Paused)" @onclick="() => EditTimerModal.Open()">
@@ -80,6 +88,10 @@
         {
             _timer.Enabled = false;
             Paused = true;
+            if (TimerEntity.Sound != null)
+            {
+                JsRuntime.InvokeVoidAsync("playaudio", $"sounds/{TimerEntity.Sound}.wav");
+            }
         }
         InvokeAsync(StateHasChanged);
     }
