@@ -7,9 +7,9 @@
         <button type="button" class="btn btn-primary" disabled="@(!Started || !Paused)" @onclick="OnReset">Reset</button>
     </div>
     <div>
-        <p class="d-inline-block h5">@(TimerEntity.Name) (@(GetFormattedTime(InitTime)))</p>
+        <p class="d-inline-block h5">@(TimerEntity.Name) (@(GetFormattedTime(TimerEntity.Time)))</p>
         <EditTimer @ref="EditTimerModal"
-                   Time="InitTime"
+                   Time="TimerEntity.Time"
                    Name="@(TimerEntity.Name)"
                    TimerEndAlarm="@(TimerEntity.Sound)"
                    OnTimerChanged="TimerChanged">
@@ -24,7 +24,7 @@
     <div>
         <SfProgressBar Type="ProgressType.Linear" Value="Time" Height="50" Width="90%" TrackColor="#9c9c9c"
                        InnerRadius="190%" ProgressColor="@(Paused? "#18A558" : "#E3165B")" TrackThickness="34"
-                       CornerRadius="CornerType.Round" ProgressThickness="34" Minimum="0" Maximum="InitTime">
+                       CornerRadius="CornerType.Round" ProgressThickness="34" Minimum="0" Maximum="TimerEntity.Time">
         </SfProgressBar>
     </div>
 </div>
@@ -35,10 +35,11 @@
     private EditTimer EditTimerModal { get; set; }
     private int Time { get; set; }
     private TimerWorker _timer;
-    private int InitTime { get; set; }
 
     [Parameter]
     public EventCallback OnTimerDeleted { get; set; }
+    [Parameter]
+    public EventCallback OnTimerChanged { get; set; }
     [Parameter]
     public TimerVm TimerEntity { get; set; }
 
@@ -46,8 +47,7 @@
     {
         _timer = new TimerWorker(1000);
         _timer.Elapsed += CountDownTimer;
-        InitTime = TimerEntity.Time;
-        Time = InitTime;
+        Time = TimerEntity.Time;
     }
 
     private string GetFormattedTime(int timeInSeconds)
@@ -88,15 +88,16 @@
     {
         Started = false;
         Paused = true;
-        Time = InitTime;
+        Time = TimerEntity.Time;
     }
 
-    private void TimerChanged(EditTimerDto dto)
+    private async Task TimerChanged(EditTimerDto dto)
     {
         TimerEntity.Name = dto.Name;
-        InitTime = dto.TimeInSeconds;
+        TimerEntity.Time = dto.TimeInSeconds;
         TimerEntity.Sound = dto.Sound;
         OnReset();
+        await OnTimerChanged.InvokeAsync();
     }
 
     public async Task Delete()
