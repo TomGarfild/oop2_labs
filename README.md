@@ -13,7 +13,7 @@
     * Documentation.
 ---
 ## Lab 2
-#Timer
+# Timer
     * Using Blazor WebAssembly
     * Can edit timers
     * Timers are saved in storage
