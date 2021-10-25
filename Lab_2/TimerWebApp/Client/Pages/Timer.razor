@@ -1,7 +1,4 @@
-﻿@page "/timer"
-@inject IJSRuntime JsRuntime
-
-<div>
+﻿<div class="mb-30">
     <div>
         <h1 class="d-inline-block align-middle">@(GetFormattedTime(Time))</h1>
         <button type="button" class="btn @(Paused ? "btn-success" : "btn-danger")" disabled="@(Time <= 0)" @onclick="OnStart">
@@ -10,11 +7,11 @@
         <button type="button" class="btn btn-primary" disabled="@(!Started || !Paused)" @onclick="OnReset">Reset</button>
     </div>
     <div>
-        <p class="d-inline-block h5">@(Name) (@(GetFormattedTime(InitTime)))</p>
+        <p class="d-inline-block h5">@(TimerEntity.Name) (@(GetFormattedTime(InitTime)))</p>
         <EditTimer @ref="EditTimerModal"
                    Time="InitTime"
-                   Name="Name"
-                   TimerEndAlarm="Alarm"
+                   Name="@(TimerEntity.Name)"
+                   TimerEndAlarm="@(TimerEntity.Sound)"
                    OnTimerChanged="TimerChanged">
         </EditTimer>
         <button type="button" class="btn btn-info" disabled="@(!Paused)" @onclick="() => EditTimerModal.Open()">
@@ -33,17 +30,18 @@
     private bool Started { get; set; }
     private bool Paused { get; set; } = true;
     private EditTimer EditTimerModal { get; set; }
-
-    private string Name { get; set; } = "Timer";
-    private string Sound { get; set; } = "Sound";
-    private int InitTime { get; set; } = 120;
     private int Time { get; set; }
     private TimerWorker _timer;
+    private int InitTime { get; set; }
+
+    [Parameter]
+    public TimerVm TimerEntity { get; set; }
 
     protected override void OnInitialized()
     {
         _timer = new TimerWorker(1000);
         _timer.Elapsed += CountDownTimer;
+        InitTime = TimerEntity.Time;
         Time = InitTime;
     }
 
@@ -90,9 +88,9 @@
 
     private void TimerChanged(EditTimerDto dto)
     {
-        Name = dto.Name;
+        TimerEntity.Name = dto.Name;
         InitTime = dto.TimeInSeconds;
-        Sound = dto.Sound;
+        TimerEntity.Sound = dto.Sound;
         OnReset();
     }
 }
