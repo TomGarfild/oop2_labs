@@ -17,6 +17,9 @@
         <button type="button" class="btn btn-info" disabled="@(!Paused)" @onclick="() => EditTimerModal.Open()">
             <span class="oi oi-pencil mr-2" aria-hidden="true"></span>Edit
         </button>
+        <button type="button" class="btn btn-danger" disabled="@(!Paused)" @onclick="Delete">
+            <span class="oi oi-trash mr-2" aria-hidden="true"></span>Delete
+        </button>
     </div>
     <div>
         <SfProgressBar Type="ProgressType.Linear" Value="Time" Height="50" Width="90%" TrackColor="#9c9c9c"
@@ -34,6 +37,8 @@
     private TimerWorker _timer;
     private int InitTime { get; set; }
 
+    [Parameter]
+    public EventCallback OnTimerDeleted { get; set; }
     [Parameter]
     public TimerVm TimerEntity { get; set; }
 
@@ -92,5 +97,11 @@
         InitTime = dto.TimeInSeconds;
         TimerEntity.Sound = dto.Sound;
         OnReset();
+    }
+
+    public async Task Delete()
+    {
+        _timer.Dispose();
+        await OnTimerDeleted.InvokeAsync();
     }
 }
