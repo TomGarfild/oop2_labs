@@ -19,4 +19,10 @@
     * Timers are saved in storage
     * Is deployed at
    [Timer](https://d3jl2hjpzvti0j.cloudfront.net/)
+---
+## Project
+## Rock paper scissors game
+    * Using asp .net core project for web server
+    * Using console application for client
+    * Data saved in sql db
     
