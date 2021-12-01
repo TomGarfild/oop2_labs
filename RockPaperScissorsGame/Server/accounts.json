@@ -1,0 +1,37 @@
+[
+  {
+    "id": "91839d25-279f-422c-93b3-b5c75137e389",
+    "login": "tom",
+    "password": "qwerty"
+  },
+  {
+    "id": "5b5756ed-72c3-4d52-8b55-8a119b30f2a8",
+    "login": "tom1",
+    "password": "qwerty"
+  },
+  {
+    "id": "f3128b11-c4df-4d05-aead-514bdb650a0b",
+    "login": "tom33",
+    "password": "qwerty"
+  },
+  {
+    "id": "90f4acea-ea06-4013-a6bb-1fe9c9275cf4",
+    "login": "player1",
+    "password": "123456"
+  },
+  {
+    "id": "66180a32-9d6d-4cda-aecf-bba94190bdee",
+    "login": "player2",
+    "password": "123456"
+  },
+  {
+    "id": "f3011a45-80e4-4616-a0f1-8ef00cbe8b5b",
+    "login": "player3",
+    "password": "123456"
+  },
+  {
+    "id": "7e13daac-9d85-4274-b5fa-b46d0dda5df4",
+    "login": "player4",
+    "password": "123456"
+  }
+]
