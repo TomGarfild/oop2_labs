@@ -19,6 +19,7 @@
     * Timers are saved in storage
     * Is deployed at
    [Timer](https://d3jl2hjpzvti0j.cloudfront.net/)
+
 ---
 ## Project
 ## Rock paper scissors game
