@@ -86,7 +86,7 @@ namespace Server.Models
                 Clear();
                 _checkResult = false;
             }
-            return Round.Result.Undefine;
+            return Round.Result.Undefined;
         }
 
         public void Clear()

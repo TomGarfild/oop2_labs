@@ -2,7 +2,7 @@ using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Serilog;
+using Client.Domain.Common;
 
 namespace Client.Menu
 {
@@ -20,30 +20,14 @@ namespace Client.Menu
         public override async Task Start()
         {
             var changed = true;
-            
+            SetHeaders(_token);
             var roomMenu = new RoomMenu(_httpClient);
 
-            if (!_httpClient.DefaultRequestHeaders.Contains("x-token"))
-            {
-                _httpClient.DefaultRequestHeaders.Add("x-token", _token);
-            }
-            if (!_httpClient.DefaultRequestHeaders.Accept.Contains(_mediaType))
-            {
-                _httpClient.DefaultRequestHeaders.Accept.Add(_mediaType);
-            }
             do
             {
                 if (changed)
                 {
-                    PrintMenu("| Menu Rock Paper Scissors Game |",
-                        new[]
-                        {
-                            "|     Public Room  - press 1    |",
-                            "|     Private Room - press 2    |",
-                            "|     Computer     - press 3    |",
-                            "|     Statistic    - press 4    |",
-                            "|     Exit         - press E    |"
-                        });
+                    PrintMenu(MenuConst.Main, MenuConst.GameArgs);
                 }
 
                 changed = true;
@@ -53,31 +37,34 @@ namespace Client.Menu
                 {
                     case ConsoleKey.D1:
                         roomMenu.SetRoutes("/series/NewPublicSeries", "/round/Play");
-                        await roomMenu.Start();
                         break;
                     case ConsoleKey.D2:
                         roomMenu.SetRoutes("/series/SearchPrivateSeries", "/round/Play");
-                        await roomMenu.Start();
                         break;
                     case ConsoleKey.D3:
                         roomMenu.SetRoutes("/series/NewTrainingSeries", "/round/TrainingPlay");
-                        await roomMenu.Start();
-                        break;
-                    case ConsoleKey.D4:
-                        var statistic = new StatisticMenu(_httpClient);
-                        await statistic.Start();
                         break;
                     case ConsoleKey.E:
-                        Log.Information($"Delete request: {_httpClient.BaseAddress.AbsoluteUri + "/account/logout/" + _token}");
-                        await _httpClient.DeleteAsync(new Uri(_httpClient.BaseAddress.AbsoluteUri + "/account/logout/" +
-                                                              _token));
                         return;
                     default:
                         changed = false;
-                        break;
+                        continue;
                 }
+                await roomMenu.Start();
             } while (true);
             
+        }
+
+        private void SetHeaders(string token)
+        {
+            if (!_httpClient.DefaultRequestHeaders.Contains("x-token"))
+            {
+                _httpClient.DefaultRequestHeaders.Add("x-token", _token);
+            }
+            if (!_httpClient.DefaultRequestHeaders.Accept.Contains(_mediaType))
+            {
+                _httpClient.DefaultRequestHeaders.Accept.Add(_mediaType);
+            }
         }
     }
 }

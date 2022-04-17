@@ -50,7 +50,7 @@ namespace Server.Services
                 return res;
             }
             else
-                return Round.Result.Undefine;
+                return Round.Result.Undefined;
         }
         public void StartRoundTraining(string user, string seriesKey, string choice)
         {

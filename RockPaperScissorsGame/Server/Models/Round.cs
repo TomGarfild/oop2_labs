@@ -7,7 +7,7 @@ namespace Server.Models
     {
         public enum OptionChoice
         {
-            Undefine = 0,
+            Undefined = 0,
             Rock = 1,
             Paper = 2,
             Scissor = 3
@@ -15,14 +15,14 @@ namespace Server.Models
 
         public enum Result
         {
-            Undefine = 0,
+            Undefined = 0,
             Lose = 1,
             Draw = 2,
             Win = 3
         }
 
-        private OptionChoice _user1Choice = OptionChoice.Undefine;
-        private OptionChoice _user2Choice = OptionChoice.Undefine;
+        private OptionChoice _user1Choice = OptionChoice.Undefined;
+        private OptionChoice _user2Choice = OptionChoice.Undefined;
         public CancellationTokenSource Source { get; private set; } = new CancellationTokenSource();
 
         public Result GetResult()
@@ -47,7 +47,7 @@ namespace Server.Models
 
         public bool IsDone()
         {
-            if (_user1Choice != OptionChoice.Undefine && _user2Choice != OptionChoice.Undefine)
+            if (_user1Choice != OptionChoice.Undefined && _user2Choice != OptionChoice.Undefined)
             {
                 return true;
             }
@@ -81,7 +81,7 @@ namespace Server.Models
                 case "Scissors":
                     return OptionChoice.Scissor;
                 default:
-                    return OptionChoice.Undefine;
+                    return OptionChoice.Undefined;
             }
         }
 

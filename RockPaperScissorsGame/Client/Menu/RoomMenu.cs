@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
-using Serilog;
-using Server.Models;
+using Client.Clients;
+using Client.Domain.Common;
+using Client.Handlers;
 
 namespace Client.Menu
 {
     public class RoomMenu : Menu
     {
-        private readonly HttpClient _httpClient;
         private string _seriesRoute;
-        private string _gameRoute;
+        private readonly GameClient _gameClient;
+        private readonly SeriesClient _seriesClient;
         public RoomMenu(HttpClient httpClient)
         {
-            _httpClient = httpClient;
+            _gameClient = new GameClient(httpClient);
+            _seriesClient = new SeriesClient(httpClient);
+
         }
         public override async Task Start()
         {
@@ -23,135 +25,28 @@ namespace Client.Menu
                 var privateMenu = await PrivateMenuAsync();
                 if (!privateMenu) return;
             }
-            var exit = await SetHeaders();
-            if (exit) return;
+            var exit = await _seriesClient.HandleSeries(_seriesRoute);
+            if (exit == null) return;
+            _gameClient.SetSeriesId(exit);
 
-            PrintMenu("|           Room Menu           |",
-                new[]
-                {
-                    "|     Rock       -  press R     |",
-                    "|     Paper      -  press P     |",
-                    "|     Scissors   -  press S     |",
-                    "|     Exit Room  -  press E     |"
-                });
-            
-            do
+
+            PrintMenu(MenuConst.Room, MenuConst.RoomArgs);
+
+            while (true)
             {
-                Console.Write("\rKey: ");
-                var key = Console.ReadKey().Key;
-                string answer;
-                switch (key)
-                {
-                    case ConsoleKey.R:
-                        answer = "Rock";
-                        break;
-                    case ConsoleKey.P:
-                        answer = "Paper";
-                        break;
-                    case ConsoleKey.S:
-                        answer = "Scissors";
-                        break;
-                    case ConsoleKey.E:
-                        return;
-                    default:
-                        continue;
-                }
+                var answer = KeyHandler.GetGameMove();
+                if (answer == null) return;
+                if (answer == "default") continue;
 
-                _httpClient.DefaultRequestHeaders.Remove("x-choice");
-                _httpClient.DefaultRequestHeaders.Add("x-choice", answer);
-                var uri = new Uri(_httpClient.BaseAddress.AbsoluteUri + _gameRoute);
-                var response = await _httpClient.GetAsync(uri);
-                var result = response.Content.ReadAsAsync<string>().Result;
-                if (result.Equals("Undefine"))
-                {
-                    await Task.Delay(3000);
-                    Console.WriteLine("\nYour opponent didn't make a choice. You will be redirected to menu.");
-                    return;
-                }
-                Console.WriteLine($"\nResult: {result}");
-            } while (true);
-        }
-
-        private async Task<bool> SetHeaders()
-        {
-            var seriesUri = new Uri(_httpClient.BaseAddress.AbsoluteUri + _seriesRoute);
-            var seriesTask = _httpClient.GetAsync(seriesUri);
-
-            if (_seriesRoute.Contains("Public"))
-            {
-                Console.WriteLine("\rTrying to find your opponent. Press E to exit.");
-                Console.Write("\rKey: ");
-                while (seriesTask.Status != TaskStatus.RanToCompletion)
-                {
-                    if (Console.KeyAvailable)
-                    {
-                        Console.Write("\rKey: ");
-                        var key = Console.ReadKey().Key;
-                        if (key == ConsoleKey.E)
-                        {
-                            Console.WriteLine("\nYou exit from public session.");
-                            await Task.Delay(1000);
-                            return true;
-                        }
-
-                        Console.Write("\b");
-                    }
-                }
-                Console.WriteLine("\nYour opponent was found.");
+                var result = await _gameClient.MakeMove(answer);
+                if (!result) return;
             }
-            else if (_seriesRoute.Contains("Private"))
-            {
-                Console.WriteLine("\rTrying to find your opponent. Press E to exit.");
-                Console.Write("\rKey: ");
-                while (seriesTask.Status != TaskStatus.RanToCompletion)
-                {
-                    if (Console.KeyAvailable)
-                    {
-                        Console.Write("\rKey: ");
-                        var key = Console.ReadKey().Key;
-                        if (key == ConsoleKey.E)
-                        {
-                            Console.WriteLine("\nYou exit from public session.");
-                            await Task.Delay(1000);
-                            return true;
-                        }
-
-                        Console.Write("\b");
-                    }
-                }
-                Console.WriteLine("\nYour opponent was found.");
-                await Task.Delay(1000);
-            }
-
-            var responce = await seriesTask;
-            if ((int) responce.StatusCode == 404)
-            {
-                Console.WriteLine("\nRoom is full or not found");
-                await Task.Delay(2000);
-                return true;
-            }
-            var seriesJson = await (responce).Content.ReadAsStringAsync();
-            var seriesId = JsonSerializer.Deserialize<Series>(seriesJson, new JsonSerializerOptions()
-            {
-                PropertyNameCaseInsensitive = true
-            })?.Id;
-
-            _httpClient.DefaultRequestHeaders.Remove("x-series");
-            _httpClient.DefaultRequestHeaders.Add("x-series", seriesId);
-            return false;
         }
 
         private async Task<bool> PrivateMenuAsync()
         {
-            PrintMenu("|       Private Room Menu       |",
-                new[]
-                {
-
-                    "|     Create Room  - press 1    |",
-                    "|     Enter Room   - press 2    |",
-                    "|     Exit         - press E    |"
-                });
-            do
+            PrintMenu(MenuConst.PrivateRoom, MenuConst.PrivateRoomArgs);
+            while (true)
             {
                 Console.Write("\rKey: ");
                 var key = Console.ReadKey().Key;
@@ -159,22 +54,12 @@ namespace Client.Menu
                 switch (key)
                 {
                     case ConsoleKey.D1:
-                        Log.Information($"Get request {_httpClient.BaseAddress.AbsoluteUri + "/series/NewPrivateSeries"}");
-                        var response = await _httpClient.GetAsync(_httpClient.BaseAddress.AbsoluteUri
-                                                                  + "/series/NewPrivateSeries");
-                        Log.Information($"Status code: {response.StatusCode}");
-                        var privateJson = await response.Content.ReadAsStringAsync();
-                        var code = JsonSerializer.Deserialize<PrivateSeries>(privateJson, new JsonSerializerOptions()
-                        {
-                            PropertyNameCaseInsensitive = true
-                        })?.Code;
-                        Console.WriteLine($"\nCode: {code}. Now you and your friend can login this room.");
+                        await _seriesClient.HandlePrivateSeries();
                         break;
                     case ConsoleKey.D2:
                         Console.Write("\nEnter room's code: ");
                         var entranceCode = Console.ReadLine();
-                        _httpClient.DefaultRequestHeaders.Remove("x-code");
-                        _httpClient.DefaultRequestHeaders.Add("x-code", entranceCode);
+                        _seriesClient.SetRoomCode(entranceCode);
                         enter = true;
                         break;
                     case ConsoleKey.E:
@@ -182,13 +67,13 @@ namespace Client.Menu
                 }
 
                 if (enter) return true;
-            } while (true);
+            } 
         }
 
         public void SetRoutes(string seriesRoute, string gameRoute)
         {
             _seriesRoute = seriesRoute;
-            _gameRoute = gameRoute;
+            _gameClient.SetRoute(gameRoute);
         }
     }
 }

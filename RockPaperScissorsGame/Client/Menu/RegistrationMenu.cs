@@ -1,78 +1,47 @@
 ﻿using System;
 using System.Net.Http;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
-using Serilog;
-using Server.Models;
+using Client.Clients;
+using Client.Domain.Common;
+using Client.Handlers;
 
 namespace Client.Menu
 {
     public class RegistrationMenu : Menu
     {
         private readonly HttpClient _httpClient;
+        private readonly AuthClient _authClient;
+        private bool _changed = true;
         public RegistrationMenu(HttpClient httpClient)
         {
+
             _httpClient = httpClient;
+            _authClient = new AuthClient(httpClient);
         }
 
         public override async Task Start()
         {
-            PrintMenu("| Menu Rock Paper Scissors Game |", 
-                new []
-                {
-                    "|       Register - press R      |",
-                    "|       Login    - press L      |",
-                    "|       Exit     - press E      |"
-                });
             do
             {
+                if (_changed)
+                {
+                    PrintMenu(MenuConst.Main, MenuConst.AuthArgs);
+                    _changed = false;
+                }
                 Console.Write("\rKey: ");
                 var key = Console.ReadKey().Key;
                 switch (key)
                 {
                     case ConsoleKey.R:
-                        var regContent = GetContent();
-                        var regUri = new Uri(_httpClient.BaseAddress.AbsoluteUri + "/account/register");
-                        Log.Information($"Post request: {regUri}");
-                        var regResponse = await _httpClient.PostAsync(regUri, regContent);
-                        Log.Information($"Status code: {regResponse.StatusCode}");
-                        if ((int) regResponse.StatusCode == 200)
-                        {
-                            
-                            Console.WriteLine("Now you can login");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Login exists already");
-                        }
+                        await _authClient.HandleRegister();
                         break;
                     case ConsoleKey.L:
-                        var loginContent = GetContent();
-                        var loginUri = new Uri(_httpClient.BaseAddress.AbsoluteUri + "/account/login");
-                        Log.Information($"Post request: {loginUri}");
-                        var loginResponse = await _httpClient.PostAsync(loginUri, loginContent);
-                        Log.Information($"Status code: {loginResponse.StatusCode}");
-                        if (loginResponse.IsSuccessStatusCode)
-                        {
-                            loginResponse.EnsureSuccessStatusCode();
-                            Console.WriteLine("Your LogIn was successful.");
-                            await Task.Delay(1000);
-                            var token = await loginResponse.Content.ReadAsStringAsync();
-                            token = token.Substring(1, token.Length - 2);
-                            var menu = new GameMenu(_httpClient, token);
-                            await menu.Start();
-                            return;
-                        }
-                        else if ((int)loginResponse.StatusCode == 400)
-                        {
-                            Console.WriteLine("You cannot login in several devices at the same time.");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Such user doesn't exist");
-                        }
-
+                        var token = await _authClient.HandleLogin();
+                        if (token == null) break;
+                        var gameMenu = new GameMenu(_httpClient, token);
+                        await gameMenu.Start();
+                        await _authClient.LogOut(token);
+                        _changed = true;
                         break;
                     case ConsoleKey.E:
                         return;
@@ -81,21 +50,6 @@ namespace Client.Menu
                 Console.Write('\b');
             } while (true);
         }
-        protected static StringContent GetContent()
-        {
-            Console.WriteLine();
-            var login = GetField("login", 3, 20);
-            var password = GetField("password", 6, 64);
-
-            var account = new Account()
-            {
-                Login = login,
-                Password = password
-            };
-            var json = JsonSerializer.Serialize(account);
-
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            return content;
-        }
+        
     }
 }
