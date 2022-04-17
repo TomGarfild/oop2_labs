@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Client.Clients.AuthClient" Collapsed="true">
+    <Position X="9" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAhAAAAAAAAABAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Clients\AuthClient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.Clients.GameClient" Collapsed="true">
+    <Position X="9" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAABFAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Clients\GameClient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.Clients.SeriesClient" Collapsed="true">
+    <Position X="9" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAEAAAAEAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Clients\SeriesClient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.Handlers.AuthHandler" Collapsed="true">
+    <Position X="10.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAggAAAAAACAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Handlers\AuthHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.Handlers.GameHandler" Collapsed="true">
+    <Position X="10.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\GameHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.Handlers.SeriesHandler" Collapsed="true">
+    <Position X="10.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Handlers\SeriesHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.Menu.GameMenu" Collapsed="true">
+    <Position X="6" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAACAAAABAAAIAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Menu\GameMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.Menu.Menu" Collapsed="true">
+    <Position X="3.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Menu\Menu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.Menu.RegistrationMenu" Collapsed="true">
+    <Position X="1.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAABAAAAIAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Menu\RegistrationMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.Menu.RoomMenu" Collapsed="true">
+    <Position X="3.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIACAAAAAABAIAAAAAAAAAAAAAAAAAAAAAICA=</HashCode>
+      <FileName>Menu\RoomMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

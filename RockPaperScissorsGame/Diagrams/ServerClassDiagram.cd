@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Server.Controllers.AccountController" Collapsed="true">
+    <Position X="11.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIgAAABAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Controllers\AccountController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Server.Controllers.RoundController" Collapsed="true">
+    <Position X="11.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAIAgAAAAgAAAAAAAAAQAAAQAAAAA=</HashCode>
+      <FileName>Controllers\RoundController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Server.Controllers.SeriesController" Collapsed="true">
+    <Position X="11.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEABAAAAAAIAAAAAAgAAAAAQAAAAAAAgAAAAQ=</HashCode>
+      <FileName>Controllers\SeriesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Server.Models.Account" Collapsed="true">
+    <Position X="13.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAQAAAAAAA=</HashCode>
+      <FileName>Models\Account.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Server.Models.PrivateSeries" Collapsed="true">
+    <Position X="3.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Models\PrivateSeries.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Server.Models.Round" Collapsed="true">
+    <Position X="13.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAQhAAAAAAMAAAAAAAAAAAAABAAEAAAAgAAAA=</HashCode>
+      <FileName>Models\Round.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Server.Models.Series" Collapsed="true">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACACAAAAAAAAAAMAAAAAAAAAAAABAoAEAMAQBYAAA=</HashCode>
+      <FileName>Models\Series.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Server.Models.TrainingSeries" Collapsed="true">
+    <Position X="5.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAgAAAA=</HashCode>
+      <FileName>Models\TrainingSeries.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Server.Services.AccountStorage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAEACAARAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Services\AccountStorage.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Server.Services.AuthService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AFAAAAAAAAAAQAAAAAAAAAIAAAQBCAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Services\AuthService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Server.Services.RoundService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAIAQAAAIAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Services\RoundService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Server.Services.SeriesService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AUEAAAgEyBAQQAAAACAAAABAAAEAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Services\SeriesService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="Server.Services.IAccountStorage" Collapsed="true">
+    <Position X="8" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEACAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\IAccountStorage.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Server.Services.IAuthService" Collapsed="true">
+    <Position X="8" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAIAAAABCAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Services\IAuthService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Server.Services.IRoundService" Collapsed="true">
+    <Position X="8" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAIAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Services\IRoundService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Server.Services.ISeriesService" Collapsed="true">
+    <Position X="8" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQEAAAgAQBAQAAAAAAAAAABAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\ISeriesService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
