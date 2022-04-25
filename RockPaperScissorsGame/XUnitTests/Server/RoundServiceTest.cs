@@ -6,7 +6,7 @@ using Server.Models;
 using Server.Services;
 using Xunit;
 
-namespace XUnitTests
+namespace XUnitTests.Server
 {
     public class RoundServiceTest
     {

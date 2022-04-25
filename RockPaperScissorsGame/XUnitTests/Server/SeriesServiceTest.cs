@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Xunit;
 using Moq;
 using Server.Options;
 using Server.Services;
+using Xunit;
 
-namespace XUnitTests
+namespace XUnitTests.Server
 {
     public class SeriesServiceTest
     {
