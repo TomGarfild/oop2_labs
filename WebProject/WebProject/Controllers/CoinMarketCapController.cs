@@ -19,6 +19,4 @@ public class CoinMarketCapController : Controller
         dynamic parsedJson = JsonConvert.DeserializeObject(result);
         return Ok(JsonConvert.SerializeObject(parsedJson, Formatting.Indented));
     }
-
-
 }

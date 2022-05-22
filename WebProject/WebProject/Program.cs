@@ -1,6 +1,9 @@
 using Kernel;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((_, lc) => lc.WriteTo.Console());
 
 builder.Services.Configure<ApiOptions>(builder.Configuration.GetSection("ApiSettings"));
 
