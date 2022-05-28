@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Kernel;
+using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Extensions.Polling;
@@ -12,13 +13,22 @@ public class TelegramBotHandler : IDisposable
 {
     private readonly ITelegramBotClient _client;
     private readonly ILogger _logger;
+    private readonly TimerHandler _timerHandler;
     private readonly CancellationTokenSource _cancellationTokenSource;
+    private long _chatId;
 
-    public TelegramBotHandler(CancellationTokenSource cancellationTokenSource)
+    public TelegramBotHandler(TimerHandler timerHandler)
     {
-        _client = new TelegramBotClient("{BotKey}");
-        _cancellationTokenSource = cancellationTokenSource;
+        _timerHandler = timerHandler;
+        _timerHandler.reachedPrice += OnPriceReached;
+        _client = new TelegramBotClient("{BotToken}");
+        _cancellationTokenSource = new CancellationTokenSource();
         // _logger = factory.CreateLogger<TelegramBotHandler>();
+    }
+
+    public void OnPriceReached(object? sender, EventArgs e)
+    {
+        _client.SendTextMessageAsync(_chatId, "REACHED STOP PRICE!!", cancellationToken: _cancellationTokenSource.Token).Wait();
     }
 
     public void Start()
@@ -32,7 +42,7 @@ public class TelegramBotHandler : IDisposable
         _cancellationTokenSource.Cancel();
     }
 
-    private static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+    private async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
     {
         switch (update.Type)
         {
@@ -59,22 +69,29 @@ public class TelegramBotHandler : IDisposable
         }
     }
 
-    private static async Task HandleMessage(ITelegramBotClient botClient, Update update,
+    private async Task HandleMessage(ITelegramBotClient botClient, Update update,
         CancellationToken cancellationToken)
     {
         if (update.Message!.Type != MessageType.Text)
             return;
 
-        var chatId = update.Message.Chat.Id;
+        _chatId = update.Message.Chat.Id;
         var messageText = update.Message.Text;
+
+        if (double.TryParse(messageText, out var price))
+        {
+            _timerHandler.Start(price);
+            await botClient.SendTextMessageAsync(_chatId, $"Set stop price {price}", cancellationToken: cancellationToken);
+            return;
+        }
 
         switch (messageText)
         {
             case "/start":
-                await botClient.SendTextMessageAsync(chatId, "Use menu", cancellationToken: cancellationToken);
+                await botClient.SendTextMessageAsync(_chatId, "Use menu", cancellationToken: cancellationToken);
                 return;
             case "/wallet":
-                await botClient.SendTextMessageAsync(chatId, "Wallet", replyMarkup: WalletMenu(), cancellationToken: cancellationToken);
+                await botClient.SendTextMessageAsync(_chatId, "Wallet", replyMarkup: WalletMenu(), cancellationToken: cancellationToken);
                 return;
             case "/":
                 return;

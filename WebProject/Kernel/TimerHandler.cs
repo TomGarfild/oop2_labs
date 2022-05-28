@@ -19,13 +19,14 @@ public class TimerHandler : IDisposable
 
     public void Start(double stopPrice)
     {
+        _timer?.Change(Timeout.Infinite, Timeout.Infinite);
         _timer = new Timer(
             async _ =>
             {
                 var res = await _marketClient.GetSymbolPriceTicker("BTCUSDT");
+                _logger.LogInformation($"{res.Symbol}: {res.Price}");
                 if (res.Price <= stopPrice)
                 {
-                    _logger.LogInformation($"{res.Symbol}: {res.Price}");
                     reachedPrice?.Invoke(this, EventArgs.Empty);
                     _timer.Change(Timeout.Infinite, Timeout.Infinite);
                 }

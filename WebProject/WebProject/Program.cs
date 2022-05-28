@@ -1,5 +1,6 @@
 using Kernel;
 using Serilog;
+using TelegramBot;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddKernel();
+builder.Services.AddHandlers();
 
 var app = builder.Build();
 
@@ -22,6 +24,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseKernel();
+app.UseHandlers();
 app.UseAuthorization();
 
 app.MapControllers();
