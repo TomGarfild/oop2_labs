@@ -1,4 +1,6 @@
-﻿using Binance.Spot;
+﻿using Binance.Common;
+using Binance.Spot;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Net;
 
@@ -10,7 +12,7 @@ public class Client
     private readonly string _apiUrl;
     private readonly Wallet _wallet;
 
-    public Client(IOptions<ApiOptions> options)
+    public Client(IOptions<ApiOptions> options, ILoggerFactory loggerFactory)
     {
         #region
         var apiOptions = options.Value;
@@ -32,8 +34,8 @@ public class Client
         return await result.Content.ReadAsStringAsync();
     }
 
-    public async Task AccountStatus()
+    public async Task<string> AccountStatus()
     {
-
+        return await _wallet.BnbConvertableAssets();
     }
 }
