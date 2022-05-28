@@ -1,4 +1,5 @@
 ﻿using Kernel;
+using Kernel.Clients;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -8,9 +9,11 @@ namespace WebProject.Controllers
     public class BinanceController : Controller
     {
         private readonly Client _client;
-        public BinanceController(Client client)
+        private readonly MarketClient _marketClient;
+        public BinanceController(Client client, MarketClient marketClient)
         {
             _client = client;
+            _marketClient = marketClient;
         }
 
         [HttpGet]
@@ -19,6 +22,13 @@ namespace WebProject.Controllers
             var result = await _client.AccountStatus();
             dynamic parsedJson = JsonConvert.DeserializeObject(result);
             return Ok(JsonConvert.SerializeObject(parsedJson, Formatting.Indented));
+        }
+
+        [HttpGet("ticker/price")]
+        public async Task<IActionResult> GetSymbolPriceTicker(string ticker)
+        {
+            await _marketClient.GetSymbolPriceTicker(ticker);
+            return Ok();
         }
     }
 }
