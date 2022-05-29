@@ -16,8 +16,9 @@ public class MarketClient
     {
         _logger = loggerFactory.CreateLogger(nameof(MarketClient));
         var loggingHandler = new BinanceLoggingHandler(_logger);
+        var httpClient = new HttpClient(loggingHandler);
         var apiOptions = options.Value;
-        _market = new Market(apiOptions.ApiUrl, apiOptions.ApiKey, apiOptions.ApiSecret);
+        _market = new Market(httpClient, apiOptions.ApiUrl, apiOptions.ApiKey, apiOptions.ApiSecret);
     }
 
     public async Task<SymbolPrice> GetSymbolPriceTicker(string symbol)

@@ -17,15 +17,15 @@ public class TimerHandler : IDisposable
 
     public EventHandler reachedPrice;
 
-    public void Start(double stopPrice)
+    public void Start(string symbol, double stopPrice)
     {
-        _timer?.Change(Timeout.Infinite, Timeout.Infinite);
         _timer = new Timer(
             async _ =>
             {
-                var res = await _marketClient.GetSymbolPriceTicker("BTCUSDT");
-                _logger.LogInformation($"{res.Symbol}: {res.Price}");
-                if (res.Price <= stopPrice)
+                var res = await _marketClient.GetSymbolPriceTicker(symbol);
+                var sign = stopPrice < 0 ? "below" : "higher";
+                _logger.LogInformation($"{res.Symbol}: {res.Price} (StopPrice: {sign} {Math.Abs(stopPrice)})");
+                if ((stopPrice < 0 && res.Price <= -stopPrice) || (stopPrice >= 0 && res.Price >= stopPrice))
                 {
                     reachedPrice?.Invoke(this, EventArgs.Empty);
                     _timer.Change(Timeout.Infinite, Timeout.Infinite);

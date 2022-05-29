@@ -1,4 +1,5 @@
 ﻿using Kernel;
+using Kernel.Common;
 using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
@@ -16,14 +17,16 @@ public class TelegramBotHandler : IDisposable
     private readonly TimerHandler _timerHandler;
     private readonly CancellationTokenSource _cancellationTokenSource;
     private long _chatId;
+    private CommandType _commandType;
+    private string _symbol;
 
-    public TelegramBotHandler(TimerHandler timerHandler)
+    public TelegramBotHandler(TimerHandler timerHandler, ILoggerFactory loggerFactory)
     {
         _timerHandler = timerHandler;
         _timerHandler.reachedPrice += OnPriceReached;
-        _client = new TelegramBotClient("{BotToken}");
+        _client = new TelegramBotClient("5139788506:AAHgzrsxIYAsaUmWpnqfmRyXgluolfNwNRA");
         _cancellationTokenSource = new CancellationTokenSource();
-        // _logger = factory.CreateLogger<TelegramBotHandler>();
+        _logger = loggerFactory.CreateLogger<TelegramBotHandler>();
     }
 
     public void OnPriceReached(object? sender, EventArgs e)
@@ -78,11 +81,22 @@ public class TelegramBotHandler : IDisposable
         _chatId = update.Message.Chat.Id;
         var messageText = update.Message.Text;
 
-        if (double.TryParse(messageText, out var price))
+        if (_commandType == CommandType.Alert)
         {
-            _timerHandler.Start(price);
-            await botClient.SendTextMessageAsync(_chatId, $"Set stop price {price}", cancellationToken: cancellationToken);
-            return;
+            if (string.IsNullOrEmpty(_symbol))
+            {
+                _symbol = messageText;
+                await botClient.SendTextMessageAsync(_chatId, "Enter price when notify (with - if below)", replyMarkup: RemoveMenu(), cancellationToken: cancellationToken);
+                return;
+            }
+            if (double.TryParse(messageText, out var price))
+            {
+                _timerHandler.Start(_symbol, price);
+                await botClient.SendTextMessageAsync(_chatId, $"Set stop price {price} for symbol {_symbol}", cancellationToken: cancellationToken);
+                _commandType = CommandType.Undefined;
+                _symbol = string.Empty;
+                return;
+            }
         }
 
         switch (messageText)
@@ -93,9 +107,35 @@ public class TelegramBotHandler : IDisposable
             case "/wallet":
                 await botClient.SendTextMessageAsync(_chatId, "Wallet", replyMarkup: WalletMenu(), cancellationToken: cancellationToken);
                 return;
+            case "/alert":
+                await HandleAlert(cancellationToken);
+                return;
             case "/":
                 return;
         }
+    }
+
+    private async Task HandleAlert(CancellationToken cancellationToken)
+    {
+        await _client.SendTextMessageAsync(_chatId, "Chose crypto pair symbol or type it", replyMarkup: SymbolMenu(), cancellationToken: cancellationToken);
+        _commandType = CommandType.Alert;
+    }
+    private static ReplyKeyboardMarkup SymbolMenu()
+    {
+        return new ReplyKeyboardMarkup
+        (
+            new List<List<KeyboardButton>>
+            {
+                new() { new KeyboardButton("BTCUSDT"), new KeyboardButton("ETHUSDT"), new KeyboardButton("BNBUSDT") },
+                new() { new KeyboardButton("ETHBTC"), new KeyboardButton("BNBBTC"), new KeyboardButton("XRPBTC") },
+                new() { new KeyboardButton("BNBETH"), new KeyboardButton("LTCETH"), new KeyboardButton("SOLETH") }
+            }
+        );
+    }
+
+    private static ReplyKeyboardRemove RemoveMenu()
+    {
+        return new ReplyKeyboardRemove();
     }
 
     private static InlineKeyboardMarkup WalletMenu()
