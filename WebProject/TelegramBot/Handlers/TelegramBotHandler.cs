@@ -103,9 +103,6 @@ public class TelegramBotHandler : IDisposable
             case "/start":
                 await botClient.SendTextMessageAsync(_chatId, "Use menu", cancellationToken: cancellationToken);
                 return;
-            case "/wallet":
-                await botClient.SendTextMessageAsync(_chatId, "Wallet", replyMarkup: WalletMenu(), cancellationToken: cancellationToken);
-                return;
             case "/alert":
                 await HandleAlert(cancellationToken);
                 return;
