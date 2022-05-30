@@ -15,21 +15,18 @@ public class WalletClient
         var logger = loggerFactory.CreateLogger(nameof(WalletClient));
         var loggingHandler = new BinanceLoggingHandler(logger);
         var apiOptions = options.Value;
-        _wallet = new Wallet(new HttpClient(loggingHandler), apiOptions.ApiUrl, apiOptions.ApiKey, apiOptions.ApiSecret);
+        _wallet = new Wallet(new HttpClient(loggingHandler), apiOptions.ApiUrl, apiOptions.ApiKey, apiOptions.SecretKey);
     }
 
     public async Task<string> GetCapitalInfo()
     {
-        return await _wallet.BnbConvertableAssets();
+        var res = await _wallet.AccountStatus();
+        return res;
     }
 
-    public async Task<string> Deposit()
+    public async Task<string> Withdraw(string coin, string address, decimal amount)
     {
-        return await _wallet.BnbConvertableAssets();
-    }
-
-    public async Task<string> Withdraw()
-    {
-        return await _wallet.BnbConvertableAssets();
+        var res = await _wallet.Withdraw(coin, address, amount);
+        return res;
     }
 }

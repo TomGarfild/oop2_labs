@@ -1,9 +1,7 @@
 ﻿using Binance.Common;
 using Binance.Spot;
-using Kernel.Domain;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 
 namespace Kernel.Clients;
 
@@ -18,12 +16,12 @@ public class MarketClient
         var loggingHandler = new BinanceLoggingHandler(_logger);
         var httpClient = new HttpClient(loggingHandler);
         var apiOptions = options.Value;
-        _market = new Market(httpClient, apiOptions.ApiUrl, apiOptions.ApiKey, apiOptions.ApiSecret);
+        _market = new Market(httpClient, apiOptions.ApiUrl, apiOptions.ApiKey, apiOptions.SecretKey);
     }
 
-    public async Task<SymbolPrice> GetSymbolPriceTicker(string symbol)
+    public async Task<string> GetSymbolPriceTicker(string symbol)
     {
         var res = await _market.SymbolPriceTicker(symbol);
-        return JsonConvert.DeserializeObject<SymbolPrice>(res);
+        return res;
     }
 }

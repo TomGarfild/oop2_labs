@@ -1,18 +1,18 @@
 ﻿using Kernel.Clients;
 using Microsoft.Extensions.Logging;
 
-namespace Kernel;
+namespace Kernel.Builders;
 
-public class TimerHandler : IDisposable
+public class TimerBuilder
 {
     private Timer _timer;
     private readonly MarketClient _marketClient;
     private readonly ILogger _logger;
 
-    public TimerHandler(MarketClient client, ILoggerFactory loggerFactory)
+    public TimerBuilder(MarketClient client, ILoggerFactory loggerFactory)
     {
         _marketClient = client;
-        _logger = loggerFactory.CreateLogger<TimerHandler>();
+        _logger = loggerFactory.CreateLogger<TimerBuilder>();
     }
 
     public EventHandler reachedPrice;
@@ -22,22 +22,22 @@ public class TimerHandler : IDisposable
         _timer = new Timer(
             async _ =>
             {
-                var res = await _marketClient.GetSymbolPriceTicker(symbol);
+                /*var res = await _marketClient.GetSymbolPriceTicker(symbol);
                 var sign = stopPrice < 0 ? "below" : "higher";
                 _logger.LogInformation($"{res.Symbol}: {res.Price} (StopPrice: {sign} {Math.Abs(stopPrice)})");
-                if ((stopPrice < 0 && res.Price <= -stopPrice) || (stopPrice >= 0 && res.Price >= stopPrice))
+                if (stopPrice < 0 && res.Price <= -stopPrice || stopPrice >= 0 && res.Price >= stopPrice)
                 {
                     reachedPrice?.Invoke(this, EventArgs.Empty);
                     _timer.Change(Timeout.Infinite, Timeout.Infinite);
-                }
+                }*/
             },
             null,
             0,
             1000);
     }
 
-    public void Dispose()
+    public Timer Create(Func<object, Task> action, int delay, int period, params object[] args)
     {
-        _timer.Dispose();
+        return new Timer(async v => await action(v), args, delay, period);
     }
 }

@@ -1,4 +1,4 @@
-﻿using Kernel;
+﻿using Kernel.Builders;
 using Kernel.Common;
 using Microsoft.Extensions.Logging;
 using Telegram.Bot;
@@ -14,13 +14,13 @@ public class TelegramBotHandler : IDisposable
 {
     private readonly ITelegramBotClient _client;
     private readonly ILogger _logger;
-    private readonly TimerHandler _timerHandler;
+    private readonly TimerBuilder _timerHandler;
     private readonly CancellationTokenSource _cancellationTokenSource;
     private long _chatId;
     private CommandType _commandType;
     private string _symbol;
 
-    public TelegramBotHandler(TimerHandler timerHandler, ILoggerFactory loggerFactory)
+    public TelegramBotHandler(TimerBuilder timerHandler, ILoggerFactory loggerFactory)
     {
         _timerHandler = timerHandler;
         _timerHandler.reachedPrice += OnPriceReached;
@@ -72,8 +72,7 @@ public class TelegramBotHandler : IDisposable
         }
     }
 
-    private async Task HandleMessage(ITelegramBotClient botClient, Update update,
-        CancellationToken cancellationToken)
+    private async Task HandleMessage(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
     {
         if (update.Message!.Type != MessageType.Text)
             return;

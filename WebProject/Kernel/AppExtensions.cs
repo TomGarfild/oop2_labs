@@ -1,4 +1,5 @@
-﻿using Kernel.Clients;
+﻿using Kernel.Builders;
+using Kernel.Clients;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,8 +10,10 @@ public static class AppExtensions
     public static void AddKernel(this IServiceCollection services)
     {
         services.AddSingleton<Client>();
+        services.AddSingleton<WalletClient>();
         services.AddSingleton<MarketClient>();
-        services.AddTransient<TimerHandler>();
+        services.AddSingleton<SpotAccountTradeClient>();
+        services.AddTransient<TimerBuilder>();
     }
 
     public static void UseKernel(this IApplicationBuilder app)
