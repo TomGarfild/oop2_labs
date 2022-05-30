@@ -1,6 +1,7 @@
 ﻿using Binance.Common;
 using Binance.Spot;
 using Binance.Spot.Models;
+using Kernel.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 

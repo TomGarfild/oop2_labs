@@ -1,4 +1,4 @@
-﻿namespace Kernel;
+﻿namespace Kernel.Options;
 
 public class ApiOptions
 {

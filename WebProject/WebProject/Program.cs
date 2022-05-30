@@ -1,19 +1,20 @@
 using Kernel;
+using Kernel.Options;
 using Serilog;
-using TelegramBot;
 
 var builder = WebApplication.CreateBuilder(args);
+IConfiguration configuration = builder.Configuration;
 
 builder.Host.UseSerilog((_, lc) => lc.WriteTo.Console());
 
-builder.Services.Configure<ApiOptions>(builder.Configuration.GetSection("ApiSettings"));
-builder.Services.Configure<BinanceApiOptions>(builder.Configuration.GetSection("BinanceApiSettings"));
+builder.Services.Configure<TelegramOptions>(configuration.GetSection("TelegramSettings"));
+builder.Services.Configure<ApiOptions>(configuration.GetSection("ApiSettings"));
+builder.Services.Configure<BinanceApiOptions>(configuration.GetSection("BinanceApiSettings"));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddKernel();
-builder.Services.AddHandlers();
+builder.Services.AddKernel(configuration);
 
 var app = builder.Build();
 
@@ -24,7 +25,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseKernel();
-app.UseHandlers();
 app.UseAuthorization();
 
 app.MapControllers();

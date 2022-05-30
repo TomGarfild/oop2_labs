@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Binance.Common;
 using Binance.Spot;
+using Kernel.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
