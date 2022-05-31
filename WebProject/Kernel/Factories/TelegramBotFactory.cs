@@ -15,13 +15,13 @@ public class TelegramBotFactory : IFactory<TelegramBotClient>
         _logger = loggerFactory.CreateLogger(nameof(TelegramBotFactory));
     }
 
-    public async Task<TelegramBotClient> CreateAsync()
+    public async Task<TelegramBotClient> CreateAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Start creating telegram bot");
         var botClient = new TelegramBotClient(_options.ApiToken);
-
+        
         _logger.LogInformation("Setting up webhook for telegram bot");
-        await botClient.SetWebhookAsync($"{_options.Url}/api/{_options.ApiToken}");
+        await botClient.SetWebhookAsync($"{_options.Url}/api/{_options.ApiToken}", cancellationToken: cancellationToken);
 
         return botClient;
     }

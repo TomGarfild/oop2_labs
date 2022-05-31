@@ -8,6 +8,7 @@ namespace Kernel.Services;
 public class ConfigureWebhookService : IHostedService
 {
     private readonly IFactory<TelegramBotClient> _botClientFactory;
+    private TelegramBotClient _botClient;
     private readonly ILogger _logger;
 
     public ConfigureWebhookService(IFactory<TelegramBotClient> factory, ILoggerFactory loggerFactory)
@@ -18,12 +19,13 @@ public class ConfigureWebhookService : IHostedService
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Start con");
-        await _botClientFactory.CreateAsync();
+        _logger.LogInformation("Start configuring telegram bot client");
+        _botClient = await _botClientFactory.CreateAsync(cancellationToken);
     }
 
     public async Task StopAsync(CancellationToken cancellationToken)
     {
-
+        _logger.LogInformation("Remove webhook");
+        await _botClient.DeleteWebhookAsync(cancellationToken: cancellationToken);
     }
 }

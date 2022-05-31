@@ -2,5 +2,5 @@
 
 public interface IFactory<TProduct>
 {
-    public Task<TProduct> CreateAsync();
+    public Task<TProduct> CreateAsync(CancellationToken cancellationToken);
 }

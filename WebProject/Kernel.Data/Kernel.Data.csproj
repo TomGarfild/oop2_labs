@@ -19,6 +19,7 @@
 	
 	<ItemGroup>
 	  <Folder Include="Entities\" />
+	  <Folder Include="Managers\" />
 	</ItemGroup>
 
 </Project>

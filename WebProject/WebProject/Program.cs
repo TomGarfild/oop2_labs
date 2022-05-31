@@ -7,7 +7,8 @@ IConfiguration configuration = builder.Configuration;
 
 builder.Host.UseSerilog((_, lc) => lc.WriteTo.Console());
 
-builder.Services.Configure<TelegramOptions>(configuration.GetSection("TelegramSettings"));
+var telegramSettingsSection = configuration.GetSection("TelegramSettings");
+builder.Services.Configure<TelegramOptions>(telegramSettingsSection);
 builder.Services.Configure<ApiOptions>(configuration.GetSection("ApiSettings"));
 builder.Services.Configure<BinanceApiOptions>(configuration.GetSection("BinanceApiSettings"));
 
@@ -27,6 +28,12 @@ if (app.Environment.IsDevelopment())
 app.UseKernel();
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    var token = telegramSettingsSection.Get<TelegramOptions>().ApiToken;
+    endpoints.MapControllerRoute("TelegramBot",$"bot/{token}",
+        new { controller = "TelegramBot", action = "Update" });
+    endpoints.MapControllers();
+});
 
 app.Run();
