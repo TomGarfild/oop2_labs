@@ -1,9 +1,11 @@
 ﻿using Kernel.Builders;
 using Kernel.Clients;
 using Kernel.Data;
+using Kernel.Factories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Telegram.Bot;
 
 namespace Kernel;
 
@@ -17,7 +19,7 @@ public static class AppExtensions
         services.AddSingleton<MarketClient>();
         services.AddSingleton<SpotAccountTradeClient>();
         services.AddTransient<TimerBuilder>();
-        // services.AddSingleton<TelegramBotHandler>();
+        services.AddSingleton<IFactory<TelegramBotClient>, TelegramBotFactory>();
     }
 
     public static void UseKernel(this IApplicationBuilder app)

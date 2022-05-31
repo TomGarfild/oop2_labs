@@ -1,10 +1,7 @@
 ﻿using Binance.Common;
 using Kernel.Clients;
 using Kernel.Extensions;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.OpenApi.Expressions;
 
 namespace WebProject.Controllers.Binance;
 

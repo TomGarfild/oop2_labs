@@ -11,10 +11,10 @@ builder.Services.Configure<TelegramOptions>(configuration.GetSection("TelegramSe
 builder.Services.Configure<ApiOptions>(configuration.GetSection("ApiSettings"));
 builder.Services.Configure<BinanceApiOptions>(configuration.GetSection("BinanceApiSettings"));
 
-builder.Services.AddControllers();
+builder.Services.AddKernel(configuration);
+builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddKernel(configuration);
 
 var app = builder.Build();
 
