@@ -2,9 +2,9 @@
 
 namespace Kernel.Commands;
 
-internal class ChosenInlineResultUpdateCommand : ICommand<ChosenInlineResult>
+internal class ChosenInlineResultUpdateCommand : ICommand<Update>
 {
-    public async Task ExecuteAsync(ChosenInlineResult chosenInlineResult)
+    public async Task ExecuteAsync(Update chosenInlineResult)
     {
 
     }

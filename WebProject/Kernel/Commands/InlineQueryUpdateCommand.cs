@@ -2,9 +2,9 @@
 
 namespace Kernel.Commands;
 
-internal class InlineQueryUpdateCommand : ICommand<InlineQuery>
+internal class InlineQueryUpdateCommand : ICommand<Update>
 {
-    public async Task ExecuteAsync(InlineQuery inlineQuery)
+    public async Task ExecuteAsync(Update inlineQuery)
     {
 
     }

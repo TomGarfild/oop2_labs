@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
+using Telegram.Bot.Types.Enums;
 
 namespace Kernel.Factories;
 
@@ -21,7 +22,8 @@ public class TelegramBotFactory : IFactory<TelegramBotClient>
         var botClient = new TelegramBotClient(_options.ApiToken);
         
         _logger.LogInformation("Setting up webhook for telegram bot");
-        await botClient.SetWebhookAsync($"{_options.Url}/api/{_options.ApiToken}", cancellationToken: cancellationToken);
+        await botClient.SetWebhookAsync($"{_options.Url}/api/{_options.ApiToken}", 
+            allowedUpdates: Array.Empty<UpdateType>(), cancellationToken: cancellationToken);
 
         return botClient;
     }

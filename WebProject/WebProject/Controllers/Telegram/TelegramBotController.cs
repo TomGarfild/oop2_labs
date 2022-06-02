@@ -1,12 +1,9 @@
-﻿using Kernel;
-using Kernel.Services;
+﻿using Kernel.Services;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Telegram.Bot.Types;
 
 namespace WebProject.Controllers.Telegram
 {
-    [Route("api")]
     public class TelegramBotController : Controller
     {
         [HttpPost]

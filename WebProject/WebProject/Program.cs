@@ -28,10 +28,13 @@ if (app.Environment.IsDevelopment())
 app.UseKernel();
 app.UseAuthorization();
 
+app.UseRouting();
+app.UseCors();
+
 app.UseEndpoints(endpoints =>
 {
     var token = telegramSettingsSection.Get<TelegramOptions>().ApiToken;
-    endpoints.MapControllerRoute("TelegramBot",$"bot/{token}",
+    endpoints.MapControllerRoute("TelegramBot",$"api/{token}",
         new { controller = "TelegramBot", action = "Update" });
     endpoints.MapControllers();
 });

@@ -2,9 +2,9 @@
 
 namespace Kernel.Commands;
 
-internal class MessageUpdateCommand : ICommand<Message>
+internal class MessageUpdateCommand : ICommand<Update>
 {
-    public async Task ExecuteAsync(Message message)
+    public async Task ExecuteAsync(Update message)
     {
 
     }
