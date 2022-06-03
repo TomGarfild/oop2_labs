@@ -1,11 +1,12 @@
-﻿using Telegram.Bot.Types;
+﻿using Kernel.Domain.Commands;
+using Telegram.Bot.Types;
 
 namespace Kernel.Handlers;
 
-internal class ChosenInlineResultUpdateCommandHandler : ICommandHandler
+internal class ChosenInlineResultUpdateCommandHandler : ICommandHandler<ChosenInlineResultUpdateCommand>
 {
-    public async Task ExecuteAsync(Update chosenInlineResult)
+    public Task Handle(ChosenInlineResultUpdateCommand command)
     {
-
+        throw new NotImplementedException();
     }
 }

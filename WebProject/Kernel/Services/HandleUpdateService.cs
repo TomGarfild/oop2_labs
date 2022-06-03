@@ -1,4 +1,4 @@
-﻿using Kernel.Commands;
+﻿using Kernel.Strategies;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -8,13 +8,23 @@ public class HandleUpdateService
 {
     public async Task UpdateAsync(Update update)
     {
-        ICommand<Update> handler = update.Type switch
+        IStrategy<Update> strategy = update.Type switch
         {
-            UpdateType.Message or UpdateType.EditedMessage => new MessageUpdateCommand(),
-            UpdateType.CallbackQuery => new CallbackQueryUpdateCommandHandler(),
-            UpdateType.InlineQuery => new InlineQueryUpdateCommandHandler(),
-            UpdateType.ChosenInlineResult => new ChosenInlineResultUpdateCommandHandler(),
-            _ => new UnknownUpdateCommand()
-        };  
+            UpdateType.Message or UpdateType.EditedMessage => new MessageUpdateStrategy(),
+            UpdateType.CallbackQuery => new CallbackQueryUpdateStrategy(),
+            UpdateType.InlineQuery => new InlineQueryUpdateStrategy(),
+            UpdateType.ChosenInlineResult => new ChosenInlineResultUpdateStrategy(),
+            _ => new UnknownUpdateStrategy()
+        };
+
+        try
+        {
+            await strategy.Execute(update);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }

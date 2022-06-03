@@ -1,11 +1,12 @@
-﻿using Telegram.Bot.Types;
+﻿using Kernel.Domain.Commands;
+using Telegram.Bot.Types;
 
 namespace Kernel.Handlers;
 
-internal class UnknownUpdateCommandHandler : ICommandHandler
+internal class UnknownUpdateCommandHandler : ICommandHandler<UnknownUpdateCommand>
 {
-    public async Task ExecuteAsync(Update update)
+    public Task Handle(UnknownUpdateCommand command)
     {
-
+        throw new NotImplementedException();
     }
 }
