@@ -11,10 +11,10 @@ public class HandleUpdateService
         ICommand<Update> handler = update.Type switch
         {
             UpdateType.Message or UpdateType.EditedMessage => new MessageUpdateCommand(),
-            UpdateType.CallbackQuery => new CallbackQueryUpdateCommand(),
-            UpdateType.InlineQuery => new InlineQueryUpdateCommand(),
-            UpdateType.ChosenInlineResult => new ChosenInlineResultUpdateCommand(),
+            UpdateType.CallbackQuery => new CallbackQueryUpdateCommandHandler(),
+            UpdateType.InlineQuery => new InlineQueryUpdateCommandHandler(),
+            UpdateType.ChosenInlineResult => new ChosenInlineResultUpdateCommandHandler(),
             _ => new UnknownUpdateCommand()
-        };
+        };  
     }
 }

@@ -1,8 +1,8 @@
 ﻿using Telegram.Bot.Types;
 
-namespace Kernel.Commands;
+namespace Kernel.Handlers;
 
-internal class MessageUpdateCommand : ICommand<Update>
+internal class MessageUpdateCommandHandler : ICommandHandler
 {
     public async Task ExecuteAsync(Update message)
     {

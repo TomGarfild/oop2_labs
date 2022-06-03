@@ -1,8 +1,8 @@
 ﻿using Telegram.Bot.Types;
 
-namespace Kernel.Commands;
+namespace Kernel.Handlers;
 
-internal class UnknownUpdateCommand : ICommand<Update>
+internal class UnknownUpdateCommandHandler : ICommandHandler
 {
     public async Task ExecuteAsync(Update update)
     {

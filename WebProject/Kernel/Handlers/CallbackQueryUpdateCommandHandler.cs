@@ -1,8 +1,8 @@
 ﻿using Telegram.Bot.Types;
 
-namespace Kernel.Commands;
+namespace Kernel.Handlers;
 
-internal class CallbackQueryUpdateCommand : ICommand<Update>
+internal class CallbackQueryUpdateCommandHandler : ICommandHandler
 {
     public async Task ExecuteAsync(Update callbackQuery)
     {

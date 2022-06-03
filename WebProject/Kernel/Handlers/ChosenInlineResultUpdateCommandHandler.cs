@@ -1,8 +1,8 @@
 ﻿using Telegram.Bot.Types;
 
-namespace Kernel.Commands;
+namespace Kernel.Handlers;
 
-internal class ChosenInlineResultUpdateCommand : ICommand<Update>
+internal class ChosenInlineResultUpdateCommandHandler : ICommandHandler
 {
     public async Task ExecuteAsync(Update chosenInlineResult)
     {
