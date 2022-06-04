@@ -1,4 +1,4 @@
-﻿namespace Kernel.Options;
+﻿namespace Kernel.Client.Options;
 
 public class BinanceApiOptions
 {

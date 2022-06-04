@@ -1,5 +1,4 @@
 ﻿using Kernel.Builders;
-using Kernel.Clients;
 using Kernel.Data;
 using Kernel.Factories;
 using Kernel.Services;
@@ -15,10 +14,6 @@ public static class AppExtensions
     public static void AddKernel(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddKernelData(configuration);
-        services.AddSingleton<Client>();
-        services.AddSingleton<WalletClient>();
-        services.AddSingleton<MarketClient>();
-        services.AddSingleton<SpotAccountTradeClient>();
         services.AddTransient<TimerBuilder>();
         services.AddSingleton<IFactory<ITelegramBotClient>, TelegramBotFactory>();
         services.AddHostedService<ConfigureWebhookService>();

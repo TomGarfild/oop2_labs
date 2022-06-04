@@ -1,4 +1,4 @@
-﻿using Kernel.Clients;
+﻿using Kernel.Client.Clients;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebProject.Controllers.Binance;

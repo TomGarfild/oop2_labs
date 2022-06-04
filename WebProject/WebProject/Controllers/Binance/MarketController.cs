@@ -1,5 +1,5 @@
 ﻿using Binance.Common;
-using Kernel.Clients;
+using Kernel.Client.Clients;
 using Kernel.Extensions;
 using Microsoft.AspNetCore.Mvc;
 

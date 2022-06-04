@@ -1,5 +1,5 @@
-﻿using Kernel.Factories;
-using Kernel.Options;
+﻿using Kernel.Client.Options;
+using Kernel.Factories;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

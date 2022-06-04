@@ -1,10 +1,10 @@
 ﻿using Binance.Common;
 using Binance.Spot;
-using Kernel.Options;
+using Kernel.Client.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Kernel.Clients;
+namespace Kernel.Client.Clients;
 
 public class WalletClient
 {

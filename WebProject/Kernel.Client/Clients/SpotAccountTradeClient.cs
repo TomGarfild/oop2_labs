@@ -1,11 +1,11 @@
 ﻿using Binance.Common;
 using Binance.Spot;
 using Binance.Spot.Models;
-using Kernel.Options;
+using Kernel.Client.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Kernel.Clients;
+namespace Kernel.Client.Clients;
 
 public class SpotAccountTradeClient
 {

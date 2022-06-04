@@ -1,5 +1,5 @@
 using Kernel;
-using Kernel.Options;
+using Kernel.Client.Options;
 using Serilog;
 using Telegram.Bot;
 

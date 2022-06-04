@@ -1,4 +1,4 @@
-﻿using Kernel.Clients;
+﻿using Kernel.Client.Clients;
 using Microsoft.Extensions.Logging;
 
 namespace Kernel.Builders;

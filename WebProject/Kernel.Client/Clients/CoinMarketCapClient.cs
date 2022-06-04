@@ -1,9 +1,9 @@
-﻿using Kernel.Options;
+﻿using System.Net;
+using Kernel.Client.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Net;
 
-namespace Kernel.Clients;
+namespace Kernel.Client.Clients;
 
 public class CoinMarketCapClient
 {
