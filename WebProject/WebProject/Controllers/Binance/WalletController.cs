@@ -1,8 +1,5 @@
-﻿using Kernel;
-using Kernel.Clients;
-using Kernel.Extensions;
+﻿using Kernel.Clients;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace WebProject.Controllers.Binance;
 

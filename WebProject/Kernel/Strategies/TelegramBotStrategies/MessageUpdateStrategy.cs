@@ -25,7 +25,7 @@ public class MessageUpdateStrategy : TelegramBotStrategy
         };
         var sentMessage = await action;
         return sentMessage;
-        
+
         static async Task<Message> SendTrending(ITelegramBotClient bot, Message message)
         {
             await bot.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);

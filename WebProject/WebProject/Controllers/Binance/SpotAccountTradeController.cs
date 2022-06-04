@@ -16,7 +16,7 @@ public class SpotAccountTradeController : Controller
     }
 
     [HttpGet("orders/{symbol}")]
-    public async Task<ActionResult<string>> GetAllOrders([FromRoute]string symbol)
+    public async Task<ActionResult<string>> GetAllOrders([FromRoute] string symbol)
     {
         var res = await _client.AllOrders(symbol);
         return Ok(res.ToFormattedJson());

@@ -1,6 +1,4 @@
-﻿using Binance.Common;
-using Binance.Spot;
-using Kernel.Options;
+﻿using Kernel.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Net;
@@ -11,7 +9,6 @@ public class Client
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiUrl;
-    private readonly Wallet _wallet;
 
     public Client(IOptions<ApiOptions> options, ILoggerFactory loggerFactory)
     {
@@ -33,10 +30,5 @@ public class Client
     {
         var result = await _httpClient.GetAsync($"{_apiUrl}v1/cryptocurrency/listings/latest");
         return await result.Content.ReadAsStringAsync();
-    }
-
-    public async Task<string> AccountStatus()
-    {
-        return await _wallet.BnbConvertableAssets();
     }
 }

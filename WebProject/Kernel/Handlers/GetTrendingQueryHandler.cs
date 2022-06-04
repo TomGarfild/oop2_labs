@@ -3,8 +3,13 @@ using Kernel.Mediator;
 
 namespace Kernel.Handlers;
 
-internal class GetTrendingQueryHandler : IRequestHandler<GetTrendingQuery, bool>
+public class GetTrendingQueryHandler : IRequestHandler<GetTrendingQuery, bool>
 {
+
+    public GetTrendingQueryHandler()
+    {
+
+    }
 
 
     public Task<bool> Handle(GetTrendingQuery request, CancellationToken cancellationToken)

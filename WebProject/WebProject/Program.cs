@@ -37,7 +37,7 @@ app.UseCors();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllerRoute("TelegramBot",$"api/{token}",
+    endpoints.MapControllerRoute("TelegramBot", $"api/{token}",
         new { controller = "TelegramBot", action = "Update" });
     endpoints.MapControllers();
 });
