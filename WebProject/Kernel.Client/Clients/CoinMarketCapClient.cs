@@ -1,8 +1,12 @@
 ﻿using System.Net;
+using System.Text.Json.Nodes;
+using Kernel.Client.Contracts;
 using Kernel.Client.Options;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Kernel.Client.Clients;
 
@@ -27,7 +31,7 @@ public class CoinMarketCapClient
         _logger = loggerFactory.CreateLogger<CoinMarketCapClient>();
     }
 
-    public async Task<string> GetTrending(CancellationToken cancellationToken)
+    public async Task<IEnumerable<Cryptocurrency>> GetTrending(CancellationToken cancellationToken)
     {
         var uri = QueryHelpers.AddQueryString($"{_apiUrl}v1/cryptocurrency/trending/latest",
             new Dictionary<string, string>
@@ -35,10 +39,12 @@ public class CoinMarketCapClient
                 {"limit", "5"}
             });
         var result = await _httpClient.GetAsync(uri, cancellationToken);
-        return await result.Content.ReadAsStringAsync(cancellationToken);
+        var json = await result.Content.ReadAsStringAsync(cancellationToken);
+        return JObject.Parse(json)["data"]?["data"]?.Children()
+            .Select(c => c.ToObject<Cryptocurrency>()).ToList() ?? new List<Cryptocurrency>();
     }
 
-    public async Task<string> GetGainers(CancellationToken cancellationToken)
+    public async Task<IEnumerable<Cryptocurrency>> GetGainers(CancellationToken cancellationToken)
     {
         var uri = QueryHelpers.AddQueryString($"{_apiUrl}v1/cryptocurrency/trending/gainers-losers",
             new Dictionary<string, string>
@@ -47,10 +53,11 @@ public class CoinMarketCapClient
                 {"sort_dir", "asc"}
             });
         var result = await _httpClient.GetAsync(uri, cancellationToken);
-        return await result.Content.ReadAsStringAsync(cancellationToken);
+        var json = await result.Content.ReadAsStringAsync(cancellationToken);
+        return JsonConvert.DeserializeObject<Cryptocurrency[]>(json);
     }
 
-    public async Task<string> GetLosers(CancellationToken cancellationToken)
+    public async Task<IEnumerable<Cryptocurrency>> GetLosers(CancellationToken cancellationToken)
     {
         var uri = QueryHelpers.AddQueryString($"{_apiUrl}v1/cryptocurrency/trending/gainers-losers",
             new Dictionary<string, string>
@@ -59,6 +66,7 @@ public class CoinMarketCapClient
                 {"sort_dir", "desc"}
             });
         var result = await _httpClient.GetAsync(uri, cancellationToken);
-        return await result.Content.ReadAsStringAsync(cancellationToken);
+        var json = await result.Content.ReadAsStringAsync(cancellationToken);
+        return JsonConvert.DeserializeObject<Cryptocurrency[]>(json);
     }
 }

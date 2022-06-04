@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using Kernel.Requests.Queries;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -26,28 +27,14 @@ public class MessageUpdateStrategy : TelegramBotStrategy
         var sentMessage = await action;
         return sentMessage;
 
-        static async Task<Message> SendTrending(ITelegramBotClient bot, Message message)
+        async Task<Message> SendTrending(ITelegramBotClient bot, Message message)
         {
             await bot.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
 
-
-
-            InlineKeyboardMarkup inlineKeyboard = new(
-                new[]
-                {
-                    new []
-                    {
-                        InlineKeyboardButton.WithUrl("", ""),
-                    },
-                    new []
-                    {
-                        InlineKeyboardButton.WithUrl("", ""),
-                    },
-                });
+            var result = await Mediator.Send(new GetTrendingQuery());
 
             return await bot.SendTextMessageAsync(chatId: message.Chat.Id,
-                                                  text: "Choose",
-                                                  replyMarkup: inlineKeyboard);
+                                                  text: "Choose");
         }
 
         static async Task<Message> SendGainers(ITelegramBotClient bot, Message message)

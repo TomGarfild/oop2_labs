@@ -1,4 +1,5 @@
 ﻿using Kernel.Strategies.TelegramBotStrategies;
+using Mediator.Mediator;
 using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
@@ -10,11 +11,13 @@ namespace Kernel.Services;
 public class HandleUpdateService
 {
     private readonly ITelegramBotClient _botClient;
+    private readonly IMediator _mediator;
     private readonly ILogger _logger;
 
-    public HandleUpdateService(ITelegramBotClient botClient, ILoggerFactory loggerFactory)
+    public HandleUpdateService(ITelegramBotClient botClient, IMediator mediator, ILoggerFactory loggerFactory)
     {
         _botClient = botClient;
+        _mediator = mediator;
         _logger = loggerFactory.CreateLogger<HandleUpdateService>();
     }
 
@@ -27,6 +30,7 @@ public class HandleUpdateService
             _ => new UnknownUpdateStrategy()
         };
         strategy.SetClient(_botClient);
+        strategy.SetMediator(_mediator);
 
         try
         {

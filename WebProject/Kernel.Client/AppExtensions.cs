@@ -10,5 +10,6 @@ public static class AppExtensions
         services.AddSingleton<WalletClient>();
         services.AddSingleton<MarketClient>();
         services.AddSingleton<SpotAccountTradeClient>();
+        services.AddSingleton<CoinMarketCapClient>();
     }
 }

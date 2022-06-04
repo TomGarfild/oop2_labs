@@ -1,4 +1,4 @@
-﻿namespace Kernel.Domain.Requests;
+﻿namespace Mediator;
 
 public interface IRequest<out TResponse>
 {

@@ -1,6 +1,4 @@
-﻿using Kernel.Domain.Requests;
-
-namespace Kernel.Mediator;
+﻿namespace Mediator;
 
 public interface IRequestHandler<in TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
