@@ -1,30 +1,25 @@
-﻿using Kernel.Options;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Telegram.Bot;
-using Telegram.Bot.Types.Enums;
 
 namespace Kernel.Factories;
 
-public class TelegramBotFactory : IFactory<TelegramBotClient>
+public class TelegramBotFactory : IFactory<ITelegramBotClient>
 {
-    private readonly TelegramOptions _options;
+    private readonly IServiceProvider _serviceProvider;
     private readonly ILogger _logger;
-    public TelegramBotFactory(IOptions<TelegramOptions> options, ILoggerFactory loggerFactory)
+    public TelegramBotFactory(IServiceProvider serviceProvider, ILoggerFactory loggerFactory)
     {
-        _options = options.Value;
+        _serviceProvider = serviceProvider;
         _logger = loggerFactory.CreateLogger(nameof(TelegramBotFactory));
     }
 
-    public async Task<TelegramBotClient> CreateAsync(CancellationToken cancellationToken)
+    public ITelegramBotClient GetProduct()
     {
-        _logger.LogInformation("Start creating telegram bot");
-        var botClient = new TelegramBotClient(_options.ApiToken);
-        
-        _logger.LogInformation("Setting up webhook for telegram bot");
-        await botClient.SetWebhookAsync($"{_options.Url}/api/{_options.ApiToken}", 
-            allowedUpdates: Array.Empty<UpdateType>(), cancellationToken: cancellationToken);
-
+        _logger.LogInformation("Create telegram bot");
+        //var scope = _serviceProvider.CreateScope();
+        //var botClient = scope.ServiceProvider.GetRequiredService<ITelegramBotClient>();
+        var botClient = _serviceProvider.GetRequiredService<ITelegramBotClient>();
         return botClient;
     }
 }

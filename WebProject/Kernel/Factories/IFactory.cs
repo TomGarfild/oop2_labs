@@ -1,6 +1,6 @@
 ﻿namespace Kernel.Factories;
 
-public interface IFactory<TProduct>
+public interface IFactory<out TProduct>
 {
-    public Task<TProduct> CreateAsync(CancellationToken cancellationToken);
+    public TProduct GetProduct();
 }

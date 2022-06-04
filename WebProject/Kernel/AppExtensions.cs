@@ -20,7 +20,7 @@ public static class AppExtensions
         services.AddSingleton<MarketClient>();
         services.AddSingleton<SpotAccountTradeClient>();
         services.AddTransient<TimerBuilder>();
-        services.AddSingleton<IFactory<TelegramBotClient>, TelegramBotFactory>();
+        services.AddSingleton<IFactory<ITelegramBotClient>, TelegramBotFactory>();
         services.AddHostedService<ConfigureWebhookService>();
         services.AddSingleton<HandleUpdateService>();
     }
