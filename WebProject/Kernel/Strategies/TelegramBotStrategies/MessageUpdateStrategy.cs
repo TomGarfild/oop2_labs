@@ -1,7 +1,6 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Kernel.Strategies.TelegramBotStrategies;
@@ -31,16 +30,18 @@ public class MessageUpdateStrategy : TelegramBotStrategy
         {
             await bot.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
 
+
+
             InlineKeyboardMarkup inlineKeyboard = new(
                 new[]
                 {
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("1.1", "11"),
+                        InlineKeyboardButton.WithUrl("", ""),
                     },
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("2.1", "21"),
+                        InlineKeyboardButton.WithUrl("", ""),
                     },
                 });
 

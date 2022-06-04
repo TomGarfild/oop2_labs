@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Binance.Spot" Version="1.4.0" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
@@ -20,10 +21,6 @@
     <ProjectReference Include="..\Kernel.Common\Kernel.Common.csproj" />
     <ProjectReference Include="..\Kernel.Data\Kernel.Data.csproj" />
     <ProjectReference Include="..\Kernel.Domain\Kernel.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Queries\" />
   </ItemGroup>
 
 </Project>
