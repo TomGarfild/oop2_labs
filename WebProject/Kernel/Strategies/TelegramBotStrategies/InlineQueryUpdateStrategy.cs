@@ -6,8 +6,8 @@ namespace Kernel.Strategies.TelegramBotStrategies;
 
 public class InlineQueryUpdateStrategy : TelegramBotStrategy
 {
-    public override async Task Execute(Update aggregate)
+    public override Task<Message> Execute(Update aggregate)
     {
-        
+        throw new NotImplementedException();
     }
 }

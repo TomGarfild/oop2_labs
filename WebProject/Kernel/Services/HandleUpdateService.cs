@@ -24,20 +24,27 @@ public class HandleUpdateService
         {
             UpdateType.Message or UpdateType.EditedMessage => new MessageUpdateStrategy(),
             UpdateType.CallbackQuery => new CallbackQueryUpdateStrategy(),
-            UpdateType.InlineQuery => new InlineQueryUpdateStrategy(),
-            UpdateType.ChosenInlineResult => new ChosenInlineResultUpdateStrategy(),
             _ => new UnknownUpdateStrategy()
         };
         strategy.SetClient(_botClient);
 
         try
         {
-            await strategy.Execute(update);
+            var sentMessage = await strategy.Execute(update);
+            _logger.LogInformation($"The message {sentMessage.MessageId} was sent");
         }
         catch (ApiRequestException ex)
         {
             _logger.LogError($"Telegram API Error:\n[{ex.ErrorCode}]\n{ex.Message}", ex);
             throw;
+        }
+        catch (ArgumentException ex)
+        {
+            _logger.LogInformation(ex.Message, ex);
+        }
+        catch (InvalidOperationException ex)
+        {
+            _logger.LogInformation(ex.Message);
         }
     }
 }

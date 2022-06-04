@@ -7,7 +7,8 @@ namespace Kernel.Strategies.TelegramBotStrategies;
 
 public class UnknownUpdateStrategy : TelegramBotStrategy
 {
-    public async override Task Execute(Update aggregate)
+    public override Task<Message> Execute(Update aggregate)
     {
+        throw new InvalidOperationException($"Unknown update type: {aggregate.Type}");
     }
 }

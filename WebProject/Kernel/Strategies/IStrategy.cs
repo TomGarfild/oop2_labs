@@ -1,6 +1,6 @@
 ﻿namespace Kernel.Strategies;
 
-public interface IStrategy<in TAggregate>
+public interface IStrategy<in TAggregate, TResult>
 {
-    Task Execute(TAggregate aggregate);
+    Task<TResult> Execute(TAggregate aggregate);
 }

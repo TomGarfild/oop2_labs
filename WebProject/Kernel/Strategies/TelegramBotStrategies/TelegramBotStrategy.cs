@@ -3,11 +3,11 @@ using Telegram.Bot.Types;
 
 namespace Kernel.Strategies.TelegramBotStrategies;
 
-public abstract class TelegramBotStrategy : IStrategy<Update>
+public abstract class TelegramBotStrategy : IStrategy<Update, Message>
 {
     protected ITelegramBotClient BotClient;
 
-    public abstract Task Execute(Update aggregate);
+    public abstract Task<Message> Execute(Update aggregate);
 
     public void SetClient(ITelegramBotClient botClient)
     {
