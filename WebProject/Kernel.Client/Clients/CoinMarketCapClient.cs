@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Kernel.Client.Options;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -28,19 +29,36 @@ public class CoinMarketCapClient
 
     public async Task<string> GetTrending(CancellationToken cancellationToken)
     {
-        var result = await _httpClient.GetAsync($"{_apiUrl}v1/cryptocurrency/trending/latest", cancellationToken);
+        var uri = QueryHelpers.AddQueryString($"{_apiUrl}v1/cryptocurrency/trending/latest",
+            new Dictionary<string, string>
+            {
+                {"limit", "5"}
+            });
+        var result = await _httpClient.GetAsync(uri, cancellationToken);
         return await result.Content.ReadAsStringAsync(cancellationToken);
     }
 
     public async Task<string> GetGainers(CancellationToken cancellationToken)
     {
-        var result = await _httpClient.GetAsync($"{_apiUrl}v1/cryptocurrency/trending/gainers-losers", cancellationToken);
+        var uri = QueryHelpers.AddQueryString($"{_apiUrl}v1/cryptocurrency/trending/gainers-losers",
+            new Dictionary<string, string>
+            {
+                {"limit", "5"},
+                {"sort_dir", "asc"}
+            });
+        var result = await _httpClient.GetAsync(uri, cancellationToken);
         return await result.Content.ReadAsStringAsync(cancellationToken);
     }
 
     public async Task<string> GetLosers(CancellationToken cancellationToken)
     {
-        var result = await _httpClient.GetAsync($"{_apiUrl}v1/cryptocurrency/trending/gainers-losers", cancellationToken);
+        var uri = QueryHelpers.AddQueryString($"{_apiUrl}v1/cryptocurrency/trending/gainers-losers",
+            new Dictionary<string, string>
+            {
+                {"limit", "5"},
+                {"sort_dir", "desc"}
+            });
+        var result = await _httpClient.GetAsync(uri, cancellationToken);
         return await result.Content.ReadAsStringAsync(cancellationToken);
     }
 }
