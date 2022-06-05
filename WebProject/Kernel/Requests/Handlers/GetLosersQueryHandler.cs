@@ -7,9 +7,9 @@ namespace Kernel.Requests.Handlers;
 
 public class GetLosersQueryHandler : IRequestHandler<GetLosersQuery, IEnumerable<InternalCryptocurrency>>
 {
-    private readonly CoinMarketCapClient _client;
+    private readonly BaseClient _client;
 
-    public GetLosersQueryHandler(CoinMarketCapClient client)
+    public GetLosersQueryHandler(BaseClient client)
     {
         _client = client;
     }

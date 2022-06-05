@@ -7,9 +7,9 @@ namespace Kernel.Requests.Handlers;
 
 public class GetTrendingQueryHandler : IRequestHandler<GetTrendingQuery, IEnumerable<InternalCryptocurrency>>
 {
-    private readonly CoinMarketCapClient _client;
+    private readonly BaseClient _client;
 
-    public GetTrendingQueryHandler(CoinMarketCapClient client)
+    public GetTrendingQueryHandler(BaseClient client)
     {
         _client = client;
     }

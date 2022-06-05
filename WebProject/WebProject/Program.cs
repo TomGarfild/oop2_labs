@@ -11,7 +11,7 @@ builder.Host.UseSerilog((_, lc) => lc.WriteTo.Console());
 var telegramSettingsSection = configuration.GetSection("TelegramSettings");
 var token = telegramSettingsSection.Get<TelegramOptions>().ApiToken;
 builder.Services.Configure<TelegramOptions>(telegramSettingsSection);
-builder.Services.Configure<ApiOptions>(configuration.GetSection("ApiSettings"));
+builder.Services.Configure<Dictionary<string, ApiOptions>>(configuration.GetSection("ApiSettings"));
 builder.Services.Configure<BinanceApiOptions>(configuration.GetSection("BinanceApiSettings"));
 
 builder.Services.AddHttpClient("TelegramBot")
