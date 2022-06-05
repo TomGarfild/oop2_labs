@@ -1,4 +1,6 @@
-﻿using Kernel.Requests.Queries;
+﻿using Kernel.Domain.Entities;
+using Kernel.Requests.Queries;
+using Mediator;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -19,46 +21,28 @@ public class MessageUpdateStrategy : TelegramBotStrategy
 
         var action = message.Text!.Split(' ')[0] switch
         {
-            "/trending" => SendTrending(BotClient, message),
-            "/gainers" => SendGainers(BotClient, message),
-            "/losers" => SendLosers(BotClient, message),
+            "/trending" => Send("🔥 Trending", new GetTrendingQuery()),
+            "/gainers" => Send("📈 Gainers", new GetGainersQuery()),
+            "/losers" => Send("📉 Losers", new GetLosersQuery()),
             _ => Usage(BotClient, message)
         };
         var sentMessage = await action;
         return sentMessage;
 
-        async Task<Message> SendTrending(ITelegramBotClient bot, Message message)
+        async Task<Message> Send(string title, IRequest<IEnumerable<InternalCryptocurrency>> query)
         {
-            await bot.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
+            await BotClient.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
 
-            var result = await Mediator.Send(new GetTrendingQuery());
+            var result = (await Mediator.Send(query)).ToList();
 
-            return await bot.SendTextMessageAsync(chatId: message.Chat.Id,
-                                                  text: "Choose");
-        }
-
-        static async Task<Message> SendGainers(ITelegramBotClient bot, Message message)
-        {
-            ReplyKeyboardMarkup replyKeyboardMarkup = new(
-                new[]
-                {
-                        new KeyboardButton[] { "1.1", "1.2" },
-                        new KeyboardButton[] { "2.1", "2.2" },
-                })
+            var keyboard = new List<List<InlineKeyboardButton>>();
+            for (var i = 0; i < result.Count(); i++)
             {
-                ResizeKeyboard = true
-            };
+                keyboard.Add(new List<InlineKeyboardButton> { InlineKeyboardButton.WithUrl($"{result[i].Name}({result[i].Symbol})", "https://coinmarketcap.com/") });
+            }
 
-            return await bot.SendTextMessageAsync(chatId: message.Chat.Id,
-                                                  text: "Choose",
-                                                  replyMarkup: replyKeyboardMarkup);
-        }
-
-        static async Task<Message> SendLosers(ITelegramBotClient bot, Message message)
-        {
-            return await bot.SendTextMessageAsync(chatId: message.Chat.Id,
-                                                  text: "Removing keyboard",
-                                                  replyMarkup: new ReplyKeyboardRemove());
+            return await BotClient.SendTextMessageAsync(message.Chat.Id, title,
+                                                  replyMarkup: new InlineKeyboardMarkup(keyboard));
         }
 
         static async Task<Message> Usage(ITelegramBotClient bot, Message message)

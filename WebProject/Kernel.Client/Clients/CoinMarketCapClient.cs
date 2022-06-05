@@ -40,8 +40,7 @@ public class CoinMarketCapClient
             });
         var result = await _httpClient.GetAsync(uri, cancellationToken);
         var json = await result.Content.ReadAsStringAsync(cancellationToken);
-        return JObject.Parse(json)["data"]?["data"]?.Children()
-            .Select(c => c.ToObject<Cryptocurrency>()).ToList() ?? new List<Cryptocurrency>();
+        return ParseJson(json);
     }
 
     public async Task<IEnumerable<Cryptocurrency>> GetGainers(CancellationToken cancellationToken)
@@ -54,7 +53,7 @@ public class CoinMarketCapClient
             });
         var result = await _httpClient.GetAsync(uri, cancellationToken);
         var json = await result.Content.ReadAsStringAsync(cancellationToken);
-        return JsonConvert.DeserializeObject<Cryptocurrency[]>(json);
+        return ParseJson(json);
     }
 
     public async Task<IEnumerable<Cryptocurrency>> GetLosers(CancellationToken cancellationToken)
@@ -67,6 +66,12 @@ public class CoinMarketCapClient
             });
         var result = await _httpClient.GetAsync(uri, cancellationToken);
         var json = await result.Content.ReadAsStringAsync(cancellationToken);
-        return JsonConvert.DeserializeObject<Cryptocurrency[]>(json);
+        return ParseJson(json);
+    }
+
+    public List<Cryptocurrency> ParseJson(string json)
+    {
+        return JObject.Parse(json)["data"]?["data"]?.Children()
+            .Select(c => c.ToObject<Cryptocurrency>()).ToList() ?? new List<Cryptocurrency>();
     }
 }
