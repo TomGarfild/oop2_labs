@@ -8,7 +8,7 @@ namespace Kernel.Client.Clients;
 
 public class CoinGeckoClient : BaseClient
 {
-    private readonly ILogger _logger;
+    private readonly ILogger _logger;   
 
     public CoinGeckoClient(IOptions<Dictionary<string, ApiOptions>> options, ILoggerFactory loggerFactory) : base(options.Value["CoinGecko"])
     {

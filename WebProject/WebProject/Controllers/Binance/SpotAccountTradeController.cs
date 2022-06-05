@@ -1,6 +1,6 @@
 ﻿using Binance.Spot.Models;
 using Kernel.Client.Clients;
-using Kernel.Extensions;
+using Kernel.Common.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebProject.Controllers.Binance;

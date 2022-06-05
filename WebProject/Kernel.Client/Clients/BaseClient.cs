@@ -12,6 +12,11 @@ public abstract class BaseClient
     protected readonly HttpClient HttpClient;
     protected readonly string ApiUrl;
 
+    protected BaseClient()
+    {
+        HttpClient = new HttpClient();
+    }
+
     protected BaseClient(ApiOptions options)
     {
         HttpClient = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate })
