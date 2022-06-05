@@ -1,8 +1,6 @@
 ﻿using System.Net;
 using Kernel.Client.Contracts;
 using Kernel.Client.Options;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 
 namespace Kernel.Client.Clients;
@@ -11,10 +9,12 @@ public abstract class BaseClient
 {
     protected readonly HttpClient HttpClient;
     protected readonly string ApiUrl;
+    public readonly string Url;
 
-    protected BaseClient()
+    protected BaseClient(string url)
     {
         HttpClient = new HttpClient();
+        Url = url;
     }
 
     protected BaseClient(ApiOptions options)
@@ -29,6 +29,7 @@ public abstract class BaseClient
             HttpClient.DefaultRequestHeaders.Add(key, value);
         }
         ApiUrl = options.ApiUrl;
+        Url = options.Url;
     }
 
     public virtual Task<IEnumerable<Cryptocurrency>> GetTrending(CancellationToken cancellationToken)

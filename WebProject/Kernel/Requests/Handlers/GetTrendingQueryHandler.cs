@@ -18,6 +18,6 @@ public class GetTrendingQueryHandler : IRequestHandler<GetTrendingQuery, IEnumer
     public async Task<IEnumerable<InternalCryptocurrency>> Handle(GetTrendingQuery request, CancellationToken cancellationToken)
     {
         var res = await _client.GetTrending(cancellationToken);
-        return res.Select(r => new InternalCryptocurrency(r.Id, r.Name, r.Symbol, r.LastUpdated));
+        return res.Select(r => new InternalCryptocurrency(r.Id, r.Name, r.Symbol, r.LastUpdated, $"{_client.Url}{r.Slug}"));
     }
 }

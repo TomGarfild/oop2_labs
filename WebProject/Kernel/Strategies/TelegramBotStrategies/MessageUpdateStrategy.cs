@@ -21,9 +21,9 @@ public class MessageUpdateStrategy : TelegramBotStrategy
 
         var action = message.Text!.Split(' ')[0] switch
         {
-            "/trending" => Send("🔥 Trending", new GetTrendingQuery()),
-            "/gainers" => Send("📈 Gainers", new GetGainersQuery()),
-            "/losers" => Send("📉 Losers", new GetLosersQuery()),
+            "/trending" => Send("🔥 *Trending*", new GetTrendingQuery()),
+            "/gainers" => Send("📈 *Gainers*", new GetGainersQuery()),
+            "/losers" => Send("📉 *Losers*", new GetLosersQuery()),
             _ => Usage(BotClient, message)
         };
         var sentMessage = await action;
@@ -36,12 +36,12 @@ public class MessageUpdateStrategy : TelegramBotStrategy
             var result = (await Mediator.Send(query)).ToList();
 
             var keyboard = new List<List<InlineKeyboardButton>>();
-            for (var i = 0; i < result.Count(); i++)
+            for (var i = 0; i < result.Count; i++)
             {
-                keyboard.Add(new List<InlineKeyboardButton> { InlineKeyboardButton.WithUrl($"{result[i].Name}({result[i].Symbol})", "https://coinmarketcap.com/") });
+                keyboard.Add(new List<InlineKeyboardButton> { InlineKeyboardButton.WithUrl($"{result[i].Name}({result[i].Symbol})", result[i].Url) });
             }
 
-            return await BotClient.SendTextMessageAsync(message.Chat.Id, title,
+            return await BotClient.SendTextMessageAsync(message.Chat.Id, title, ParseMode.MarkdownV2,
                                                   replyMarkup: new InlineKeyboardMarkup(keyboard));
         }
 

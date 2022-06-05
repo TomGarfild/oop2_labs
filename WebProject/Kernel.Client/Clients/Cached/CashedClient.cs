@@ -9,7 +9,7 @@ public class CashedClient : BaseClient
     private readonly IMemoryCache _memoryCache;
     private readonly BaseClient _client;
 
-    public CashedClient(IMemoryCache memoryCache, BaseClient baseClient)
+    public CashedClient(IMemoryCache memoryCache, BaseClient baseClient) : base(baseClient.Url)
     {
         _memoryCache = memoryCache;
         _client = baseClient;

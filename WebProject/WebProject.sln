@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kernel.Common", "Kernel.Com
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kernel.Data", "Kernel.Data\Kernel.Data.csproj", "{42E8817B-275A-4B17-A83A-43AC70AA8BCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kernel.Client", "Kernel.Client\Kernel.Client.csproj", "{330C2708-997C-4F66-90D5-0540F68237F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kernel.Client", "Kernel.Client\Kernel.Client.csproj", "{330C2708-997C-4F66-90D5-0540F68237F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mediator", "Mediator\Mediator.csproj", "{3D8D8ACE-B0A7-4E97-B4F4-22222011E19B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mediator", "Mediator\Mediator.csproj", "{3D8D8ACE-B0A7-4E97-B4F4-22222011E19B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{5E6EBDC2-DF6C-4050-8278-FD088BC38A85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{3D8D8ACE-B0A7-4E97-B4F4-22222011E19B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D8D8ACE-B0A7-4E97-B4F4-22222011E19B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D8D8ACE-B0A7-4E97-B4F4-22222011E19B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E6EBDC2-DF6C-4050-8278-FD088BC38A85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E6EBDC2-DF6C-4050-8278-FD088BC38A85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E6EBDC2-DF6C-4050-8278-FD088BC38A85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E6EBDC2-DF6C-4050-8278-FD088BC38A85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
