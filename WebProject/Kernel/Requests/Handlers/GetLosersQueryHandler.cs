@@ -18,6 +18,6 @@ public class GetLosersQueryHandler : IRequestHandler<GetLosersQuery, IEnumerable
     public async Task<IEnumerable<InternalCryptocurrency>> Handle(GetLosersQuery request, CancellationToken cancellationToken)
     {
         var res = await _client.GetLosers(cancellationToken);
-        return res.Select(r => new InternalCryptocurrency(r.Id, r.Name, r.Symbol, r.LastUpdated, $"{_client.Url}{r.Slug}"));
+        return res.Select(r => new InternalCryptocurrency(r.Id, r.Name, r.Symbol, $"{_client.Url}{r.Slug}"));
     }
 }

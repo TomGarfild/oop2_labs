@@ -18,6 +18,6 @@ public class GetGainersQueryHandler : IRequestHandler<GetGainersQuery, IEnumerab
     public async Task<IEnumerable<InternalCryptocurrency>> Handle(GetGainersQuery request, CancellationToken cancellationToken)
     {
         var res = await _client.GetGainers(cancellationToken);
-        return res.Select(r => new InternalCryptocurrency(r.Id, r.Name, r.Symbol, r.LastUpdated, $"{_client.Url}{r.Slug}"));
+        return res.Select(r => new InternalCryptocurrency(r.Id, r.Name, r.Symbol, $"{_client.Url}{r.Slug}"));
     }
 }

@@ -11,6 +11,11 @@ public abstract class BaseClient
     protected readonly string ApiUrl;
     public readonly string Url;
 
+    protected BaseClient()
+    {
+        HttpClient = new HttpClient();
+    }
+
     protected BaseClient(string url)
     {
         HttpClient = new HttpClient();
