@@ -1,7 +1,7 @@
 ﻿using Kernel.Client.Clients;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebProject.Controllers.Binance;
+namespace CryptoHelper.Controllers.Binance;
 
 [Route("binance/wallet")]
 public class WalletController : Controller

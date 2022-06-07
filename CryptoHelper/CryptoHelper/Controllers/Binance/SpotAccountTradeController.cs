@@ -3,7 +3,7 @@ using Kernel.Client.Clients;
 using Kernel.Common.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebProject.Controllers.Binance;
+namespace CryptoHelper.Controllers.Binance;
 
 [Route("binance/spot")]
 public class SpotAccountTradeController : Controller

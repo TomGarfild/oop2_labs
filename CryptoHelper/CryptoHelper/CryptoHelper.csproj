@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Kernel\Kernel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\Crypto\" />
+  </ItemGroup>
+
 </Project>

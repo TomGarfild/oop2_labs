@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Telegram.Bot.Types;
 
-namespace WebProject.Controllers.Telegram
+namespace CryptoHelper.Controllers.Telegram
 {
     public class TelegramBotController : Controller
     {
