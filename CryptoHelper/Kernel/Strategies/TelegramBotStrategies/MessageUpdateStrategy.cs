@@ -1,4 +1,6 @@
-﻿using Kernel.Domain.Entities;
+﻿using System.Text;
+using Kernel.Common;
+using Kernel.Domain.Entities;
 using Kernel.Requests.Queries;
 using Mediator;
 using Telegram.Bot;
@@ -21,9 +23,10 @@ public class MessageUpdateStrategy : TelegramBotStrategy
 
         var action = message.Text!.Split(' ')[0] switch
         {
-            "/trending" => Send("🔥 *Trending*", new GetTrendingQuery()),
-            "/gainers" => Send("📈 *Gainers*", new GetGainersQuery()),
-            "/losers" => Send("📉 *Losers*", new GetLosersQuery()),
+            BotCommands.Trending => Send("🔥 *Trending*", new GetTrendingQuery()),
+            BotCommands.Gainers => Send("📈 *Gainers*", new GetGainersQuery()),
+            BotCommands.Losers => Send("📉 *Losers*", new GetLosersQuery()),
+            BotCommands.Alerts => SendAlertsMenu(),
             _ => Usage(BotClient, message)
         };
         var sentMessage = await action;
@@ -35,25 +38,34 @@ public class MessageUpdateStrategy : TelegramBotStrategy
 
             var result = (await Mediator.Send(query)).ToList();
 
-            var keyboard = new List<List<InlineKeyboardButton>>();
-            for (var i = 0; i < result.Count; i++)
-            {
-                keyboard.Add(new List<InlineKeyboardButton> { InlineKeyboardButton.WithUrl($"{result[i].Name}({result[i].Symbol})", result[i].Url) });
-            }
+            var keyboard = result.Select(t
+                => new List<InlineKeyboardButton> { InlineKeyboardButton.WithUrl($"{t.Name}({t.Symbol})", t.Url) }).ToList();
 
             return await BotClient.SendTextMessageAsync(message.Chat.Id, title, ParseMode.MarkdownV2,
                                                   replyMarkup: new InlineKeyboardMarkup(keyboard));
         }
 
+        async Task<Message> SendAlertsMenu()
+        {
+            var keyboard = new List<List<InlineKeyboardButton>> { new()
+            {
+                InlineKeyboardButton.WithCallbackData("Create alert", BotOperations.CreateAlert),
+                InlineKeyboardButton.WithCallbackData("Show alerts", BotOperations.ShowAlerts)
+            } };
+
+            return await BotClient.SendTextMessageAsync(message.Chat.Id, "🔔 *Alerts*", ParseMode.MarkdownV2, replyMarkup: new InlineKeyboardMarkup(keyboard));
+        }
+
         static async Task<Message> Usage(ITelegramBotClient bot, Message message)
         {
-            const string usage = "Usage:\n" +
-                                 "/trending - get 5 most trending in 24h\n" +
-                                 "/gainers  - get 5 most gainers in 24h\n" +
-                                 "/losers   - get 5 most losers in 24h\n";
+            var botCommands = await bot.GetMyCommandsAsync();
+            var strBuilder = new StringBuilder("Usage:");
+            foreach (var botCommand in botCommands)
+            {
+                strBuilder.AppendLine($"/{botCommand.Command} - {botCommand.Description}");
+            }
 
-            return await bot.SendTextMessageAsync(chatId: message.Chat.Id,
-                                                  text: usage,
+            return await bot.SendTextMessageAsync(chatId: message.Chat.Id, text: strBuilder.ToString(),
                                                   replyMarkup: new ReplyKeyboardRemove());
         }
     }
