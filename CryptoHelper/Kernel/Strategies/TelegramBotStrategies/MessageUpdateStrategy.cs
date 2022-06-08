@@ -42,7 +42,7 @@ public class MessageUpdateStrategy : TelegramBotStrategy
                 => new List<InlineKeyboardButton> { InlineKeyboardButton.WithUrl($"{t.Name}({t.Symbol})", t.Url) }).ToList();
 
             return await BotClient.SendTextMessageAsync(message.Chat.Id, title, ParseMode.MarkdownV2,
-                                                  replyMarkup: new InlineKeyboardMarkup(keyboard));
+                                                        replyMarkup: new InlineKeyboardMarkup(keyboard));
         }
 
         async Task<Message> SendAlertsMenu()
@@ -53,13 +53,14 @@ public class MessageUpdateStrategy : TelegramBotStrategy
                 InlineKeyboardButton.WithCallbackData("Show alerts", BotOperations.ShowAlerts)
             } };
 
-            return await BotClient.SendTextMessageAsync(message.Chat.Id, "🔔 *Alerts*", ParseMode.MarkdownV2, replyMarkup: new InlineKeyboardMarkup(keyboard));
+            return await BotClient.SendTextMessageAsync(message.Chat.Id, "🔔 *Alerts*", ParseMode.MarkdownV2,
+                                                        replyMarkup: new InlineKeyboardMarkup(keyboard));
         }
 
         static async Task<Message> Usage(ITelegramBotClient bot, Message message)
         {
             var botCommands = await bot.GetMyCommandsAsync();
-            var strBuilder = new StringBuilder("Usage:");
+            var strBuilder = new StringBuilder("Usage:\n");
             foreach (var botCommand in botCommands)
             {
                 strBuilder.AppendLine($"/{botCommand.Command} - {botCommand.Description}");
