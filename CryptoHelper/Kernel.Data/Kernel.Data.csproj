@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 	
 	
@@ -20,6 +19,11 @@
 	<ItemGroup>
 	  <Folder Include="Entities\" />
 	  <Folder Include="Managers\" />
+	</ItemGroup>
+	
+	
+	<ItemGroup>
+	  <ProjectReference Include="..\Kernel.Common\Kernel.Common.csproj" />
 	</ItemGroup>
 
 </Project>

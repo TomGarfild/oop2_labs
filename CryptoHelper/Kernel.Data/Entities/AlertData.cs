@@ -1,13 +1,28 @@
 ﻿namespace Kernel.Data.Entities;
 
-public class AlertData : BaseEntityData
+public record AlertData : BaseEntityData
 {
-    public string TradingPair { get; set; }
-    public decimal Price { get; set; }
-    public bool IsLower { get; set; }
-    public bool IsExecuted { get; set; }
-    public bool IsActive { get; set; }
+    public AlertData()
+    {
+    }
 
-    public UserData User { get; set; }
-    public string UserId { get; set; }
+    public AlertData(string tradingPair, decimal price, bool isLower, bool isExecuted, bool isActive,
+                     UserData user, string userId)
+    {
+        TradingPair = tradingPair;
+        Price = price;
+        IsLower = isLower;
+        IsExecuted = isExecuted;
+        IsActive = isActive;
+        User = user;
+        UserId = userId;
+    }
+
+    public string TradingPair { get; init; }
+    public decimal Price { get; init; }
+    public bool IsLower { get; init; }
+    public bool IsExecuted { get; init; }
+    public bool IsActive { get; init; }
+    public UserData User { get; init; }
+    public string UserId { get; init; }
 }

@@ -1,8 +1,8 @@
 ﻿namespace Kernel.Data.Entities;
 
-public class BaseEntityData
+public record BaseEntityData
 {
-    public string Id { get; set; }
-    public DateTime TimeStamp { get; set; }
-    public int DataVersion { get; set; }
-}
+    public string Id { get; init; } = Guid.NewGuid().ToString();
+    public DateTime TimeStamp { get; init; } = DateTime.Now;
+    public int DataVersion { get; init; } = 1;
+};
