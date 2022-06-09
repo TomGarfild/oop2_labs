@@ -23,7 +23,7 @@ public class CallbackQueryUpdateStrategy : TelegramBotStrategy
             case BotOperations.ShowAlerts:
                 await BotClient.AnswerCallbackQueryAsync(callbackQueryId: callbackQuery.Id);
                 return await BotClient.SendTextMessageAsync(chatId: callbackQuery.Message!.Chat.Id,
-                    text: $"Existing alerts:");
+                    text: "Existing alerts:");
             default:
                 throw new ArgumentException($"Operation {callbackQuery.Data} is unknown");
         }

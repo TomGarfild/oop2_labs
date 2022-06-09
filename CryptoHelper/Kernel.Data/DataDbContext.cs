@@ -10,4 +10,5 @@ public class DataDbContext : DbContext
     }
 
     public DbSet<UserData> Users { get; set; }
+    public DbSet<AlertData> Alerts { get; set; }
 }
