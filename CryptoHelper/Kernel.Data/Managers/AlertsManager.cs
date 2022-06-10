@@ -13,18 +13,19 @@ public class AlertsManager : IManager<AlertData, AlertActionType>
         _dbContext = dbContext;
     }
 
-    public async Task<IEnumerable<AlertData>> GetAlerts(string userId)
+    public async Task<IEnumerable<AlertData>> GetAlerts(long chatId)
     {
-        return await _dbContext.Alerts.Where(e => e.UserId == userId).ToListAsync();
+        return await _dbContext.Alerts.Where(e => e.User.ChatId == chatId).ToListAsync();
     }
 
-    public Task UpdateAsync(AlertData entity, AlertActionType actionType)
+    public async Task UpdateAsync(AlertData entity, AlertActionType actionType)
     {
-        throw new NotImplementedException();
+        await _dbContext.AddAsync(entity);
+        await _dbContext.SaveChangesAsync();
     }
 
-    public Task<AlertData> GetAsync(string key)
+    public async Task<AlertData> GetAsync(string key)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Alerts.FirstAsync(x => x.Id == key);
     }
 }

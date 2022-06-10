@@ -26,6 +26,7 @@ public static class AppExtensions
         services.AddSingleton<IFactory<ITelegramBotClient>, TelegramBotFactory>();
         services.AddHostedService<ConfigureWebhookService>();
         services.AddSingleton<HandleUpdateService>();
+        services.AddSingleton<AlertsService>();
     }
 
     public static void UseKernel(this IApplicationBuilder app)

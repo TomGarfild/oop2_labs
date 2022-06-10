@@ -13,12 +13,14 @@ public class HandleUpdateService
     private readonly ITelegramBotClient _botClient;
     private readonly IMediator _mediator;
     private readonly ILogger _logger;
+    private readonly AlertsService _alertsService;
 
-    public HandleUpdateService(ITelegramBotClient botClient, IMediator mediator, ILoggerFactory loggerFactory)
+    public HandleUpdateService(ITelegramBotClient botClient, IMediator mediator, ILoggerFactory loggerFactory, AlertsService service)
     {
         _botClient = botClient;
         _mediator = mediator;
         _logger = loggerFactory.CreateLogger<HandleUpdateService>();
+        _alertsService = service;
     }
 
     public async Task UpdateAsync(Update update)
@@ -26,7 +28,7 @@ public class HandleUpdateService
         TelegramBotStrategy strategy = update.Type switch
         {
             UpdateType.Message or UpdateType.EditedMessage => new MessageUpdateStrategy(),
-            UpdateType.CallbackQuery => new CallbackQueryUpdateStrategy(),
+            UpdateType.CallbackQuery => new CallbackQueryUpdateStrategy(_alertsService),
             _ => new UnknownUpdateStrategy()
         };
         strategy.SetClient(_botClient);

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kernel.Data.Migrations
 {
     [DbContext(typeof(DataDbContext))]
-    [Migration("20220609190553_UpdateAlertAndUser")]
-    partial class UpdateAlertAndUser
+    [Migration("20220610191808_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
