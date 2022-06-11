@@ -1,4 +1,4 @@
-﻿namespace Kernel.Common;
+﻿namespace Kernel.Common.Bot;
 
 public class BotCommands
 {

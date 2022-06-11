@@ -1,7 +1,4 @@
-﻿using Kernel.Common.ActionTypes;
-using Kernel.Data.Entities;
-using Kernel.Data.Managers;
-using Kernel.States;
+﻿using Kernel.States;
 using Mediator.Mediator;
 using Microsoft.Extensions.Logging;
 using Telegram.Bot;
@@ -29,7 +26,9 @@ public class HandleUpdateService
     {
         try
         {
-            await _state.Handle(update);
+            var strategy = _state.GetStrategy(update).SetClient(BotClient).SetMediator(Mediator).SetState(_state);
+            await strategy.Execute(update);
+            TransitionTo(strategy.State);
         }
         catch (ApiRequestException ex)
         {
@@ -46,9 +45,8 @@ public class HandleUpdateService
 
     }
 
-    public void TransitionTo(UpdateServiceState state)
+    private void TransitionTo(UpdateServiceState state)
     {
         _state = state;
-        _state.SetContext(this);
     }
 }

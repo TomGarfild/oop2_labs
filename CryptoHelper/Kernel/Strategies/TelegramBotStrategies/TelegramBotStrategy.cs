@@ -7,19 +7,35 @@ namespace Kernel.Strategies.TelegramBotStrategies;
 
 public abstract class TelegramBotStrategy : IStrategy<Update, Message>
 {
-    protected ITelegramBotClient BotClient;
-    protected IMediator Mediator;
+    protected ITelegramBotClient BotClient { get; private set; }
+    protected IMediator Mediator { get; private set; }
     public UpdateServiceState State { get; protected set; } = new MainState();
 
     public abstract Task<Message> Execute(Update aggregate);
 
-    public void SetClient(ITelegramBotClient botClient)
+    private TelegramBotStrategy Clone()
     {
-        BotClient ??= botClient;
+        return (TelegramBotStrategy)MemberwiseClone();
     }
 
-    public void SetMediator(IMediator mediator)
+    public TelegramBotStrategy SetClient(ITelegramBotClient botClient)
     {
-        Mediator ??= mediator;
+        var clone = Clone();
+        clone.BotClient = botClient;
+        return clone;
+    }
+
+    public TelegramBotStrategy SetMediator(IMediator mediator)
+    {
+        var clone = Clone();
+        clone.Mediator = mediator;
+        return clone;
+    }
+
+    public TelegramBotStrategy SetState(UpdateServiceState state)
+    {
+        var clone = Clone();
+        clone.State = state;
+        return clone;
     }
 }

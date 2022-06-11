@@ -1,16 +1,9 @@
-﻿using Kernel.Services;
+﻿using Kernel.Strategies.TelegramBotStrategies;
 using Telegram.Bot.Types;
 
 namespace Kernel.States;
 
 public abstract class UpdateServiceState
 {
-    protected HandleUpdateService _service;
-
-    public void SetContext(HandleUpdateService service)
-    {
-        _service = service;
-    }
-
-    public abstract Task Handle(Update update);
+    public abstract TelegramBotStrategy GetStrategy(Update update);
 }

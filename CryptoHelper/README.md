@@ -12,3 +12,5 @@ Telegram bot that gets info about trending cryptocurrency, gainers and losers.
 - **Mediator** - self written mediator object for managing communication
 - **Proxy** - cached wrapper for clients
 - **Template Method** - clients inherit from base client
+- **Prototype** - cloning strategy, record entities
+- **State** - in what state is bot, depends on this value what strategies use

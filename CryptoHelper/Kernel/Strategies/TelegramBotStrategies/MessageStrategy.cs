@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using Kernel.Common;
+using Kernel.Common.Bot;
 using Kernel.Domain.Entities;
 using Kernel.Requests.Queries;
 using Mediator;
@@ -10,7 +10,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Kernel.Strategies.TelegramBotStrategies;
 
-public class MessageUpdateStrategy : TelegramBotStrategy
+public sealed class MessageStrategy : TelegramBotStrategy
 {
     public override async Task<Message> Execute(Update aggregate)
     {
