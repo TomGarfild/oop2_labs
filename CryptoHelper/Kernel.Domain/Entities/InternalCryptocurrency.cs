@@ -1,3 +1,3 @@
 ﻿namespace Kernel.Domain.Entities;
 
-public record InternalCryptocurrency(string Id, string Name, string Symbol, string Url);
+public sealed record InternalCryptocurrency(string Id, string Name, string Symbol, string Url) : IHasId;

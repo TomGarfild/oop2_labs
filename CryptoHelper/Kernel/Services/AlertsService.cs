@@ -7,23 +7,23 @@ namespace Kernel.Services;
 
 public class AlertsService
 {
-    private readonly AlertsManager _manager;
+    private readonly IManager<AlertData, AlertActionType> _manager;
 
-    public AlertsService(AlertsManager manager)
+    public AlertsService(IManager<AlertData, AlertActionType> manager)
     {
         _manager = manager;
     }
 
-    public async Task AddAsync(long chatId, string tradingPair, decimal price)
+    public async Task AddAsync(InternalUser user, string tradingPair, decimal price)
     {
-        var user = new UserData(chatId, "", "", "", true);
-        await _manager.UpdateAsync(new AlertData(tradingPair, price, price < 0, false, false, user, user.Id),
-            AlertActionType.Created);
+        var alert = new AlertData(tradingPair, price, price < 0, user.Id);
+        await _manager.UpdateAsync(alert, AlertActionType.Created);
     }
 
     public async Task<IEnumerable<InternalAlert>> GetAsync(long chatId)
     {
-        var result = await _manager.GetAlerts(chatId);
-        return result.Select(r => new InternalAlert(r.TradingPair, r.Price, r.IsLower));
+        // var result = await _manager.GetAlerts(chatId);
+        var result = new List<AlertData>();
+        return result.Select(r => new InternalAlert(r.Id, r.TradingPair, r.Price, r.IsLower));
     }
 }

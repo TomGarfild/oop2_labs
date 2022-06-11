@@ -4,35 +4,32 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Kernel.Data.Managers;
 
-public class UsersManager : IManager<UserData, UserActionType>
+public class UsersManager : Manager<UserData, UserActionType>
 {
-    private readonly DataDbContext _dbContext;
-
-    public UsersManager(DataDbContext dbContext)
+    public UsersManager(DataDbContext dbContext) : base(dbContext)
     {
-        _dbContext = dbContext;
     }
 
-    public async Task UpdateAsync(UserData entity, UserActionType actionType)
+    public override async Task UpdateAsync(UserData entity, UserActionType actionType)
     {
         var user = await GetAsync(entity.Id);
         if (user == null)
         {
-            await _dbContext.Users.AddAsync(entity);
+            await DbContext.Users.AddAsync(entity);
         }
         else
         {
-            _dbContext.Users.Update(entity);
+            DbContext.Users.Update(entity);
         }
-        await _dbContext.SaveChangesAsync();
+        await DbContext.SaveChangesAsync();
     }
 
-    public async Task<UserData> GetAsync(string key)
+    public override async Task<UserData> GetAsync(string key)
     {
-        return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == key);
+        return await DbContext.Users.FirstOrDefaultAsync(u => u.Id == key);
     }
 
-    public async Task DeleteAsync(string key)
+    public override async Task DeleteAsync(string key)
     {
         var user = await GetAsync(key);
 
@@ -43,7 +40,7 @@ public class UsersManager : IManager<UserData, UserActionType>
 
         user = user with { IsActive = false };
 
-        _dbContext.Update(user);
-        await _dbContext.SaveChangesAsync();
+        DbContext.Update(user);
+        await DbContext.SaveChangesAsync();
     }
 }

@@ -12,7 +12,7 @@ public interface IManager<in TKey, TEntityData, in TActionType>
 }
 
 public interface IManager<TEntityData, in TActionType> : IManager<string, TEntityData, TActionType>
-    where TEntityData : BaseEntityData
+    where TEntityData : IEntityData<string>
     where TActionType : Enum
 {
 }

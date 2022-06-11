@@ -4,32 +4,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Kernel.Data.Managers;
 
-public class AlertsManager : IManager<AlertData, AlertActionType>
+public class AlertsManager : Manager<AlertData, AlertActionType>
 {
-    private readonly DataDbContext _dbContext;
-
-    public AlertsManager(DataDbContext dbContext)
+    public AlertsManager(DataDbContext dbContext) : base(dbContext)
     {
-        _dbContext = dbContext;
     }
 
-    public async Task<IEnumerable<AlertData>> GetAlerts(long chatId)
+    public override async Task UpdateAsync(AlertData entity, AlertActionType actionType)
     {
-        return await _dbContext.Alerts.Where(e => e.User.ChatId == chatId).ToListAsync();
+        await DbContext.AddAsync(entity);
+        await DbContext.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(AlertData entity, AlertActionType actionType)
+    public override async Task<AlertData> GetAsync(string key)
     {
-        await _dbContext.AddAsync(entity);
-        await _dbContext.SaveChangesAsync();
+        return await DbContext.Alerts.FirstOrDefaultAsync(x => x.Id == key);
     }
 
-    public async Task<AlertData> GetAsync(string key)
-    {
-        return await _dbContext.Alerts.FirstOrDefaultAsync(x => x.Id == key);
-    }
-
-    public async Task DeleteAsync(string key)
+    public override async Task DeleteAsync(string key)
     {
         var alert = await GetAsync(key);
 
@@ -40,7 +32,7 @@ public class AlertsManager : IManager<AlertData, AlertActionType>
 
         alert = alert with { IsActive = false };
 
-        _dbContext.Update(alert);
-        await _dbContext.SaveChangesAsync();
+        DbContext.Update(alert);
+        await DbContext.SaveChangesAsync();
     }
 }
