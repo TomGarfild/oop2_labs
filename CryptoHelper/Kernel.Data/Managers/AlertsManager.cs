@@ -10,20 +10,25 @@ public class AlertsManager : Manager<AlertData, AlertActionType>
     {
     }
 
-    public override async Task UpdateAsync(AlertData entity, AlertActionType actionType)
+    public override IEnumerable<AlertData> GetAll()
     {
-        await DbContext.AddAsync(entity);
-        await DbContext.SaveChangesAsync();
+        return DbContext.Alerts.Include(a => a.User).AsEnumerable();
     }
 
-    public override async Task<AlertData> GetAsync(string key)
+    public override async Task UpdateAsync(AlertData entity, AlertActionType actionType, CancellationToken cancellationToken = default)
     {
-        return await DbContext.Alerts.FirstOrDefaultAsync(x => x.Id == key);
+        await DbContext.AddAsync(entity, cancellationToken);
+        await DbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public override async Task DeleteAsync(string key)
+    public override async Task<AlertData> GetAsync(string key, CancellationToken cancellationToken = default)
     {
-        var alert = await GetAsync(key);
+        return await DbContext.Alerts.FirstOrDefaultAsync(x => x.Id == key, cancellationToken: cancellationToken);
+    }
+
+    public override async Task DeleteAsync(string key, CancellationToken cancellationToken = default)
+    {
+        var alert = await GetAsync(key, cancellationToken);
 
         if (alert == null)
         {
@@ -33,6 +38,6 @@ public class AlertsManager : Manager<AlertData, AlertActionType>
         alert = alert with { IsActive = false };
 
         DbContext.Update(alert);
-        await DbContext.SaveChangesAsync();
+        await DbContext.SaveChangesAsync(cancellationToken);
     }
 }

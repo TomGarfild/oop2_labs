@@ -36,8 +36,8 @@ namespace Kernel.Data.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     IsLower = table.Column<bool>(type: "bit", nullable: false),
                     IsExecuted = table.Column<bool>(type: "bit", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataVersion = table.Column<int>(type: "int", nullable: false)
                 },

@@ -10,28 +10,33 @@ public class UsersManager : Manager<UserData, UserActionType>
     {
     }
 
-    public override async Task UpdateAsync(UserData entity, UserActionType actionType)
+    public override IEnumerable<UserData> GetAll()
     {
-        var user = await GetAsync(entity.Id);
+        return DbContext.Users.AsEnumerable();
+    }
+
+    public override async Task UpdateAsync(UserData entity, UserActionType actionType, CancellationToken cancellationToken = default)
+    {
+        var user = await GetAsync(entity.Id, cancellationToken);
         if (user == null)
         {
-            await DbContext.Users.AddAsync(entity);
+            await DbContext.Users.AddAsync(entity, cancellationToken);
         }
         else
         {
             DbContext.Users.Update(entity);
         }
-        await DbContext.SaveChangesAsync();
+        await DbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public override async Task<UserData> GetAsync(string key)
+    public override async Task<UserData> GetAsync(string key, CancellationToken cancellationToken = default)
     {
-        return await DbContext.Users.FirstOrDefaultAsync(u => u.Id == key);
+        return await DbContext.Users.FirstOrDefaultAsync(u => u.Id == key, cancellationToken);
     }
 
-    public override async Task DeleteAsync(string key)
+    public override async Task DeleteAsync(string key, CancellationToken cancellationToken = default)
     {
-        var user = await GetAsync(key);
+        var user = await GetAsync(key, cancellationToken);
 
         if (user == null)
         {
@@ -41,6 +46,6 @@ public class UsersManager : Manager<UserData, UserActionType>
         user = user with { IsActive = false };
 
         DbContext.Update(user);
-        await DbContext.SaveChangesAsync();
+        await DbContext.SaveChangesAsync(cancellationToken);
     }
 }

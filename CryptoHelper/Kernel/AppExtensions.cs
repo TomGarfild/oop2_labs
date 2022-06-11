@@ -3,6 +3,7 @@ using Kernel.Client;
 using Kernel.Data;
 using Kernel.Factories;
 using Kernel.Services;
+using Kernel.Services.Db;
 using Kernel.States;
 using Mediator;
 using Microsoft.AspNetCore.Builder;
@@ -28,6 +29,7 @@ public static class AppExtensions
         services.AddHostedService<ConfigureWebhookService>();
         services.AddSingleton<UpdateServiceState, MainState>();
         services.AddSingleton<HandleUpdateService>();
+        services.AddSingleton<UsersService>();
         services.AddSingleton<AlertsService>();
     }
 

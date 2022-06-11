@@ -14,10 +14,10 @@ public abstract class Manager<TEntityData, TActionType> : IManager<TEntityData, 
         DbContext = dbContext;
     }
 
+    public abstract Task<TEntityData> GetAsync(string key, CancellationToken cancellationToken = default);
+    public abstract IEnumerable<TEntityData> GetAll();
 
-    public abstract Task<TEntityData> GetAsync(string key);
+    public abstract Task UpdateAsync(TEntityData entity, TActionType actionType, CancellationToken cancellationToken = default);
 
-    public abstract Task UpdateAsync(TEntityData entity, TActionType actionType);
-
-    public abstract Task DeleteAsync(string key);
+    public abstract Task DeleteAsync(string key, CancellationToken cancellationToken = default);
 }

@@ -1,4 +1,5 @@
 ﻿using Kernel.Common.Bot;
+using Kernel.Requests.Commands;
 using Kernel.States;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -23,7 +24,7 @@ public sealed class AlertMessageStrategy : TelegramBotStrategy
 
         if (decimal.TryParse(pairAndPrice[1], out var price))
         {
-            // await _service.AlertsService.AddAsync(null, pairAndPrice[0], price);
+            await Mediator.Send(new CreateAlertCommand(chat.Id, pairAndPrice[0], price));
             sentMessage = await BotClient.SendTextMessageAsync(chat.Id, $"Successfully added alert for {message.Text}");
             State = new MainState();
         }

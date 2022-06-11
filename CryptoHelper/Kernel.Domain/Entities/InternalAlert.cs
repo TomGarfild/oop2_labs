@@ -1,3 +1,6 @@
 ﻿namespace Kernel.Domain.Entities;
 
-public sealed record InternalAlert(string Id, string TradingPair, decimal Price, bool IsLower) : IHasId;
+public sealed record InternalAlert(string TradingPair, decimal Price, bool IsLower, string UserId) : IHasId
+{
+    public string Id { get; init; }
+}

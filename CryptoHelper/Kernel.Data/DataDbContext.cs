@@ -11,4 +11,12 @@ public class DataDbContext : DbContext
 
     public DbSet<UserData> Users { get; set; }
     public DbSet<AlertData> Alerts { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<AlertData>()
+            .HasOne(p => p.User)
+            .WithMany()
+            .HasForeignKey(p => p.UserId);
+    }
 }

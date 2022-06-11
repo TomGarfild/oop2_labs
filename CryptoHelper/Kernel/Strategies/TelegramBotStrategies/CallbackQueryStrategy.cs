@@ -1,5 +1,6 @@
 ﻿using Kernel.Common.Bot;
 using Kernel.Data.Entities;
+using Kernel.Requests.Queries;
 using Kernel.States;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -21,8 +22,7 @@ public sealed class CallbackQueryStrategy : TelegramBotStrategy
                 State = new AddAlertState();
                 return await BotClient.SendTextMessageAsync(chat.Id, BotMessages.AlertInstruction, ParseMode.Markdown);
             case BotOperations.ShowAlerts:
-                // var result = await _service.GetAsync(chat.Id);
-                var result = new List<AlertData>();
+                var result = await Mediator.Send(new GetAlertsQuery(chat.Id));
                 var keyboard = result.Select(t
                     => new List<InlineKeyboardButton> { InlineKeyboardButton.WithUrl($"{t.TradingPair}:{t.Price}", "https://stackoverflow.com/") }).ToList();
                 return await BotClient.SendTextMessageAsync(chat.Id, BotMessages.ExistingAlerts, replyMarkup: new InlineKeyboardMarkup(keyboard));
