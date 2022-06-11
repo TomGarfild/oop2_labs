@@ -1,6 +1,7 @@
 ﻿using Kernel.Common;
-using Kernel.Domain.Entities;
+using Kernel.Data.Entities;
 using Kernel.Services;
+using Kernel.States;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -10,14 +11,6 @@ namespace Kernel.Strategies.TelegramBotStrategies;
 
 public class CallbackQueryUpdateStrategy : TelegramBotStrategy
 {
-    private readonly AlertsService _service;
-    private readonly Random _random;
-    public CallbackQueryUpdateStrategy(AlertsService service)
-    {
-        _service = service;
-        _random = new Random();
-    }
-
     public override async Task<Message> Execute(Update aggregate)
     {
         var callbackQuery = aggregate.CallbackQuery!;
@@ -29,13 +22,12 @@ public class CallbackQueryUpdateStrategy : TelegramBotStrategy
                 var message = "To create alert specify crypto trading pair and price:\n" +
                               "*BTCUSDT:-29500* - alert when BTCUSDT goes lower than 29500\n" +
                               "*ETHUSDT:2000* - alert when ETHUSDT goes higher than 2000\n";
-
-                await _service.AddAsync(new InternalUser("", chat.Id, chat.Username, chat.FirstName, chat.LastName), "BTCUSDT", _random.Next());
-                return await BotClient.SendTextMessageAsync(chatId: chat.Id,
-                    text: message, ParseMode.Markdown);
+                State = new AddAlertState();
+                return await BotClient.SendTextMessageAsync(chatId: chat.Id, text: message, ParseMode.Markdown);
             case BotOperations.ShowAlerts:
                 await BotClient.AnswerCallbackQueryAsync(callbackQueryId: callbackQuery.Id);
-                var result = await _service.GetAsync(chat.Id);
+                // var result = await _service.GetAsync(chat.Id);
+                var result = new List<AlertData>();
                 var keyboard = result.Select(t
                     => new List<InlineKeyboardButton> { InlineKeyboardButton.WithUrl($"{t.TradingPair}:{t.Price}", "https://stackoverflow.com/") }).ToList();
                 return await BotClient.SendTextMessageAsync(chatId: chat.Id,

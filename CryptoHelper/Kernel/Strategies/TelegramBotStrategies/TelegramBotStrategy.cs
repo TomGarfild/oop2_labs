@@ -1,4 +1,5 @@
-﻿using Mediator.Mediator;
+﻿using Kernel.States;
+using Mediator.Mediator;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -8,6 +9,7 @@ public abstract class TelegramBotStrategy : IStrategy<Update, Message>
 {
     protected ITelegramBotClient BotClient;
     protected IMediator Mediator;
+    public UpdateServiceState State { get; protected set; } = new MainState();
 
     public abstract Task<Message> Execute(Update aggregate);
 

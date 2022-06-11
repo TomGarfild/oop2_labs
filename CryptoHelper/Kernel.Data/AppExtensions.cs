@@ -12,7 +12,7 @@ public static class AppExtensions
     public static void AddKernelData(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<DataDbContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("SqlDb")), ServiceLifetime.Singleton);
-        services.AddSingleton<UsersManager>();
-        services.AddSingleton<AlertsManager>();
+        services.AddSingleton<IManager<UserData, UserActionType>, UsersManager>();
+        services.AddSingleton<IManager<AlertData, AlertActionType>, AlertsManager>();
     }
 }

@@ -3,6 +3,7 @@ using Kernel.Client;
 using Kernel.Data;
 using Kernel.Factories;
 using Kernel.Services;
+using Kernel.States;
 using Mediator;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +26,7 @@ public static class AppExtensions
         services.AddTransient<TimerBuilder>();
         services.AddSingleton<IFactory<ITelegramBotClient>, TelegramBotFactory>();
         services.AddHostedService<ConfigureWebhookService>();
+        services.AddSingleton<UpdateServiceState, MainState>();
         services.AddSingleton<HandleUpdateService>();
         services.AddSingleton<AlertsService>();
     }
