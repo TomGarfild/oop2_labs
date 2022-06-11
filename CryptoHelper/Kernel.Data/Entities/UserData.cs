@@ -6,18 +6,20 @@ public record UserData : BaseEntityData
     {
     }
 
-    public UserData(long chatId, string username, string firstName, string lastName, bool isActive)
+    public UserData(long chatId) : this(chatId, null, null, null)
+    {
+    }
+
+    public UserData(long chatId, string username, string firstName, string lastName)
     {
         ChatId = chatId;
         Username = username;
         FirstName = firstName;
         LastName = lastName;
-        IsActive = isActive;
     }
 
     public long ChatId { get; init; }
     public string Username { get; init; }
     public string FirstName { get; init; }
     public string LastName { get; init; }
-    public bool IsActive { get; init; }
 }

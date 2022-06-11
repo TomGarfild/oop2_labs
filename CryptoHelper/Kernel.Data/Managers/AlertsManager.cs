@@ -26,6 +26,21 @@ public class AlertsManager : IManager<AlertData, AlertActionType>
 
     public async Task<AlertData> GetAsync(string key)
     {
-        return await _dbContext.Alerts.FirstAsync(x => x.Id == key);
+        return await _dbContext.Alerts.FirstOrDefaultAsync(x => x.Id == key);
+    }
+
+    public async Task DeleteAsync(string key)
+    {
+        var alert = await GetAsync(key);
+
+        if (alert == null)
+        {
+            throw new ArgumentNullException($"Alert with id {key} does not exist");
+        }
+
+        alert = alert with { IsActive = false };
+
+        _dbContext.Update(alert);
+        await _dbContext.SaveChangesAsync();
     }
 }

@@ -13,32 +13,37 @@ public class UsersManager : IManager<UserData, UserActionType>
         _dbContext = dbContext;
     }
 
-    public async Task UpdateAsync(UserData newUser)
+    public async Task UpdateAsync(UserData entity, UserActionType actionType)
     {
-        var user = await GetAsync(newUser.ChatId);
+        var user = await GetAsync(entity.Id);
         if (user == null)
         {
-            await _dbContext.Users.AddAsync(newUser);
+            await _dbContext.Users.AddAsync(entity);
         }
         else
         {
-            _dbContext.Users.Update(newUser);
+            _dbContext.Users.Update(entity);
         }
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<UserData?> GetAsync(long chatId)
+    public async Task<UserData> GetAsync(string key)
     {
-        return await _dbContext.Users.FirstOrDefaultAsync(u => u.ChatId == chatId);
+        return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == key);
     }
 
-    public Task UpdateAsync(UserData entity, UserActionType actionType)
+    public async Task DeleteAsync(string key)
     {
-        throw new NotImplementedException();
-    }
+        var user = await GetAsync(key);
 
-    public Task<UserData> GetAsync(string key)
-    {
-        throw new NotImplementedException();
+        if (user == null)
+        {
+            throw new ArgumentNullException($"User with id {key} does not exist");
+        }
+
+        user = user with { IsActive = false };
+
+        _dbContext.Update(user);
+        await _dbContext.SaveChangesAsync();
     }
 }
