@@ -10,9 +10,9 @@ public class UsersManager : Manager<UserData, UserActionType>
     {
     }
 
-    public override IEnumerable<UserData> GetAll()
+    public override async Task<IEnumerable<UserData>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return DbContext.Users.AsEnumerable();
+        return await DbContext.Users.ToListAsync(cancellationToken);
     }
 
     public override async Task UpdateAsync(UserData entity, UserActionType actionType, CancellationToken cancellationToken = default)
@@ -45,7 +45,7 @@ public class UsersManager : Manager<UserData, UserActionType>
 
         user = user with { IsActive = false };
 
-        DbContext.Update(user);
+        DbContext.Users.Update(user);
         await DbContext.SaveChangesAsync(cancellationToken);
     }
 }

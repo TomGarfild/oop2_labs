@@ -18,6 +18,6 @@ public record AlertData : BaseEntityData
     public decimal Price { get; init; }
     public bool IsLower { get; init; }
     public bool IsExecuted { get; init; }
-    public UserData User { get; init; }
+    public virtual UserData User { get; init; }
     public string UserId { get; init; }
 }

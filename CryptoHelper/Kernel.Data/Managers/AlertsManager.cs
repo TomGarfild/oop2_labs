@@ -10,14 +10,14 @@ public class AlertsManager : Manager<AlertData, AlertActionType>
     {
     }
 
-    public override IEnumerable<AlertData> GetAll()
+    public override async Task<IEnumerable<AlertData>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return DbContext.Alerts.Include(a => a.User).AsEnumerable();
+        return await DbContext.Alerts.Include(a => a.User).ToListAsync(cancellationToken);
     }
 
     public override async Task UpdateAsync(AlertData entity, AlertActionType actionType, CancellationToken cancellationToken = default)
     {
-        await DbContext.AddAsync(entity, cancellationToken);
+        await DbContext.Alerts.AddAsync(entity, cancellationToken);
         await DbContext.SaveChangesAsync(cancellationToken);
     }
 
@@ -37,7 +37,7 @@ public class AlertsManager : Manager<AlertData, AlertActionType>
 
         alert = alert with { IsActive = false };
 
-        DbContext.Update(alert);
+        DbContext.Alerts.Update(alert);
         await DbContext.SaveChangesAsync(cancellationToken);
     }
 }

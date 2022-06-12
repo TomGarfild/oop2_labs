@@ -18,7 +18,7 @@ public class CreateAlertCommandHandler : IRequestHandler<CreateAlertCommand, boo
 
     public async Task<bool> Handle(CreateAlertCommand request, CancellationToken cancellationToken)
     {
-        var user = _usersService.GetByChatId(request.ChatId);
+        var user = await _usersService.GetByChatId(request.ChatId);
         if (user == null) return false;
         await _alertsService.AddAsync(new InternalAlert(request.TradingPair, request.Price, request.Price < 0, user.Id));
         return true;

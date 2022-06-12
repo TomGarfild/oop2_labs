@@ -14,15 +14,15 @@ public class UsersService
         _manager = manager;
     }
 
-    public UserData GetByChatId(long chatId)
+    public async Task<UserData> GetByChatId(long chatId)
     {
-        var users = _manager.GetAll();
-        return users.FirstOrDefault(a => a.ChatId == chatId);
+        var users = await _manager.GetAllAsync();
+        return users.ToList().FirstOrDefault(a => a.ChatId == chatId);
     }
 
     public async Task AddAsync(InternalUser internalUser)
     {
-        var oldUser = GetByChatId(internalUser.ChatId);
+        var oldUser = await GetByChatId(internalUser.ChatId);
         if (oldUser != null) throw new ArgumentException($"User with {internalUser.ChatId} already exists");
         var user = new UserData(internalUser.ChatId, internalUser.Username, internalUser.FirstName, internalUser.LastName);
         await _manager.UpdateAsync(user, UserActionType.Created);

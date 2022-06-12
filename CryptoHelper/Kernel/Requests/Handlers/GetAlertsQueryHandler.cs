@@ -16,7 +16,7 @@ public class GetAlertsQueryHandler : IRequestHandler<GetAlertsQuery, IEnumerable
 
     public async Task<IEnumerable<InternalAlert>> Handle(GetAlertsQuery request, CancellationToken cancellationToken)
     {
-        var result = _alertsService.Get(request.ChatId);
+        var result = await _alertsService.Get(request.ChatId);
         return result.Select(r => new InternalAlert(r.TradingPair, r.Price, r.IsLower, r.UserId));
     }
 }
