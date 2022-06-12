@@ -19,6 +19,7 @@ public sealed class AlertMessageStrategy : TelegramBotStrategy
         }
 
         var chat = message.Chat;
+        await BotClient.SendChatActionAsync(chat.Id, ChatAction.Typing);
         var pairAndPrice = message.Text!.Split(':').Select(m => m.Trim()).ToArray();
         Message sentMessage;
 

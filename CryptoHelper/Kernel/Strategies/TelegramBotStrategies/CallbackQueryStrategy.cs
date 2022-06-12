@@ -1,5 +1,4 @@
 ﻿using Kernel.Common.Bot;
-using Kernel.Data.Entities;
 using Kernel.Requests.Queries;
 using Kernel.States;
 using Telegram.Bot;
@@ -16,6 +15,7 @@ public sealed class CallbackQueryStrategy : TelegramBotStrategy
         var callbackQuery = aggregate.CallbackQuery!;
         var chat = callbackQuery.Message!.Chat;
         await BotClient.AnswerCallbackQueryAsync(callbackQueryId: callbackQuery.Id);
+        await BotClient.SendChatActionAsync(chat.Id, ChatAction.Typing);
         switch (callbackQuery.Data)
         {
             case BotOperations.CreateAlert:
@@ -24,10 +24,15 @@ public sealed class CallbackQueryStrategy : TelegramBotStrategy
             case BotOperations.ShowAlerts:
                 var result = await Mediator.Send(new GetAlertsQuery(chat.Id));
                 var keyboard = result.Select(t
-                    => new List<InlineKeyboardButton> { InlineKeyboardButton.WithUrl($"{t.TradingPair}:{t.Price}", "https://stackoverflow.com/") }).ToList();
+                    => new List<InlineKeyboardButton>
+                    {
+                        InlineKeyboardButton.WithUrl($"{t.TradingPair} {IsLower(t.IsLower)} {Math.Abs(t.Price)}", "https://stackoverflow.com/")
+                    }).ToList();
                 return await BotClient.SendTextMessageAsync(chat.Id, BotMessages.ExistingAlerts, replyMarkup: new InlineKeyboardMarkup(keyboard));
             default:
                 throw new ArgumentException($"Operation {callbackQuery.Data} is unknown");
         }
+
+        static string IsLower(bool isLower) => (isLower ? "lower" : "higher") + " than";
     }
 }

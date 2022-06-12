@@ -44,7 +44,6 @@ public sealed class MessageStrategy : TelegramBotStrategy
         async Task<Message> Send(string title, IRequest<IEnumerable<InternalCryptocurrency>> query)
         {
             await BotClient.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
-
             var result = (await Mediator.Send(query)).ToList();
 
             var keyboard = result.Select(t
