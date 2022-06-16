@@ -9,8 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Change folder
-      run: cd CryptoHelper
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
@@ -18,10 +16,10 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore CryptoHelper
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build CryptoHelper --no-restore
     - name: Test
-      run: dotnet test UnitTests/UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
-    - name: Publish coverage report to coveralls.io
+      run: dotnet test CryptoHelper/UnitTests/UnitTests.csproj --configuration ${{ env.dotNetConfiguration }} /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+    - name: Publish
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
