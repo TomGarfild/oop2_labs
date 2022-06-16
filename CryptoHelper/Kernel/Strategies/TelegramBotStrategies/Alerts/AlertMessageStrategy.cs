@@ -23,7 +23,7 @@ public sealed class AlertMessageStrategy : TelegramBotStrategy
         var pairAndPrice = message.Text!.Split(':').Select(m => m.Trim()).ToArray();
         Message sentMessage;
 
-        if (decimal.TryParse(pairAndPrice[1], out var price))
+        if (pairAndPrice.Length == 2 && decimal.TryParse(pairAndPrice[1], out var price))
         {
             await Mediator.Send(new CreateAlertCommand(chat.Id, pairAndPrice[0], price));
             sentMessage = await BotClient.SendTextMessageAsync(chat.Id, $"Successfully added alert for {message.Text}");
