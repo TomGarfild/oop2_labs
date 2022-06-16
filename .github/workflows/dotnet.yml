@@ -8,7 +8,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@CryptoHelperV2
+    - uses: actions/checkout@v2
     - name: Change folder
       run: cd CryptoHelper
     - name: Setup .NET
@@ -22,7 +22,7 @@ jobs:
     - name: Test
       run: dotnet test UnitTests/UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
     - name: Publish coverage report to coveralls.io
-      uses: coverallsapp/github-action@main
+      uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: CryptoHelper/UnitTests/TestResults/coverage.info 
