@@ -10,7 +10,7 @@ public class UsersManager : Manager<UserData, UserActionType>
     {
     }
 
-    public override async Task<IEnumerable<UserData>> GetAllAsync(CancellationToken cancellationToken = default)
+    public override async Task<IList<UserData>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await DbContext.Users.ToListAsync(cancellationToken);
     }

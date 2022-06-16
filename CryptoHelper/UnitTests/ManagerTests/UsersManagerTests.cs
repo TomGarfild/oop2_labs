@@ -1,11 +1,12 @@
 ﻿using FluentAssertions;
+using Kernel.Common.ActionTypes;
 using Kernel.Data.Entities;
+using Kernel.Domain.Entities;
 using Moq;
-using UnitTests.EntitiesBuilders.Domain;
 
-namespace UnitTests.ServiceTests;
+namespace UnitTests.ManagerTests;
 
-public class UsersServiceTests : UnitTestsBase
+public class UsersManagerTests : UnitTestsBase
 {
     [Test]
     public async Task CreateUserTest()
@@ -14,13 +15,10 @@ public class UsersServiceTests : UnitTestsBase
         MockUserSet.Setup(m => m.AddAsync(It.IsAny<UserData>(), CancellationToken.None))
             .Callback<UserData, CancellationToken>((u, _) => { UserSet.Add(u); });
         MockContext.Setup(x => x.Users).Returns(MockUserSet.Object);
-        var user = new InternalUserBuilder().WithChatId(100)
-                                            .WithUsername("admin")
-                                            .WithFirstName("Pavel")
-                                            .WithLastName("Durov").Build();
+        var user = new UserData(100, "admin", "Pavel", "Durov");
 
         // Act
-        await UsersService.AddAsync(user);
+        await UsersManager.UpdateAsync(user, UserActionType.Created, CancellationToken.None);
 
         // Assert
         MockUserSet.Verify(u => u.AddAsync(It.IsAny<UserData>(), CancellationToken.None), Times.Once());

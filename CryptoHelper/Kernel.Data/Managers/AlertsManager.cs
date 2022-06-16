@@ -10,7 +10,7 @@ public class AlertsManager : Manager<AlertData, AlertActionType>
     {
     }
 
-    public override async Task<IEnumerable<AlertData>> GetAllAsync(CancellationToken cancellationToken = default)
+    public override async Task<IList<AlertData>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await DbContext.Alerts.Include(a => a.User).ToListAsync(cancellationToken);
     }

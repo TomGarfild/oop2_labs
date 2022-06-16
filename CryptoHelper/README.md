@@ -14,3 +14,4 @@ Telegram bot that gets info about trending cryptocurrency, gainers and losers.
 - **Template Method** - clients inherit from base client
 - **Prototype** - cloning strategy, record entities
 - **State** - in what state is bot, depends on this value what strategies use
+- **Builder** - in tests for models use builders

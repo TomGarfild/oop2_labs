@@ -15,7 +15,7 @@ public abstract class Manager<TEntityData, TActionType> : IManager<TEntityData, 
     }
 
     public abstract Task<TEntityData> GetAsync(string key, CancellationToken cancellationToken = default);
-    public abstract Task<IEnumerable<TEntityData>> GetAllAsync(CancellationToken cancellationToken = default);
+    public abstract Task<IList<TEntityData>> GetAllAsync(CancellationToken cancellationToken = default);
 
     public abstract Task UpdateAsync(TEntityData entity, TActionType actionType, CancellationToken cancellationToken = default);
 

@@ -7,7 +7,7 @@ public interface IManager<in TKey, TEntityData, in TActionType>
     where TActionType : Enum
 {
     public Task<TEntityData> GetAsync(TKey key, CancellationToken cancellationToken = default);
-    public Task<IEnumerable<TEntityData>> GetAllAsync(CancellationToken cancellationToken = default);
+    public Task<IList<TEntityData>> GetAllAsync(CancellationToken cancellationToken = default);
     public Task UpdateAsync(TEntityData entity, TActionType actionType, CancellationToken cancellationToken = default);
     public Task DeleteAsync(TKey key, CancellationToken cancellationToken = default);
 }

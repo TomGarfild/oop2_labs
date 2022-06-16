@@ -29,8 +29,8 @@ public class UnitTestsBase
     protected List<AlertData> AlertSet = new();
     protected Mock<DbSet<AlertData>> MockAlertSet;
 
-    //private Mock<IManager<AlertData, AlertActionType>> AlertsManager { get; set; }
-    //private Mock<IManager<UserData, UserActionType>> UsersManager { get; set; }
+    protected IManager<AlertData, AlertActionType> AlertsManager => ServiceProvider.GetRequiredService<IManager<AlertData, AlertActionType>>();
+    protected IManager<UserData, UserActionType> UsersManager => ServiceProvider.GetRequiredService<IManager<UserData, UserActionType>>();
 
     protected UsersService UsersService => ServiceProvider.GetRequiredService<UsersService>();
     protected AlertsService AlertsService => ServiceProvider.GetRequiredService<AlertsService>();

@@ -30,8 +30,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ManagerTests\" />
     <Folder Include="ClientTests\" />
+    <Folder Include="EntitiesBuilders\Data\" />
     <Folder Include="TestAsync\" />
     <Folder Include="ServiceTests\" />
   </ItemGroup>

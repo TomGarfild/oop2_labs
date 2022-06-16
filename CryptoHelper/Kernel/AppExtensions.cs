@@ -1,5 +1,4 @@
-﻿using Kernel.Builders;
-using Kernel.Client;
+﻿using Kernel.Client;
 using Kernel.Data;
 using Kernel.Factories;
 using Kernel.Services;
@@ -24,7 +23,6 @@ public static class AppExtensions
         services.AddMediator(ServiceLifetime.Singleton, typeof(AssemblyClass).Assembly);
         services.AddKernelData(configuration);
         services.AddKernelClient();
-        services.AddTransient<TimerBuilder>();
         services.AddSingleton<IFactory<ITelegramBotClient>, TelegramBotFactory>();
         services.AddHostedService<ConfigureWebhookService>();
         services.AddSingleton<UpdateServiceState, MainState>();

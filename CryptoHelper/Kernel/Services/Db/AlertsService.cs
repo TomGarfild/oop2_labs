@@ -20,10 +20,11 @@ public class AlertsService
         await _manager.UpdateAsync(alert, AlertActionType.Created);
     }
 
-    public async Task<IEnumerable<InternalAlert>> Get(long chatId)
+    public async Task<List<InternalAlert>> Get(long chatId)
     {
         var result = await _manager.GetAllAsync();
-        var alerts = result.Where(a => a.User.ChatId == chatId);
-        return alerts.Select(r => new InternalAlert(r.TradingPair, r.Price, r.IsLower, r.UserId) { Id = r.Id });
+        var alerts = result.Where(a => a.User.ChatId == chatId)
+            .Select(r => new InternalAlert(r.TradingPair, r.Price, r.IsLower, r.UserId) { Id = r.Id }).ToList();
+        return alerts;
     }
 }
