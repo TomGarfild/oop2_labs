@@ -1,9 +1,25 @@
 ﻿namespace Kernel.Data.Entities;
 
-public class UserData : BaseEntityData
+public record UserData : BaseEntityData
 {
-    public long ChatId { get; set; }
-    public string? Username { get; set; }
-    public string? FirstName { get; set; }
-    public string? LastName { get; set; }
+    public UserData()
+    {
+    }
+
+    public UserData(long chatId) : this(chatId, null, null, null)
+    {
+    }
+
+    public UserData(long chatId, string username, string firstName, string lastName)
+    {
+        ChatId = chatId;
+        Username = username;
+        FirstName = firstName;
+        LastName = lastName;
+    }
+
+    public long ChatId { get; init; }
+    public string Username { get; init; }
+    public string FirstName { get; init; }
+    public string LastName { get; init; }
 }

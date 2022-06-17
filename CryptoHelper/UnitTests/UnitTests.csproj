@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -11,6 +10,11 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="6.4.0" />
     <PackageReference Include="Autofac.Extras.Moq" Version="6.1.0" />
+    <PackageReference Include="coverlet.msbuild" Version="3.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="FluentAssertions" Version="6.7.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="Moq" Version="4.18.1" />
@@ -23,6 +27,13 @@
   <ItemGroup>
     <ProjectReference Include="..\Kernel\Kernel.csproj" />
     <ProjectReference Include="..\Mediator\Mediator.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientTests\" />
+    <Folder Include="EntitiesBuilders\Data\" />
+    <Folder Include="TestAsync\" />
+    <Folder Include="ServiceTests\" />
   </ItemGroup>
 
 </Project>
