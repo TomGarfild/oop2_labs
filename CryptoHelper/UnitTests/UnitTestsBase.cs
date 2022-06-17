@@ -36,6 +36,20 @@ public class UnitTestsBase
     protected AlertsService AlertsService => ServiceProvider.GetRequiredService<AlertsService>();
 
 
+    protected void SetUpAlertDb()
+    {
+        MockAlertSet.Setup(m => m.AddAsync(It.IsAny<AlertData>(), CancellationToken.None))
+            .Callback<AlertData, CancellationToken>((u, _) => { AlertSet.Add(u); });
+        MockContext.Setup(x => x.Alerts).Returns(MockAlertSet.Object);
+    }
+
+    protected void SetUpUserDb()
+    {
+        MockUserSet.Setup(m => m.AddAsync(It.IsAny<UserData>(), CancellationToken.None))
+            .Callback<UserData, CancellationToken>((u, _) => { UserSet.Add(u); });
+        MockContext.Setup(x => x.Users).Returns(MockUserSet.Object);
+    }
+
     [SetUp]
     public virtual void Setup()
     {

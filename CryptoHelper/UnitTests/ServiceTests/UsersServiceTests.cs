@@ -11,9 +11,7 @@ public class UsersServiceTests : UnitTestsBase
     public async Task CreateUserTest()
     {
         // Arrange
-        MockUserSet.Setup(m => m.AddAsync(It.IsAny<UserData>(), CancellationToken.None))
-            .Callback<UserData, CancellationToken>((u, _) => { UserSet.Add(u); });
-        MockContext.Setup(x => x.Users).Returns(MockUserSet.Object);
+        SetUpUserDb();
         var user = new InternalUserBuilder().WithChatId(100)
                                             .WithUsername("admin")
                                             .WithFirstName("Pavel")

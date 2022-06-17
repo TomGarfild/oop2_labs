@@ -6,12 +6,13 @@ Telegram bot that gets info about trending cryptocurrency, gainers and losers.
 
 ## Patterns
 
-- **Strategy** - for handling telegram bot's Updates
-- **Factory** - handles creating telegram bot client
-- **Command** - objects with request info for handlers
-- **Mediator** - self written mediator object for managing communication
-- **Proxy** - cached wrapper for clients
-- **Template Method** - clients inherit from base client
-- **Prototype** - cloning strategy, record entities
-- **State** - in what state is bot, depends on this value what strategies use
-- **Builder** - in tests for models use builders
+1.  **Strategy** - for handling telegram bot's Updates
+2.  **Factory** - handles creating telegram bot client
+3.  **Command** - objects with request info for handlers
+4.  **Mediator** - self written mediator object for managing communication
+5.  **Proxy** - cached wrapper for clients
+6.  **Template Method** - clients inherit from base client
+7.  **Prototype** - cloning strategy, record entities
+8.  **State** - in what state is bot, depends on this value what strategies use
+9.  **Facade** - services wrappers of managers with BL
+10. **Builder** - in tests for models use builders

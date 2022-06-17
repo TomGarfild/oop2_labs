@@ -23,7 +23,7 @@ public class UsersService
     public async Task AddAsync(InternalUser internalUser)
     {
         var oldUser = await GetByChatId(internalUser.ChatId);
-        if (oldUser != null) throw new ArgumentException($"User with {internalUser.ChatId} already exists");
+        if (oldUser != null) throw new ArgumentException($"User with {internalUser.ChatId} chat id already exists");
         var user = new UserData(internalUser.ChatId, internalUser.Username, internalUser.FirstName, internalUser.LastName);
         await _manager.UpdateAsync(user, UserActionType.Created);
     }

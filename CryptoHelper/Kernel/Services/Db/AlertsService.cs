@@ -16,15 +16,30 @@ public class AlertsService
 
     public async Task AddAsync(InternalAlert internalAlert)
     {
+        var isValid = await IsValid(internalAlert);
+        // if (!isValid) throw new ConstraintException("You cannot have more than 10 alerts");
         var alert = new AlertData(internalAlert.TradingPair, internalAlert.Price, internalAlert.IsLower, internalAlert.UserId);
         await _manager.UpdateAsync(alert, AlertActionType.Created);
     }
 
-    public async Task<List<InternalAlert>> Get(long chatId)
+    public async Task<List<InternalAlert>> GetByUserId(string userId)
+    {
+        var result = await _manager.GetAllAsync();
+        var alerts = result.Where(a => a.User.Id == userId)
+            .Select(r => new InternalAlert(r.TradingPair, r.Price, r.IsLower, r.UserId) { Id = r.Id }).ToList();
+        return alerts;
+    }
+
+    public async Task<List<InternalAlert>> GetByChatId(long chatId)
     {
         var result = await _manager.GetAllAsync();
         var alerts = result.Where(a => a.User.ChatId == chatId)
             .Select(r => new InternalAlert(r.TradingPair, r.Price, r.IsLower, r.UserId) { Id = r.Id }).ToList();
         return alerts;
+    }
+
+    private async Task<bool> IsValid(InternalAlert alert)
+    {
+        return (await GetByUserId(alert.UserId)).Count < 10;
     }
 }

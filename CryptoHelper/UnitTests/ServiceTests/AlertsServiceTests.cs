@@ -10,9 +10,7 @@ public class AlertsServiceTests : UnitTestsBase
     public async Task CreateAlertTest()
     {
         // Arrange
-        MockAlertSet.Setup(m => m.AddAsync(It.IsAny<AlertData>(), CancellationToken.None))
-            .Callback<AlertData, CancellationToken>((u, _) => { AlertSet.Add(u); });
-        MockContext.Setup(x => x.Alerts).Returns(MockAlertSet.Object);
+        SetUpAlertDb();
         var alert = new InternalAlertBuilder().WithTradingPair("BTCUSDT").WithPrice(1000m).WithIsLower(false)
             .WithUserId(Guid.NewGuid().ToString()).Build();
 

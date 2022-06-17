@@ -12,7 +12,7 @@ public class AlertsManager : Manager<AlertData, AlertActionType>
 
     public override async Task<IList<AlertData>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return await DbContext.Alerts.Include(a => a.User).ToListAsync(cancellationToken);
+        return await DbContext.Alerts.Include(a => a.User).Where(a => a.IsActive && !a.IsExecuted).ToListAsync(cancellationToken);
     }
 
     public override async Task UpdateAsync(AlertData entity, AlertActionType actionType, CancellationToken cancellationToken = default)
@@ -23,7 +23,7 @@ public class AlertsManager : Manager<AlertData, AlertActionType>
 
     public override async Task<AlertData> GetAsync(string key, CancellationToken cancellationToken = default)
     {
-        return await DbContext.Alerts.FirstOrDefaultAsync(x => x.Id == key, cancellationToken: cancellationToken);
+        return await DbContext.Alerts.FirstOrDefaultAsync(x => x.Id == key && x.IsActive, cancellationToken: cancellationToken);
     }
 
     public override async Task DeleteAsync(string key, CancellationToken cancellationToken = default)
