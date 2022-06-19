@@ -1,8 +1,10 @@
 ﻿using System.Diagnostics;
+using System.Net;
 using System.Windows;
-using Lab3.DownLoader;
+using Kernel;
+using Kernel.DownLoader;
 
-namespace Lab3
+namespace UI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -14,7 +16,8 @@ namespace Lab3
         public MainWindow()
         {
             InitializeComponent();
-            var downLoader = new WebsiteDownLoader();
+            var client = new WebClientWrapper();
+            var downLoader = new WebsiteDownLoader(client);
             _downloadService = new DownloadService(downLoader);
         }
 

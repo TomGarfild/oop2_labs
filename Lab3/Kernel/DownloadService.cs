@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
-using Lab3.DownLoader;
+using Kernel.DownLoader;
 
-namespace Lab3;
+namespace Kernel;
 
 public class DownloadService
 {
@@ -55,7 +56,8 @@ public class DownloadService
         var tasks = new List<Task<WebsiteData>>();
         foreach (var url in _data)
         {
-            var downLoader = new WebsiteDownLoader(); // use new instance of downLoader, cause WebClient does not support concurrent I/O
+            var client = new WebClientWrapper();
+            var downLoader = new WebsiteDownLoader(client); // use new instance of downLoader, cause WebClient does not support concurrent I/O
             tasks.Add(downLoader.DownloadAsync(url));
         }
 

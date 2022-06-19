@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Lab3.DownLoader;
+namespace Kernel.DownLoader;
 
 public interface IDownLoader<TResult>
 {

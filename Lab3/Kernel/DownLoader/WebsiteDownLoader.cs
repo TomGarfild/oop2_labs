@@ -1,15 +1,15 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 
-namespace Lab3.DownLoader;
+namespace Kernel.DownLoader;
 
 public class WebsiteDownLoader : IDownLoader<WebsiteData>
 {
-    private readonly WebClient _client;
+    private readonly WebClientWrapper _client;
 
-    public WebsiteDownLoader()
+    public WebsiteDownLoader(WebClientWrapper client)
     {
-        _client = new WebClient();
+        _client = client;
     }
 
     public WebsiteData Download(string url)
