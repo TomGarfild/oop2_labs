@@ -12,12 +12,22 @@ public class WebsiteDownLoader : IDownLoader<WebsiteData>
         _client = client;
     }
 
+    /// <summary>
+    /// Download data and format it
+    /// </summary>
+    /// <param name="url">Url from where download data</param>
+    /// <returns>website data from url and data</returns>
     public WebsiteData Download(string url)
     {
         var data = _client.DownloadString(url);
         return new WebsiteData(url, data);
     }
 
+    /// <summary>
+    /// Download asynchronously data and format it
+    /// </summary>
+    /// <param name="url">Url from where download data</param>
+    /// <returns>website data from url and data</returns>
     public async Task<WebsiteData> DownloadAsync(string url)
     {
         var data = await _client.DownloadStringTaskAsync(url);

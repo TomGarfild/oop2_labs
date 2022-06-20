@@ -6,6 +6,9 @@ using Kernel.DownLoader;
 
 namespace Kernel;
 
+/// <summary>
+/// Download service manages downloading data synchronously, asynchronously and asynchronously parallel
+/// </summary>
 public class DownloadService
 {
     private readonly List<string> _data;
@@ -26,6 +29,11 @@ public class DownloadService
         _downLoader = downLoader;
     }
 
+    /// <summary>
+    /// Downloads data synchronously
+    /// </summary>
+    /// <param name="data">Optional parameter for urls(uses for tests)</param>
+    /// <returns>Prepared data</returns>
     public string RunDownloadSync(IEnumerable<string>? data = null)
     {
         var output = string.Empty;
@@ -38,6 +46,11 @@ public class DownloadService
         return output;
     }
 
+    /// <summary>
+    /// Downloads data asynchronously
+    /// </summary>
+    /// <param name="data">Optional parameter for urls(uses for tests)</param>
+    /// <returns>Prepared data</returns>
     public async Task<string> RunDownloadAsync(IEnumerable<string>? data = null)
     {
         var output = string.Empty;
@@ -50,6 +63,12 @@ public class DownloadService
         return output;
     }
 
+    /// <summary>
+    /// Downloads data asynchronously in parallel
+    /// </summary>
+    /// <param name="data">Optional parameter for urls(uses for tests)</param>
+    /// <param name="downLoader">Optional parameter for downLoader(uses for tests)</param>
+    /// <returns>Prepared data</returns>
     public async Task<string> RunDownloadAsyncParallel(IEnumerable<string>? data = null, IDownLoader<WebsiteData>? downLoader = null)
     {
         var tasks = new List<Task<WebsiteData>>();
