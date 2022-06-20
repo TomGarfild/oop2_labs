@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Kernel.DownLoader;
 
@@ -27,10 +26,10 @@ public class DownloadService
         _downLoader = downLoader;
     }
 
-    public string RunDownloadSync()
+    public string RunDownloadSync(IEnumerable<string>? data = null)
     {
         var output = string.Empty;
-        foreach (var url in _data)
+        foreach (var url in data ?? _data)
         {
             var result = _downLoader.Download(url);
             output += PrepData(result);
@@ -39,10 +38,10 @@ public class DownloadService
         return output;
     }
 
-    public async Task<string> RunDownloadAsync()
+    public async Task<string> RunDownloadAsync(IEnumerable<string>? data = null)
     {
         var output = string.Empty;
-        foreach (var url in _data)
+        foreach (var url in data ?? _data)
         {
             var result = await _downLoader.DownloadAsync(url);
             output += PrepData(result);
@@ -51,14 +50,13 @@ public class DownloadService
         return output;
     }
 
-    public async Task<string> RunDownloadAsyncParallel()
+    public async Task<string> RunDownloadAsyncParallel(IEnumerable<string>? data = null, IDownLoader<WebsiteData>? downLoader = null)
     {
         var tasks = new List<Task<WebsiteData>>();
-        foreach (var url in _data)
+        foreach (var url in data ?? _data)
         {
-            var client = new WebClientWrapper();
-            var downLoader = new WebsiteDownLoader(client); // use new instance of downLoader, cause WebClient does not support concurrent I/O
-            tasks.Add(downLoader.DownloadAsync(url));
+            var downLoaderNew = downLoader ?? new WebsiteDownLoader(new WebClientWrapper()); // use new instance of downLoader, cause WebClient does not support concurrent I/O
+            tasks.Add(downLoaderNew.DownloadAsync(url));
         }
 
         var results = await Task.WhenAll(tasks);
