@@ -23,6 +23,7 @@ namespace UI
 
         public void OnExecuteSyncClicked(object sender, RoutedEventArgs e)
         {
+            ResultBlock.Text = "Loading...";
             var watch = new Stopwatch();
             watch.Start();
             ResultBlock.Text = _downloadService.RunDownloadSync();
@@ -32,6 +33,7 @@ namespace UI
 
         public async void OnExecuteAsyncClicked(object sender, RoutedEventArgs e)
         {
+            ResultBlock.Text = "Loading...";
             var watch = new Stopwatch();
             watch.Start();
             ResultBlock.Text = await _downloadService.RunDownloadAsync();
@@ -41,6 +43,7 @@ namespace UI
 
         public async void OnExecuteAsyncParallelClicked(object sender, RoutedEventArgs e)
         {
+            ResultBlock.Text = "Loading...";
             var watch = new Stopwatch();
             watch.Start();
             ResultBlock.Text = await _downloadService.RunDownloadAsyncParallel();
