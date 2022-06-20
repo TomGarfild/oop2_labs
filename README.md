@@ -39,3 +39,9 @@ Took idea from [video](https://www.youtube.com/watch?v=2moh18sh5p4/)
     * DownloadService can download data synchronously, asynchronously, asynchronously parallel
     * User interface with 3 buttons with sync call(blocks interface), async call(not blocking interface but time is same as sync), async parallel call(fast async)
     * Unit tests
+
+Data(RAM:8GB, Processor:Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz):
+
+    * Sync: 00:00:03.039
+    * Async: 00:00:03.3
+    * Async parallel: 00:00:00.879
