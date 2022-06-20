@@ -32,6 +32,8 @@
     Open folder Crypto Helper
 
 ## Lab3
+Took idea from [video](https://www.youtube.com/watch?v=2moh18sh5p4/)
+
     * Created wrapper for web client(could not test without it).
     * Downloader for downloading data and formatting it
     * DownloadService can download data synchronously, asynchronously, asynchronously parallel
