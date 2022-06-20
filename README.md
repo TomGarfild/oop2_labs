@@ -30,3 +30,11 @@
 ## Project 2
 ## Crypto Helper
     Open folder Crypto Helper
+
+## Lab3
+    Idea took from [video](https://www.youtube.com/watch?v=2moh18sh5p4/)
+    * Created wrapper for web client(could not test without it).
+    * Downloader for downloading data and formatting it
+    * DownloadService can download data synchronously, asynchronously, asynchronously parallel
+    * User interface with 3 buttons with sync call(blocks interface), async call(not blocking interface but time is same as sync), async parallel call(fast async)
+    * Unit tests
