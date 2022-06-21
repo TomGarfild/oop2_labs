@@ -1,90 +1,104 @@
-﻿namespace Exam;
+﻿using System.ComponentModel;
+
+namespace Exam;
 
 public interface IAbstractFactory
 {
-    IAbstractProductA CreateProductA();
-    IAbstractProductB CreateProductB();
+    IRemote CreateRemote(IDevice device);
+    IDevice CreateDevice();
 }
 
-class ConcreteFactory1 : IAbstractFactory
+class RadioFactory : IAbstractFactory
 {
-    public IAbstractProductA CreateProductA()
+    public IRemote CreateRemote(IDevice device)
     {
-        return new ConcreteProductA1();
+        return new Remote(device);
     }
 
-    public IAbstractProductB CreateProductB()
+    public IDevice CreateDevice()
     {
-        return new ConcreteProductB1();
-    }
-}
-
-class ConcreteFactory2 : IAbstractFactory
-{
-    public IAbstractProductA CreateProductA()
-    {
-        return new ConcreteProductA2();
-    }
-
-    public IAbstractProductB CreateProductB()
-    {
-        return new ConcreteProductB2();
+        return new Radio();
     }
 }
 
-public interface IAbstractProductA
+class TvFactory : IAbstractFactory
 {
-    string UsefulFunctionA();
-}
-
-class ConcreteProductA1 : IAbstractProductA
-{
-    public string UsefulFunctionA()
+    public IRemote CreateRemote(IDevice device)
     {
-        return "The result of the product A1.";
+        return new AdvancedRemote(device);
+    }
+
+    public IDevice CreateDevice()
+    {
+        return new Tv();
     }
 }
 
-class ConcreteProductA2 : IAbstractProductA
+public interface IRemote
 {
-    public string UsefulFunctionA()
+    IDevice Device { get; }
+    void UsefulFunction();
+}
+
+class Remote : IRemote
+{
+    public IDevice Device { get; }
+
+    public Remote(IDevice device)
     {
-        return "The result of the product A2.";
+        Device = device;
+    }
+
+    public void UsefulFunction()
+    {
+        Console.WriteLine("Advanced remote useful function");
     }
 }
 
-public interface IAbstractProductB
+class AdvancedRemote : Remote
 {
-    string UsefulFunctionB();
-    string AnotherUsefulFunctionB(IAbstractProductA collaborator);
-}
 
-class ConcreteProductB1 : IAbstractProductB
-{
-    public string UsefulFunctionB()
+    public AdvancedRemote(IDevice device) : base(device)
     {
-        return "The result of the product B1.";
-    }
-    
-    public string AnotherUsefulFunctionB(IAbstractProductA collaborator)
-    {
-        var result = collaborator.UsefulFunctionA();
-
-        return $"The result of the B1 collaborating with the ({result})";
     }
 }
 
-class ConcreteProductB2 : IAbstractProductB
+public interface IDevice
 {
-    public string UsefulFunctionB()
-    {
-        return "The result of the product B2.";
-    }
-    
-    public string AnotherUsefulFunctionB(IAbstractProductA collaborator)
-    {
-        var result = collaborator.UsefulFunctionA();
+    public bool IsEnabled { get; }
+    public void Enable();
+    public void UsefulFunction();
+}
 
-        return $"The result of the B2 collaborating with the ({result})";
+public abstract class Device : IDevice
+{
+    public bool IsEnabled { get; private set; }
+
+    public void Enable()
+    {
+        IsEnabled = true;
+    }
+
+    public void Disable()
+    {
+        IsEnabled = true;
+    }
+
+    public abstract void UsefulFunction();
+}
+
+class Tv : Device
+{
+    public override void UsefulFunction()
+    {
+        Console.WriteLine("Useful function for tv");
+    }
+}
+
+class Radio : Device
+{
+    public override void UsefulFunction()
+    {
+        Console.WriteLine("Useful function for radio");
     }
 }
